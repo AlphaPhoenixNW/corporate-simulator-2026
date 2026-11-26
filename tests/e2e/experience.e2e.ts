@@ -1,18 +1,22 @@
-import {enterGame} from '../support/enterGame';
+import {enterGame,goWorkspace,openSettings} from '../support/enterGame';
 import {test,expect} from '@playwright/test';
 test('inspect the organisation, receive global recognition and persist accessibility preferences',async({page})=>{
  await enterGame(page);
+ await goWorkspace(page,'intelligence');
  const intelligence=page.getByRole('region',{name:'Strategic intelligence'});
  await expect(intelligence.getByRole('img',{name:'Cash history over recent working days'})).toBeVisible();
  await intelligence.getByRole('button',{name:/Engineering/}).click();
  await expect(intelligence.getByRole('heading',{name:'Engineering reporting unit'})).toBeVisible();
+ await goWorkspace(page,'office');
  await page.getByRole('button',{name:/Practise bed-led leadership/}).click();
  const notices=page.getByRole('region',{name:'Executive notifications'});
  await expect(notices).toContainText('Bed-Led Leadership');
  await notices.getByRole('button',{name:'Clear notifications'}).click();
  await expect(notices).toContainText('No new notifications');
+ await openSettings(page);
  await page.getByLabel('Reduce motion',{exact:true}).check();
  await page.reload();
+ await openSettings(page);
  await expect(page.getByLabel('Reduce motion',{exact:true})).toBeChecked();
  await expect(page.locator('.suite')).toHaveClass(/reduce-motion/);
  await page.getByText('Audio settings',{exact:true}).click();

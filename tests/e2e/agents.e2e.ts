@@ -1,9 +1,11 @@
-import {enterGame} from '../support/enterGame';
+import {enterGame,goWorkspace,openSettings} from '../support/enterGame';
 import {test,expect} from '@playwright/test';
 test('enable orchestration, execute a workflow and persist its six-role trace',async({page})=>{
   await enterGame(page);
+ await goWorkspace(page,'nothing-os');
   const os=page.getByRole('region',{name:'NOTHING™ OS Enterprise Edition'});
   await os.getByRole('button',{name:/Activate enterprise licence/}).click();
+  await goWorkspace(page,'agents');
   const section=page.getByRole('region',{name:'Agentic AI control centre'});
   await section.getByRole('button',{name:'Enable orchestration',exact:true}).click();
   await expect(section.getByTestId('agent-projection')).toHaveText('10,000');

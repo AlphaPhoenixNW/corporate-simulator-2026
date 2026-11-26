@@ -1,3 +1,4 @@
+import {goWorkspace,openSettings} from '../support/enterGame';
 import {test,expect} from '@playwright/test';
 import {newGame,dispatch} from '../../src/engine/simulation';
 import {createBackup} from '../../src/ui/onboarding';
@@ -16,10 +17,12 @@ test('first visit offers an optional real-command tutorial and title screen resu
  await expect(induction.getByRole('heading',{name:'Handle corporate escalation'})).toBeVisible();
  await page.getByRole('region',{name:'Pending corporate decision'}).getByRole('button').first().click();
  await expect(induction.getByRole('heading',{name:'Monetise hypothetical savings'})).toBeVisible();
+ await induction.getByRole('link',{name:'Go to relevant workspace'}).click();
  await page.getByRole('region',{name:'Corporate finance'}).getByRole('button',{name:/Acquire customers/}).click();
  await expect(induction.getByRole('heading',{name:'Review your mandate'})).toBeVisible();
  await induction.getByRole('button',{name:'Complete induction'}).click();
  await expect(induction).toHaveCount(0);
+ await openSettings(page);
  await page.getByRole('button',{name:'Title screen and backups'}).click();
  await expect(page.getByRole('button',{name:'Continue simulation'})).toBeVisible();
  await page.getByRole('button',{name:'Continue simulation'}).click();
@@ -29,6 +32,7 @@ test('first visit offers an optional real-command tutorial and title screen resu
 test('validates an imported backup and requires explicit confirmation before replacing a save',async({page})=>{
  await page.goto('/');
  await page.getByRole('button',{name:'Play now',exact:true}).click();
+ await openSettings(page);
  await page.getByRole('button',{name:'Title screen and backups'}).click();
  await page.getByText('Backups and installation',{exact:true}).click();
  const input=page.getByLabel('Import saved game',{exact:true});
@@ -54,6 +58,7 @@ test('validates an imported backup and requires explicit confirmation before rep
  await page.getByRole('button',{name:'Export saved game'}).click();
  expect((await downloadPromise).suggestedFilename()).toBe('NOTHING-save-seed-42-day-1.json');
  await page.getByRole('button',{name:'Continue simulation'}).click();
+ await goWorkspace(page,'achievements');
  await expect(page.getByTestId('achievement-current')).toHaveText('1/74');
  await expect(page.getByTestId('achievement-lifetime')).toHaveText('2/74');
  await page.reload();

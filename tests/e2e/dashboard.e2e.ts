@@ -1,4 +1,4 @@
-import {enterGame} from '../support/enterGame';
+import {enterGame,goWorkspace,openSettings} from '../support/enterGame';
 import { test,expect } from '@playwright/test';
 test('executive loop and local save',async({page})=>{
   await enterGame(page);

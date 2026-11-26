@@ -1,7 +1,8 @@
-import {enterGame} from '../support/enterGame';
+import {enterGame,goWorkspace,openSettings} from '../support/enterGame';
 import {test,expect} from '@playwright/test';
 test('activate and shut down enterprise OS, persist its expired licence',async({page})=>{
   await enterGame(page);
+ await goWorkspace(page,'nothing-os');
   const section=page.getByRole('region',{name:'NOTHING™ OS Enterprise Edition'});
   await expect(section.getByTestId('os-power')).toHaveText('Offline');
   await section.getByRole('button',{name:/Activate enterprise licence/}).click();
