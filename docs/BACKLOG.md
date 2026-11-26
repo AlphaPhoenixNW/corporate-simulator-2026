@@ -5,7 +5,7 @@ Status: staged implementation, not a complete game. Checkboxes represent accepte
 - [x] P0 Preserve complete project brief; establish working agreement and architecture.
 - [ ] P1 Foundation: Vite/React/TS, deterministic turn engine, 11 metrics, action capacity, initial economy, decisions, local persistence, responsive dashboard, automated tests and verification.
 - [x] P2 Ten departments; budgets, influence, politics, differentiated mechanics, staffing and unlocks.
-- [ ] P3 Persistent employee identities, ten archetypes, relationships, hiring, promotions, reviews, discipline, redundancies, restructuring.
+- [x] P3 Persistent employee identities, ten archetypes, relationships, hiring, promotions, reviews, discipline, redundancies, restructuring.
 - [ ] P4 Meetings: all eight types, attendance, costs, follow-up scheduling, documentation.
 - [ ] P5 Communications: all nine formats, social network, engagement, influencers and scandals.
 - [ ] P6 Transformation programmes: all nine, scope creep, consultants, dependencies, milestones, governance, usefulness incidents.
@@ -52,4 +52,12 @@ Implemented and committed:
 - Named recruitment via department actions; individual reviews, promotions, disciplinary proceedings, redundancy with severance, and reassignment. Department headcount and competence derive from active staff; individual salaries replace flat payroll.
 - Daily employee simulation: useful work, promotion requests, complaints, resignations, archetype-specific effects and persistent pairwise alliances/rivalries.
 - Personnel directory, filtering and accessible individual controls; V1/V2 to V3 save migration.
-- Nine new unit/integration cases and one desktop/mobile E2E scenario. P3 pending CI. Salaries, limits and probability tuning provisional; richer relationship dynamics and employee-specific authored events will expand during later milestones. Minimum one active employee per department is retained to preserve operational integrity.
+- Nine new unit/integration cases and one desktop/mobile E2E scenario. P3 passed all checks in run 45739687827 and merged in PR #2 at dbbef8b. Salaries, limits and probability tuning provisional; richer relationship dynamics and employee-specific authored events will expand during later milestones. Minimum one active employee per department is retained to preserve operational integrity.
+
+## Increment 0.4.0 — 2026-11-26
+
+- Eight meeting types, scheduling and cancellation, named attendees, calendar capacity, meeting fees, person-minutes, and attendance history.
+- Meetings run at day close and reduce individual and departmental operational time, employee morale and actual productivity while increasing perceived productivity and bureaucracy.
+- Procedural outcomes, conflicting recommendations, document records and automatic follow-up chains.
+- Responsive governance calendar and history; save schema V4 with V1–V3 migration.
+- Ten unit/integration cases and desktop/mobile E2E scenario. P4 pending CI. Fees, capacity ceilings and follow-up depth are provisional. Stand-up bookings are manual; automatic recurring series and richer document formats can be added during polish. Lockfile and general balance checks remain outstanding.

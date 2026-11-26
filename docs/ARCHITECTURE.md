@@ -28,3 +28,7 @@ DepartmentState stores aggregate staffing until the individual employee module r
 ## Employee module (0.3.0)
 
 Employee IDs are monotonically allocated; identity generation hashes game seed and ID independently of daily RNG. Employees retain historical status, grade, department and personnel records. Department headcount and operational competence are synchronized from active employees; actual individual daily payroll is charged in departmental operations, replacing flat payroll. Promotions reduce effective competence and raise salary. One seeded pairwise interaction per day updates persistent relationship affinity; daily employee effects follow departmental operations. Save V3 migration generates named employees for existing staffing allocations without consuming the daily RNG or changing cash/day. Minimum staffing is one employee per active department until campaign restructuring is expanded.
+
+## Meeting module (0.4.0)
+
+Meeting IDs are monotonic. Bookings reserve named employees and a working day, with per-person 480-minute and eight-meeting daily limits. The day transaction settles due meetings before department and employee activity, preserving payroll and charging actual attendance fees. Attendance time scales departmental routine/progress and employee work probability. Follow-ups preserve parent IDs and are capped at four generations. Meeting outcomes and document names persist. Migration to V4 preserves all V3 identities, RNG and finances while initializing an empty calendar.
