@@ -164,3 +164,8 @@ Player reported the single scrolling dashboard is overwhelming and does not comm
 - v0.17.0 passed CI 45751688589 and merged via PR #18 at 736e647. All 149 unit/integration and 34 browser tests passed, along with both offline builds and the private book preview.
 - New campaign navigation starts with four essentials; additional workspace recommendations appear on working-day or expansion milestones, and previously used features remain discoverable. Sandbox and the explicit Show all workspaces control preserve full access to existing mechanics. Full navigation preference is stored locally. Contextual first-visit briefings explain purpose, first step and risk; introductions are dismissible and session-local. No engine or save schema changes.
 - Added five unit tests and one desktop/mobile browser scenario for progressive discovery. Existing browser and offline checks use the explicit full-navigation control when needed. CI pending. Public book integration and human review remain outstanding.
+
+## Increment 0.17.2 — Executive Library
+
+- v0.17.1 passed CI 45752567611 and merged via PR #19 at f25bf38. 154 unit/integration and 36 browser cases plus offline checks passed.
+- Implemented dedicated companion reader from title and game, all 22 sections, local bookmark, table of contents, chapter navigation, larger text and self-contained offline HTML download. Uses existing cover thumbnail, not the full-resolution cover. The book is included in the bundle, separate from private source files. Original chapter prose preserved; publisher note and navigation line changed for public edition. Source check and reader tests added. CI and owner publication review pending. Verify preview exposure before release. No simulation rules/save changes.

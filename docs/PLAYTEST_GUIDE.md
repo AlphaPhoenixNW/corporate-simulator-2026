@@ -30,3 +30,7 @@ Start in the executive office. Read your mandate, inspect the next stage's remai
 ## Progressive beta (0.17.1)
 
 New campaign starts with only four recommended workspaces. Additional screens are introduced as your company grows. A first-visit briefing explains what to do in each workspace and what risks to consider. Dismiss it with Got it. Use Show all workspaces whenever you want to access advanced systems early. Sandbox starts with full applicable navigation. Check that introductions are clear and not intrusive, that the current workspace remains accessible, and that the saved navigation preference survives reload.
+
+## Companion library (0.17.2 candidate)
+
+Choose Executive Library from the title screen or game rail. Read any section using the selector or contents, navigate previous/next, increase text size, or download the full book as an offline HTML file. Reading consumes no executive capacity. Return to the same game workspace without advancing time. Section bookmarks persist across reload; panel-local selections may reset when returning. The cover is the original thumbnail, not full resolution. Verify the source note and historical story before public publication.

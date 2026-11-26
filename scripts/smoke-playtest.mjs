@@ -22,6 +22,12 @@ try{
    page.on('pageerror',error=>errors.push(error.message));
    page.on('request',request=>{if(/^https?:/.test(request.url()))network.push(request.url());});
    await page.goto(url);
+   await page.getByRole('button',{name:'Executive Library · Read the book'}).click();
+   const reader=page.getByRole('main',{name:'Executive Library'});
+   await reader.getByLabel('Reading section').selectOption('2');
+   assert.equal(await reader.getByRole('article').getAttribute('aria-label'),'Chapter 1 | The Night Everything Changed');
+   await page.screenshot({path:'playtest/screenshots/'+name+'-library.png'});
+   await reader.getByRole('button',{name:/Return to title screen/}).click();
    await page.getByRole('button',{name:'Play now',exact:true}).click();
    await page.getByTestId('cash').waitFor();
    assert.equal(await page.getByTestId('cash').innerText(),'£75,000');

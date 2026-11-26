@@ -106,3 +106,7 @@ The first workspace shows the immediate goal, live campaign requirements, a rule
 ### Progressive workspace discovery
 
 Campaign starts with Office, Campaign, Departments and Finance. People and records are introduced on subsequent days; communications, transformation and technology are suggested at relevant expansion stages. Previously used systems and earned awards remain discoverable. Show all workspaces reveals every applicable screen immediately and is remembered locally; sandbox shows the full navigation by default. Each management workspace has a dismissible first-visit briefing explaining its purpose, first step and risk. New introductions appear in the office after real game transitions. These are navigation recommendations, not new simulation restrictions. Briefing dismissals and the new-workspace notification queue are session-local. Existing save format is unchanged.
+
+### Executive Library (0.17.2 candidate)
+
+The title screen and workspace rail open a separate companion-book reader containing all twelve chapters, six appendices and opening/closing sections. Reading does not start or advance a game. A section bookmark is stored locally, with contents navigation, larger type and a complete offline HTML download. The book is embedded in the game bundle, so both portable and installed web editions remain offline-capable. The public candidate preserves original prose with a revised publisher's note and navigation line; private source records are excluded. Publication review remains required before deployment.

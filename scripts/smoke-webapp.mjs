@@ -29,6 +29,11 @@ try{
    await page.getByRole('button',{name:'Play now',exact:true}).click();
    await page.getByRole('button',{name:/Practise bed-led leadership/}).click();
    await context.setOffline(true);await page.reload();
+   await page.getByRole('button',{name:'Executive Library',exact:true}).click();
+   const reader=page.getByRole('main',{name:'Executive Library'});
+   await reader.getByLabel('Reading section').selectOption('11');
+   assert.equal(await reader.getByRole('article').getAttribute('aria-label'),'Chapter 10 | The Bed-Led Organisation™');
+   await reader.getByRole('button',{name:/Return to simulation/}).click();
    await navigate(page,'achievements');
    const award=page.getByTestId('achievement-current');await award.waitFor();assert.equal(await award.innerText(),'1/74');
    await page.locator('details.workspace-settings > summary').click();
