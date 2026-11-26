@@ -36,3 +36,7 @@ Meeting IDs are monotonic. Bookings reserve named employees and a working day, w
 ## Communication module (0.5.0)
 
 Persistent communication IDs, contextual templates and deterministic RNG produce internal and external records. Ten format definitions supply publication costs and metric effects. Daily communications follow employee operations and update recent social posts before generating a bulletin and a named employee post. Virality and scandal flags are persistent, prevent repeat rewards, and drive corporate metrics; targeted apologies link to their source record. Executive congratulations are limited to one per post. V5 adds an empty communications archive to older saves while preserving all other state.
+
+## Transformation module (0.6.0)
+
+Programme type is a stable single-instance key. Commission validates sponsor, dependencies and an active named lead. Daily work accrues consultancy expenses against a ceiling, and consumes lead availability remaining after meetings. Each of three milestones enters a review state and links to an actual steering meeting; approval requires recorded attendance. Scope expansion increases the work target; competence and governance influence accidental usefulness. Programme completion applies type-specific effects. Portfolio execution follows employee operations and precedes communications. V6 adds an empty portfolio to older saves.

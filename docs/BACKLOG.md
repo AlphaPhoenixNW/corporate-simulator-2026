@@ -7,7 +7,7 @@ Status: staged implementation, not a complete game. Checkboxes represent accepte
 - [x] P2 Ten departments; budgets, influence, politics, differentiated mechanics, staffing and unlocks.
 - [x] P3 Persistent employee identities, ten archetypes, relationships, hiring, promotions, reviews, discipline, redundancies, restructuring.
 - [x] P4 Meetings: all eight types, attendance, costs, follow-up scheduling, documentation.
-- [ ] P5 Communications: all ten formats, social network, engagement, influencers and scandals.
+- [x] P5 Communications: all ten formats, social network, engagement, influencers and scandals.
 - [ ] P6 Transformation programmes: all nine, scope creep, consultants, dependencies, milestones, governance, usefulness incidents.
 - [ ] P7 Finance expansion: subscription revenue, predictive savings, debt, acquisitions, share price, earnings, reports, bonuses and balance.
 - [ ] P8 NOTHING OS: boot, desktop, apps, settings, diagnostics, licences, compliance, shutdown and paid restart.
@@ -68,4 +68,11 @@ Implemented and committed:
 - Align™ tracks impressions, reactions, comments, executive congratulations, influencer rankings, viral events and persistent scandals with targeted apology responses.
 - Existing announcement, consultancy and employee-review actions generate communications; six new branching events, 20 total.
 - Responsive publishing desk, filtered communication history, social comments and crisis controls. Save V5 migrates V1–V4.
-- Nine unit/integration cases and desktop/mobile E2E scenario; P5 pending CI. Template diversity, engagement balancing and additional event integration remain later polish tasks. Lockfile still outstanding.
+- Nine unit/integration cases and desktop/mobile E2E scenario; P5 passed all checks in run 45740556589 after correcting v3 save migration and merged in PR #4 at aa204ab. Template diversity, engagement balancing and additional event integration remain later polish tasks. Lockfile still outstanding.
+
+## Increment 0.6.0 — 2026-11-26
+
+- Nine authored transformation programmes and 27 milestone gates; sponsor and prerequisite rules, named leads, spending ceilings, consultancy invoices, lead availability, scope expansion and usefulness incidents.
+- Actual steering committees must be held before approval; integration with meeting attendance, employee status, departmental governance, corporate communications and cash ledger.
+- Portfolio dashboard, programme controls and history. Six further branching events (26 total). V6 migrates V1–V5.
+- Ten unit/integration cases and desktop/mobile E2E scenario. P6 pending CI. Programme budgets, fees and risk require balancing; committee costs are accounted separately; transformation programmes are single-instance per save. Lockfile outstanding.
