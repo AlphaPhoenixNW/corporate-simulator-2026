@@ -2,6 +2,14 @@
 
 Selected release history. Detailed implementation and acceptance evidence lives in [the backlog](docs/BACKLOG.md).
 
+## 1.0.0 | Executive Edition (proposed release)
+
+- First proposed public release: all seven campaign stages, sandbox, ten departments, 150 incidents, 74 manual achievements, six Autopilot awards, original audio, career portfolio and full 22-section Executive Library.
+- Hosted and standalone offline editions; browser-local saves and validated transfers; no accounts or external inference.
+- Security remediation and private publication preparation, MIT software licensing and separately reserved literary/brand rights under EA-001.
+- Formal corporate motto: *Ducimus ut nihil agamus.* We lead so that we may do nothing.
+- Owner functional acceptance recorded; exact release candidate verification, remaining human/administrative gates and explicit publication authority required.
+
 ## 0.20.0 | Executive Autopilot
 
 - Independent local campaign automation, genuine cumulative million-attempt target, separate results, six awards and CV supplement.

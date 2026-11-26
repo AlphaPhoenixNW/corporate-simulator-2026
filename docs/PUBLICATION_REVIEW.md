@@ -15,7 +15,8 @@ This is the current publication decision checklist, not authorisation to change 
 - [x] Record baseline main CI and branding PR verification in [status](STATUS.md).
 - [x] PR #28 merged privately; exact main 154eb4e verified and recorded in [status](STATUS.md).
 - [x] Owner confirms private administrative configuration; [ruleset saved but not enforced while private](ADMINISTRATIVE_CONFIGURATION.md).
-- [ ] Record final release candidate verification, live deployment headers and human Autopilot/accessibility acceptance.
+- [x] Owner confirms seven functional human acceptance checks against the unchanged gameplay baseline; [record](HUMAN_ACCEPTANCE.md).
+- [ ] Verify proposed 1.0.0 candidate, live production response headers and disposition of remaining extended Autopilot/accessibility and exhaustive achievement checks.
 - [ ] After explicit publication authority and visibility change, verify ruleset enforcement, vulnerability reporting, secret scanning/push protection and external contributor workflow approval settings.
 - [ ] Obtain explicit owner authorisation before changing repository visibility or tagging the final public release.
 
