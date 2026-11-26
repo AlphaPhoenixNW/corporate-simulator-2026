@@ -16,11 +16,11 @@ Verified advisory ranges on 26 November 2026. Minimum fixes do not establish tha
 
 - [x] Record advisory ranges and architecture applicability.
 - [x] Add full-tree and production-only npm audits.
-- [ ] Capture and review baseline audit findings, including transitives.
+- [x] Capture and review baseline audit findings, including transitives: [run 45771585165](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45771585165) reported zero production vulnerabilities and six full-tree findings (one moderate, three high, two critical).
 - [ ] Select compatible patched dependencies, regenerate the lockfile with npm and align the Playwright container.
 - [ ] Re-audit and run all regression gates; document residual risks.
 
-No packages upgraded yet. A failing audit is a finding to address, not a reason to bypass the check.
+Candidate versions: Vite 7.3.8, Vitest 4.1.12, Playwright 1.65.1. The audit suggested Vitest 3.2.7, but it retains Tinypool and an affected mocker version. Vitest 4 removes Tinypool ([migration guide](https://v4.vitest.dev/guide/migration.html)) and 4.1.12 includes the [mocker security fix](https://github.com/vitest-dev/vitest/security/advisories/GHSA-qxg6-89mg-rqv8). The matching Playwright Noble image is available. A temporary read-only CI job generates the lockfile using npm and audits the candidate; only the resulting reviewed manifests will be committed. No dependency upgrades yet. A failing audit is a finding to address, not a reason to bypass the check.
 
 ## Stage 2: infrastructure
 

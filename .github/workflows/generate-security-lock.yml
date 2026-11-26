@@ -1,0 +1,33 @@
+name: Generate security upgrade lockfile (temporary)
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  generate:
+    if: github.head_ref == 'security/publication-hardening' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Resolve selected versions without executing package scripts
+        run: npm install --save-dev --save-exact --package-lock-only --ignore-scripts --no-audit --no-fund vite@7.3.8 vitest@4.1.12 @playwright/test@1.65.1
+      - name: Emit generated manifests for review
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFileSync} from 'node:fs';
+          import {createHash} from 'node:crypto';
+          for (const file of ['package.json','package-lock.json']) {
+            const content=JSON.stringify(JSON.parse(readFileSync(file,'utf8')));
+            console.log('MANIFEST_SHA256 '+file+' '+createHash('sha256').update(content).digest('hex'));
+            for(let i=0;i<content.length;i+=1500) console.log('MANIFEST_CHUNK '+file+' '+String(i/1500).padStart(4,'0')+' '+content.slice(i,i+1500));
+          }
+          NODE
+      - name: Audit candidate
+        run: npm audit --audit-level=low
