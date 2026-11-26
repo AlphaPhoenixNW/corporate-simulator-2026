@@ -122,3 +122,7 @@ The short hold-music motif is replaced with original, locally synthesised sustai
 ### Executive reward experience (0.18.0 candidate)
 
 The accepted original ambient score is unchanged. Music and reward/action effects have independent toggles and volumes, with an overall mute control; previous volume preferences migrate to both channels. New cues distinguish bonuses, expansion and positive cash events. Each accepted command displays a non-modal decision receipt with contextual prose and actual cash, compensation, capacity and metric deltas. Seven everyday executive actions each have three rotating flavour lines. No simulation rules or save schema changes. The candidate is deliberately modest; public repository licensing and publication review remain separate.
+
+### Executive Career Portfolio (0.19.0 candidate)
+
+A separate Executive CV workspace is introduced on working day two (or immediately through Show all workspaces). The living fictional résumé derives career appointments, recorded decisions, retained meetings, current business indicators and internal fictional qualifications from the current game state. It does not award achievements, change the simulation, or fabricate missing history. Download a self-contained HTML CV, or use the browser's print-to-PDF option. Existing saves work without migration.

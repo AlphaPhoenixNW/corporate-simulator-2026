@@ -1,0 +1,45 @@
+import {test,expect} from '@playwright/test';
+import {enterGame,goWorkspace} from '../support/enterGame';
+test('maintains a live fictional CV and exports an offline copy without changing game progress',async({page})=>{
+ await page.addInitScript(()=>{
+  const create=URL.createObjectURL.bind(URL);
+  URL.createObjectURL=(object)=>{
+   if(object instanceof Blob&&object.type.startsWith('text/html')){
+    void object.text().then(html=>{(window as Window & {__careerExport?:string}).__careerExport=html;});
+   }
+   return create(object);
+  };
+ });
+ await enterGame(page);
+ await goWorkspace(page,'career');
+ const cv=page.getByRole('article',{name:'Fictional executive CV'});
+ await expect(cv).toContainText('Founder & Chief Executive Officer');
+ await expect(cv).toContainText('No accomplishments recorded yet');
+ await goWorkspace(page,'office');
+ await page.getByRole('button',{name:/Practise bed-led leadership/}).click();
+ await page.getByRole('button',{name:/Approve executive bonus/}).click();
+ await goWorkspace(page,'career');
+ await expect(cv).toContainText('1 recorded strategic non-intervention');
+ await expect(cv).toContainText('£1,800');
+ await expect(cv).toContainText('£73,200');
+ await expect(cv).toContainText('Bed-Led Leadership Practitioner™');
+ const download=page.waitForEvent('download');
+ await page.getByRole('button',{name:'Download executive CV'}).click();
+ const file=await download;
+ expect(file.suggestedFilename()).toBe('NOTHING Executive CV - Simulation 2026.html');
+ const path=await file.path();expect(path).not.toBeNull();
+ const html=()=>page.evaluate(()=>(window as Window & {__careerExport?:string}).__careerExport??'');
+ await expect.poll(html).toContain('£1,800');
+ await expect.poll(html).toContain('Not a real employment or academic record.');
+ await page.emulateMedia({media:'print'});
+ await expect(cv).toBeVisible();
+ await expect(page.locator('.topbar')).toBeHidden();
+ await expect(page.getByRole('button',{name:'Download executive CV'})).toBeHidden();
+ await page.emulateMedia({media:'screen'});
+ await page.reload();
+ await expect(cv).toContainText('£1,800');
+ await expect(page.getByTestId('day')).toHaveText('001');
+ await expect(page.getByTestId('cash')).toHaveText('£73,200');
+ await expect(page.locator('.compact-kpis')).toContainText('0/2');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth)).toBe(false);
+});

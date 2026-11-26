@@ -46,3 +46,7 @@ The short repeating tune is replaced by slow, overlapping synthesised harmonies 
 ## Reward experience (0.18.0 candidate)
 
 Open Audio settings on title or in game. Corporate hold music and Reward and action sounds can be independently disabled and adjusted; Sound enabled mutes both. Test sound respects effects settings. After an accepted command, a brief non-modal receipt shows its actual outcome and up to four changes; Show all expands the remaining indicators and pauses dismissal. Check action, bonus and day-close feedback, music-only mode, effects-only mode, mute and legacy save/preferences. No game mechanics changed.
+
+## Executive career portfolio (0.19.0 candidate)
+
+Find Executive CV under Records and analysis or Show all workspaces. Review your fictional career, take a bed-led action or bonus, and return to see the actual recorded changes. Download the CV as self-contained HTML; Print / Save as PDF uses your browser print dialogue where available. The portfolio is separate from achievements and does not change your save. New simulations begin a fresh CV; legacy records are not invented.
