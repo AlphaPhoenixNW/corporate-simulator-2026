@@ -50,7 +50,7 @@ describe('NOTHING OS',()=>{
   });
   it('migrates v7 saves and validates lifecycle consistency',()=>{
     const s=newGame(),legacy={...s,version:7,os:undefined};
-    expect(decodeSave(JSON.stringify(legacy))).toMatchObject({version:11,os:initialOS()});
+    expect(decodeSave(JSON.stringify(legacy))).toMatchObject({version:12,os:initialOS()});
     const n=dispatch(s,{type:'os',operation:'boot'});
     expect(decodeSave(JSON.stringify(n))).toEqual(n);
     expect(decodeSave(JSON.stringify({...n,os:{...n.os,licence:'expired'}}))).toBeNull();

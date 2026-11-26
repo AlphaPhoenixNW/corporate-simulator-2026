@@ -38,6 +38,7 @@ export function departmentEligibility(s:GameState,id:DepartmentId,op:DepartmentC
   if(op==='reduce'){
     if(d.headcount<=1)return 'Minimum staffing reached';
     const team=s.employees.filter(e=>e.department===id&&e.status==='active');
+    if(team[team.length-1].id===s.boss.employeeId&&s.boss.phase!=='contained')return 'Board-mandated retention protection';
     if(s.cash<team[team.length-1].salary*5)return 'Insufficient liquidity for redundancy';
   }
   return null;

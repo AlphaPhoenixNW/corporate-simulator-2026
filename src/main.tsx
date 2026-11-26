@@ -18,6 +18,7 @@ import {CampaignPanel} from './ui/CampaignPanel';
 import {STAGES,DIFFICULTIES,SCENARIOS,actualLimit,dailyCapacity,unlockedScenarios} from './engine/campaign';
 import {loadHighestStage,saveHighestStage} from './storage';
 import type {Difficulty,GameMode,Scenario} from './engine/types';
+import {BossPanel} from './ui/BossPanel';
 import './styles.css';
 
 const labels: Record<Metric,string> = {
@@ -52,7 +53,7 @@ function App(){
   return <div className={'suite'+(reduced?' reduce-motion':'')}>
     <a className="skip" href="#workspace">Skip to workspace</a>
     <header className="topbar"><div className="brand"><span className="logo" aria-hidden="true">N.</span><div><strong>NOTHING™</strong><span>Executive management suite</span></div></div><div className="top-meta"><span className="stage" data-testid="campaign-stage">{state.campaign.mode==="sandbox"?"Endless sandbox":String(state.campaign.stage).padStart(2,"0")+" / "+STAGES[state.campaign.stage-1].name}</span><span className="save" role="status">{saved?'● Local save active':'Local save unavailable'}</span></div></header>
-    <aside className="rail"><div className="rail-caption">WORKSPACE</div><nav aria-label="Workspace"><a href="#workspace">Overview</a><a href="#campaign">Campaign</a><a href="#decisions">Executive actions</a><a href="#metrics">Performance</a><a href="#departments">Departments</a><a href="#employees">People</a><a href="#meetings">Meetings</a><a href="#communications">Communications</a><a href="#programmes">Transformation</a><a href="#finance">Finance</a><a href="#nothing-os">NOTHING™ OS</a><a href="#agents">Agentic AI</a><a href="#incidents">Incidents</a><a href="#ledger">Ledger</a><a href="#activity">Activity log</a></nav><div className="rail-bottom"><label><input type="checkbox" checked={reduced} onChange={e=>setReduced(e.target.checked)}/> Reduce motion</label><button className="link-button" onClick={()=>setReset(!reset)} aria-expanded={reset}>New simulation</button><small>BUILD 0.11.0 · CAMPAIGN</small></div></aside>
+    <aside className="rail"><div className="rail-caption">WORKSPACE</div><nav aria-label="Workspace"><a href="#workspace">Overview</a><a href="#campaign">Campaign</a>{state.campaign.stage===7&&<a href="#containment">Containment</a>}<a href="#decisions">Executive actions</a><a href="#metrics">Performance</a><a href="#departments">Departments</a><a href="#employees">People</a><a href="#meetings">Meetings</a><a href="#communications">Communications</a><a href="#programmes">Transformation</a><a href="#finance">Finance</a><a href="#nothing-os">NOTHING™ OS</a><a href="#agents">Agentic AI</a><a href="#incidents">Incidents</a><a href="#ledger">Ledger</a><a href="#activity">Activity log</a></nav><div className="rail-bottom"><label><input type="checkbox" checked={reduced} onChange={e=>setReduced(e.target.checked)}/> Reduce motion</label><button className="link-button" onClick={()=>setReset(!reset)} aria-expanded={reset}>New simulation</button><small>BUILD 0.12.0 · CONTAINMENT</small></div></aside>
     <main id="workspace" tabIndex={-1}>
       <div className="intro"><div><p className="eyebrow">OFFICE OF THE CHIEF EXECUTIVE</p><h1>Executive overview</h1><p>Delivering tomorrow’s nothing, today.</p></div><div className="day"><span>WORKING DAY</span><strong data-testid="day">{state.day.toString().padStart(3,'0')}</strong></div></div>
       {reset&&<section className="panel reset" aria-label="New simulation"><h2>Start a new simulation</h2><p>This replaces the current local save.</p><label htmlFor="seed">World seed (0–4294967295)</label><input id="seed" value={seed} onChange={e=>setSeed(e.target.value)} inputMode="numeric"/><div className="people-filter"><label htmlFor="game-mode">Mode</label><select id="game-mode" value={mode} onChange={e=>setMode(e.target.value as GameMode)}><option value="campaign">Campaign</option><option value="sandbox">Endless sandbox</option></select></div>
@@ -67,6 +68,7 @@ function App(){
         <section className="panel" id="metrics"><p className="eyebrow">PERFORMANCE INTELLIGENCE</p><h2>Organisational metrics</h2><div className="metric-grid">{METRIC_KEYS.map(k=><MetricBar key={k} name={k} value={state.metrics[k]}/>)}</div><p className="hint">Actual productivity reaching {actualLimit(state)} ends the simulation. Insolvency or a loss of board confidence also ends it.</p></section>
       </div>
       <CampaignPanel state={state} send={send} highest={highest}/>
+      {state.campaign.stage===7&&<BossPanel state={state} send={send}/>}
       <DepartmentsPanel state={state} send={send}/>
       <EmployeesPanel state={state} send={send}/>
       <MeetingsPanel state={state} send={send}/>

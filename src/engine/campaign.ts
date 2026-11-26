@@ -40,7 +40,7 @@ export function campaignGates(s:GameState):Gate[]{
   case 4:return [...base,min('Active departments',active,6),min('Certified programmes',certified,1),min('Subscribers',f.subscribers,40)];
   case 5:return [...base,min('Active departments',active,8),min('Subscribers',f.subscribers,80),min('Acquisitions',f.acquisitions.length,1)];
   case 6:return [...base,min('Closed profitable quarters',f.reports.filter(r=>r.profit>0).length,1),min('Agent workflows',s.agents.totalRuns,3),min('Subscribers',f.subscribers,100),max('Regulatory exposure',m.regulation,60)];
-  default:return [...base,min('Active departments',active,10),min('Certified programmes',certified,2),min('Subscribers',f.subscribers,120),min('Executive compensation (£)',s.compensation,5000),max('Regulatory exposure',m.regulation,50)];
+  default:return [...base,min('Active departments',active,10),min('Certified programmes',certified,2),min('Subscribers',f.subscribers,120),min('Executive compensation (£)',s.compensation,5000),max('Regulatory exposure',m.regulation,50),min('Competent employee containment',s.boss.phase==='contained'?1:0,1)];
  }
 }
 export function gateMet(g:Gate){return g.direction==='min'?g.current>=g.target:g.current<=g.target;}

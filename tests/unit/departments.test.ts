@@ -52,11 +52,11 @@ describe('department simulation',()=>{
     expect(result.reports).toContain(DEPARTMENTS.engineering.failure);
     expect(result.delta.actual).toBeGreaterThan(0);
   });
-  it('migrates v1 saves without changing day, cash or RNG; validates v11',()=>{
+  it('migrates v1 saves without changing day, cash or RNG; validates v12',()=>{
     const s=newGame(42);
     const legacy={...s,version:1,departments:undefined,day:9,cash:12345};
     const migrated=decodeSave(JSON.stringify(legacy))!;
-    expect(migrated).toMatchObject({version:11,day:9,cash:12345,rng:42});
+    expect(migrated).toMatchObject({version:12,day:9,cash:12345,rng:42});
     expect(migrated.departments.map(d=>d.headcount)).toEqual(initialDepartments().map(d=>d.headcount));
     expect(decodeSave(JSON.stringify(migrated))).toEqual(migrated);
     expect(decodeSave(JSON.stringify({...migrated,departments:[]}))).toBeNull();

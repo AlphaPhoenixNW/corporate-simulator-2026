@@ -10,6 +10,7 @@ import { initialOS, changeOS, runOS } from './os';
 import { initialAgents, changeAgents, runAgents } from './agents';
 import { selectIncident } from './incidents';
 import {initialCampaign,DIFFICULTIES,SCENARIOS,dailyCapacity,actualLimit,campaignOverhead,campaignEligibility,advanceCampaign,STAGES} from './campaign';
+import {initialBoss,spawnBoss,changeBoss,runBoss,protectedBoss} from './boss';
 export const DAILY_CAPACITY = 2;
 const clamp = (n:number) => Math.max(0,Math.min(100,n));
 export function random(rng:number): [number,number] {
@@ -20,7 +21,7 @@ export function newGame(seed=2026,options:GameOptions={}): GameState {
   const normalized = seed >>> 0;
   const staff=seedEmployees(normalized,initialDepartments(),1);
   const campaign=initialCampaign(options),scenario=SCENARIOS[campaign.scenario],cash=Math.round(scenario.cash*DIFFICULTIES[campaign.difficulty].cashMultiplier);
-  return {version:11,campaign,incidentHistory:[],agents:initialAgents(),os:initialOS(),finance:initialFinance(1,cash,scenario.metrics.confidence??55),programmes:[],communications:[],nextCommunicationId:1,meetings:[],nextMeetingId:1,...staff,departments:syncDepartments(initialDepartments(),staff.employees),seed:normalized,rng:normalized,day:1,cash,capacity:DAILY_CAPACITY,compensation:0,
+  return {version:12,boss:initialBoss(),campaign,incidentHistory:[],agents:initialAgents(),os:initialOS(),finance:initialFinance(1,cash,scenario.metrics.confidence??55),programmes:[],communications:[],nextCommunicationId:1,meetings:[],nextMeetingId:1,...staff,departments:syncDepartments(initialDepartments(),staff.employees),seed:normalized,rng:normalized,day:1,cash,capacity:DAILY_CAPACITY,compensation:0,
     metrics:{confidence:55,prestige:20,morale:70,bureaucracy:15,perceived:25,actual:12,buzzwords:20,meetings:10,regulation:10,incompetence:25,...scenario.metrics},
     pendingEvent:null,resolvedEvents:[],scheduled:[],log:['Day 1: NOTHING™ incorporated. No product roadmap has been approved.'],ledger:[],ending:null};
 }
@@ -43,7 +44,7 @@ function checkEnding(s:GameState) {
 }
 export function dispatch(state:GameState,command:Command):GameState {
   if(state.ending) return state;
-  const s:GameState = {...state,metrics:{...state.metrics}};
+  let s:GameState = spawnBoss({...state,metrics:{...state.metrics}});
   const nextRandom=()=>{const [next,value]=random(s.rng);s.rng=next;return value;};
   if(command.type==='action'){
     const a=ACTIONS.find(x=>x.id===command.id);
@@ -109,6 +110,12 @@ export function dispatch(state:GameState,command:Command):GameState {
     if(!result)return state;
     s.capacity--;s.agents=result.agents;
     record(s,result.message,-result.cost);apply(s,result.delta,result.message);log(s,result.message);
+  } else if(command.type==='boss'){
+    const result=changeBoss(s,command);
+    if(!result)return state;
+    s.capacity--;s.boss=result.boss;s.employees=result.employees;s.meetings=result.meetings;s.nextMeetingId=result.nextMeetingId;
+    s.departments=syncDepartments(s.departments,s.employees);
+    record(s,result.message,-result.cost);apply(s,result.delta,result.message);log(s,result.message);
   } else if(command.type==='campaign'){
     if(campaignEligibility(s,command))return state;
     s.capacity--;
@@ -119,6 +126,7 @@ export function dispatch(state:GameState,command:Command):GameState {
       record(s,'Stage capital injection: '+stage.name,stage.grant,'financing');
       log(s,'Campaign stage attained: '+stage.name+'.');
       s.communications=[...s.communications,{...generateCommunication(s,'announcement',s.nextCommunicationId++,nextRandom),subject:'Corporate expansion | '+stage.name}];
+      s=spawnBoss(s);
     }
   } else if(command.type==='choose'){
     const e=EVENTS.find(x=>x.id===s.pendingEvent);
@@ -142,16 +150,19 @@ export function dispatch(state:GameState,command:Command):GameState {
     s.meetings=calendar.meetings;s.nextMeetingId=calendar.nextMeetingId;s.employees=calendar.employees;
     for(const cost of calendar.costs)record(s,cost.label,cost.amount);
     apply(s,calendar.delta,'Meeting outcomes');for(const report of calendar.reports)log(s,report);
-    const daily=runDepartments(s.departments,()=>{const [next,value]=random(s.rng);s.rng=next;return value;},payrollByDepartment(s.employees),s.employees,calendar.minutes);
+    const confrontation=runBoss(s,calendar.minutes);
+    s.boss=confrontation.boss;s.employees=confrontation.employees;
+    record(s,'Non-delivery transformation governance',-confrontation.cost);apply(s,confrontation.delta,'Competent employee confrontation');for(const report of confrontation.reports)log(s,report);
+    const daily=runDepartments(s.departments,()=>{const [next,value]=random(s.rng);s.rng=next;return value;},payrollByDepartment(s.employees),s.employees,confrontation.minutes);
     s.departments=daily.departments;
     for(const entry of daily.costs)record(s,entry.label,entry.amount);
     apply(s,daily.delta,'Departmental operating results');
     for(const report of daily.reports)log(s,report);
-    const people=runEmployees(s.employees,s.relationships,s.departments,s.day,()=>{const [next,value]=random(s.rng);s.rng=next;return value;},calendar.minutes);
+    const people=runEmployees(s.employees,s.relationships,s.departments,s.day,()=>{const [next,value]=random(s.rng);s.rng=next;return value;},confrontation.minutes,s.boss.employeeId!==null&&protectedBoss(s,s.boss.employeeId)?s.boss.employeeId:undefined);
     s.employees=people.employees;s.relationships=people.relationships;
     s.departments=syncDepartments(s.departments,s.employees);
     apply(s,people.delta,'Employee activity');for(const report of people.reports)log(s,report);
-    const portfolio=runProgrammes(s,calendar.minutes,nextRandom);
+    const portfolio=runProgrammes(s,confrontation.minutes,nextRandom);
     s.programmes=portfolio.programmes;for(const cost of portfolio.costs)record(s,cost.label,cost.amount);
     apply(s,portfolio.delta,'Transformation portfolio');for(const report of portfolio.reports)log(s,report);
     const comms=runCommunications(s,nextRandom);

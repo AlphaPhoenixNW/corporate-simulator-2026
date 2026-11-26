@@ -77,7 +77,7 @@ describe('corporate incidents',()=>{
   it('migrates v9 without inventing past choices and validates current records',()=>{
     const s=newGame(),legacy={...s,version:9,incidentHistory:undefined,resolvedEvents:['functional-product']};
     const n=decodeSave(JSON.stringify(legacy))!;
-    expect(n).toMatchObject({version:11,incidentHistory:[],resolvedEvents:['functional-product']});
+    expect(n).toMatchObject({version:12,incidentHistory:[],resolvedEvents:['functional-product']});
     const decided=dispatch({...s,pendingEvent:'functional-product'},{type:'choose',id:'committee'});
     expect(validIncidentHistory(decided.incidentHistory,decided.resolvedEvents,decided.day)).toBe(true);
     expect(decodeSave(JSON.stringify(decided))).toEqual(decided);
