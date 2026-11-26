@@ -16,6 +16,8 @@ jobs:
           node-version: '22'
       - name: Install locked dependencies
         run: npm ci --no-audit --no-fund
+      - name: Verify companion edition source boundary
+        run: node scripts/verify-companion-edition.mjs
       - run: npm run typecheck
       - run: npm test
       - run: npm run build:playtest

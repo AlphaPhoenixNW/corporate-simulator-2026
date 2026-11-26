@@ -88,3 +88,7 @@ The hash resolver maps legacy anchors (workspace, decisions, pending-decision, b
 ## Progressive disclosure (0.17.1)
 
 Navigation uses a pure stage/day/previous-use projection from GameState. It changes recommended visibility, not command eligibility, and always retains the current deep-linked workspace. The existing stage-seven containment restriction is unchanged. Sandbox exposes all applicable workspaces. The locally remembered full-navigation option allows early access without altering engine state. First-visit briefings and newly introduced workspace notices live in React session state, reset on game replacement, and do not affect saves. All panels remain mounted to preserve the earlier workspace behavior.
+
+## Executive Library (0.17.2)
+
+Library state is separate from GameState. An explicit public manuscript allowlist contains 22 text sections, rendered with an escaped Markdown subset, and the existing cover thumbnail is inlined by Vite. A local section bookmark is independent of game saves. The reader is a separate view; game state and current route remain in App. The standalone HTML download uses the same escaped content and embeds the thumbnail. No external runtime dependency. Private source docs are not imported; the source verification script checks exact text except the two title-page edits. The private preview remains a separate CI artifact.
