@@ -4,7 +4,7 @@ Thank you for considering a strategic allocation of your time. Contributions sho
 
 ## Before proposing an initiative
 
-Read the [project brief](docs/PROJECT_BRIEF.md), [architecture](docs/ARCHITECTURE.md) and [backlog](docs/BACKLOG.md). Check the current licensing and contribution permissions before distributing or submitting material; publication is not yet approved.
+Read the [governance](docs/GOVERNANCE.md), [project brief](docs/PROJECT_BRIEF.md), [architecture](docs/ARCHITECTURE.md) and [current status](docs/STATUS.md). Check [publication review](docs/PUBLICATION_REVIEW.md) for current licensing and contribution permissions before distributing or submitting material.
 
 ## Operational incident submissions
 

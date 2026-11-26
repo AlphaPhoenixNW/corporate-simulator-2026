@@ -1,6 +1,6 @@
 # Development backlog
 
-Status: staged implementation, not a complete game. Checkboxes represent accepted work, not merely planned code.
+Current baseline: all planned gameplay increments implemented; P15 release readiness remains open. See [current status](STATUS.md) and [release checklist](RELEASE_CHECKLIST.md). The chronological entries below preserve their original context; pending statements in older entries are historical, not active governance. Checkboxes represent accepted work, not merely planned code.
 
 - [x] P0 Preserve complete project brief; establish working agreement and architecture.
 - [x] P1 Foundation: Vite/React/TS, deterministic turn engine, 11 metrics, action capacity, initial economy, decisions, local persistence, responsive dashboard, automated tests and verification.
@@ -21,7 +21,7 @@ Status: staged implementation, not a complete game. Checkboxes represent accepte
 
 ## Working practice
 
-Implement in dependency order, update this file after each increment with evidence, and do not mark a milestone complete until its quality gates pass. All original requirements remain in PROJECT_BRIEF.md.
+Record increment evidence here; current development rules are in [governance](GOVERNANCE.md) and AGENTS.md. All original requirements remain in PROJECT_BRIEF.md.
 
 ## Increment 0.1.0 — 2026-11-26
 
@@ -214,3 +214,9 @@ Player reported the single scrolling dashboard is overwhelming and does not comm
 - Release literature candidate: shorter public-facing README, preserved historical README, fictional Nora memoir with factual attribution, contribution procedures and selected changelog. No gameplay or manuscript changes. Verify exact documentation commit, review release checklist and resolve licence/publication scope before public release. P15 remains open.
 
 - Owner approved the Founder statement and requested a branded README and comprehensive strategy. Added the approved in-character statement, brand strategy and self-contained SVG hero, Founder and Library graphics. Generated photographic concepts remain separate pending binary import. No game, original manuscript, licence or visibility changes. Documentation branch verification pending.
+
+
+## Documentation authority audit — 26 November 2026
+
+- Owner accepts the overall game and repository direction. Main Autopilot verification 45767711773 passed; branding PR head 406bf05 passed 45769589472 (173 unit/integration, 47 browser cases, offline and companion gates); Cloudflare preview passed.
+- Consolidated current status and governance; rewrote architecture, playtest, deployment, release acceptance and companion boundary from current code and evidence. Preserved architecture/release/import histories and manuscript. Historical entries do not act as current instructions. No gameplay, licensing or visibility changes. New documentation commit verification and final publication gates remain open.

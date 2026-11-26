@@ -1,6 +1,8 @@
 # Corporate Simulator 2026™
 ## The Pursuit of Strategic Nothingness
 
+> Historical record only. Former status, candidate and pending labels describe their original context. Current authority is [governance](docs/GOVERNANCE.md); release evidence is in [status](docs/STATUS.md).
+
 You are CEO of NOTHING™, a corporation devoted to appearing productive while avoiding measurable value. Delivering tomorrow's nothing, today.
 
 **Historical record:** this document preserves the cumulative development notes formerly in the README. Status lines and candidate labels below describe their original increments; see README.md for current status. The intended release is a basic, functional public-source project, not a fully polished commercial game. The hosted edition is an optional convenience; local and portable builds remain first-class.

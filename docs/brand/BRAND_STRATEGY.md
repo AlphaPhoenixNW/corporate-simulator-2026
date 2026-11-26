@@ -1,6 +1,8 @@
 # NOTHING™ | Corporate brand strategy
 
-**Brand governance candidate 1.0** · Office of the Founder · Editorial implementation: Nora
+**Brand strategy 1.0** · Office of the Founder · Editorial implementation: Nora
+
+The owner accepts the overall direction. These editorial standards operate within [real project governance](../GOVERNANCE.md); see [status](../STATUS.md) for release decisions.
 
 > The future is horizontal.
 

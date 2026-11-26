@@ -9,7 +9,7 @@ Welcome to NOTHING™, an entirely fictional corporation dedicated to maximising
 
 You are the CEO. Establish departments, recruit employees, convene meetings, commission transformations, manage an increasingly elaborate economy and prevent an exceptionally competent employee from ruining everything.
 
-**Current candidate:** v0.20.0 · Executive Autopilot. This repository remains in release preparation; public-source licensing and repository-wide publication review are separate owner decisions.
+**Current version:** see [package.json](package.json). For the recorded release baseline, acceptance and publication decisions, see [current project status](docs/STATUS.md).
 
 ## Begin your executive appointment
 
@@ -68,7 +68,9 @@ The game includes **The Art of Doing Nothing™**, the Founder's satirical manag
 | [CHANGELOG.md](CHANGELOG.md) | Selected verified release history |
 | [Development history](DEVELOPMENT_HISTORY.md) | Detailed feature and historical verification record |
 | [Project brief](docs/PROJECT_BRIEF.md) | Original executive mandate |
-| [Architecture](docs/ARCHITECTURE.md) | Technical design |
+| [Architecture](docs/ARCHITECTURE.md) | How the simulation, browser storage, Autopilot and distribution work |
+| [Current status](docs/STATUS.md) | Recorded release baseline and verification evidence |
+| [Governance](docs/GOVERNANCE.md) | Actual project authority and engineering rules |
 | [Backlog](docs/BACKLOG.md) | Implementation and verification evidence |
 | [Release checklist](docs/RELEASE_CHECKLIST.md) | Outstanding acceptance gates |
 
@@ -85,12 +87,12 @@ npm run test:webapp
 node scripts/verify-companion-edition.mjs
 ```
 
-CI uses the pinned Playwright 1.55.0 Noble container, Node 22 and locked npm dependencies. The [v0.20.0 pull request workflow](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45767062340) passed in 2 minutes 47 seconds. Main verification and manual acceptance are tracked separately.
+CI runs the full quality gates using locked dependencies and a pinned Playwright environment. See [workflow results](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/workflows/ci.yml) for current automated verification and [project status](docs/STATUS.md) for dated evidence. Automated checks and human acceptance are separate.
 
 ## Attribution and publication
 
 The repository owner directs the project; implementation and editorial work were developed with ChatGPT/Codex assistance. Nora is the fictional executive-assistant persona used in the retrospective, not an independent human employee or an in-game service.
 
-This is management satire, not an actual business or professional qualification. Public visibility and licensing have not been authorised by this documentation change; no reuse permissions are granted by the satire or the proposed release alone.
+This is management satire, not an actual business or professional qualification. See [publication review](docs/PUBLICATION_REVIEW.md) for current source-release and licensing decisions. Fictional branding does not grant reuse permissions.
 
 **Absolutely nothing. Consistently. At scale.**

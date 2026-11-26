@@ -6,7 +6,7 @@ Selected release history. Detailed implementation and acceptance evidence lives 
 
 - Independent local campaign automation, genuine cumulative million-attempt target, separate results, six awards and CV supplement.
 - Pinned browser environment, npm caching and 30-minute CI contingency; all existing quality checks retained.
-- [PR verification](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45767062340): passed in 2m 47s; Cloudflare preview passed; [PR #26](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/pull/26) merged. Main verification and human Autopilot assessment are separate.
+- [PR verification](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45767062340): passed in 2m 47s; Cloudflare preview passed; [PR #26](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/pull/26) merged. [Main verification](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45767711773) subsequently passed. Human Autopilot assessment remains separate; see [current status](docs/STATUS.md).
 
 ## 0.19.1 | Return navigation
 

@@ -1,98 +1,110 @@
-# Architecture
+# Architecture | How the simulation works
 
-## Design decisions
+Current design for the v0.20.0 gameplay baseline. See [status](STATUS.md) for acceptance evidence and [architecture history](ARCHITECTURE_HISTORY.md) for earlier design notes.
 
-- TypeScript + React + Vite, client-only. Monetary values use integer pounds; scores use bounded 0–100 values. The initial economy is deliberately provisional and will be tuned through simulation tests.
-- A deterministic simulation owns the rules. Commands create new state; UI reads state and dispatches commands. No UI dependency in the engine.
-- One turn = one working day. Actions consume executive capacity; the end-day transaction applies costs, revenue, employee output, scheduled effects and new events. A pending decision must be resolved before the next day.
-- Seeded random state travels with saves. Versioned local storage; reject invalid or unsupported saves rather than silently reinterpret.
-- Later modules: departments, people, meetings, communications, programmes, finance, events, campaign, achievements, OS and agents. Integrate through typed commands and explicit daily phase functions; keep rule order deterministic.
-- Stage progression, sandbox and difficulty will share the engine. No remote services.
-- Visual direction: serious enterprise suite, navy/cream/gold, responsive layout. Satire is expressed through copy and rules, not cartoon visuals.
+## 1. What runs where
 
-## Quality gates
+Corporate Simulator is a self-contained browser application built with React, TypeScript and Vite. There is no application server, account system, remote database or real AI inference. The hosted edition delivers static assets; the portable edition inlines the application in one HTML file. The same rules drive manual play, regression campaigns and Executive Autopilot.
 
-Unit tests: deterministic rules, boundaries, finance and event choices.
-Integration tests: full daily lifecycle and save round trips.
-E2E: start a game, act, resolve event, advance, reload; mobile and keyboard paths.
-CI: install dependencies, typecheck, test, build and run browser tests. Balance and accessibility checks expand as systems arrive.
+```mermaid
+flowchart TD
+  Player[Player] --> UI[React workspaces and title screen]
+  UI -->|Typed command| Core[Deterministic simulation core]
+  Core -->|Accepted next GameState| UI
+  UI --> Save[Validated browser-local manual save]
+  Auto[Executive Autopilot worker or local runner] -->|Independent commands| Core
+  Core -->|Independent attempt state| Auto
+  Auto --> Profile[Separate Autopilot profile]
+  Library[Executive Library] --> Bookmark[Separate reading bookmark]
+  UI --> Library
+```
 
-## Release gate
+The core is the rules and command dispatcher, not every file in the engine directory: Autopilot's runner and profile persistence are adapter code. Manual and automated campaigns use separate state instances. The arrows do not imply that automated results replace the manual save.
 
-All 15 brief sections implemented, 150 authored branching events and 60 functional achievements, campaign and boss playable, sandbox available, verified local build and tests, accessibility and balancing pass, player documentation. A foundation is not the release.
+## 2. Source map
 
-## Department module (0.2.0)
+| Path | Responsibility |
+| --- | --- |
+| [src/main.tsx](../src/main.tsx) | React application, current manual state, dispatch integration, workspaces, title and library transitions |
+| [src/engine/types.ts](../src/engine/types.ts) | Typed commands, serializable game state, domain records and metric definitions |
+| [src/engine/simulation.ts](../src/engine/simulation.ts) | Seeded new game, command validation, financial recording, daily settlement, ending checks and achievements |
+| [src/engine/](../src/engine/) | Departments, employees, meetings, communications, programmes, finance, OS, agents, incidents, campaign, boss and achievements |
+| [src/storage.ts](../src/storage.ts) | Save validation, migration and persistence; campaign and achievement profiles |
+| [src/ui/](../src/ui/) | Workspace panels, navigation, recommendations, onboarding, audio, receipts, CV and Autopilot presentation |
+| [src/library/](../src/library/) | Allowlisted companion text, escaped rendering, reading position and HTML export |
+| [scripts/](../scripts/) | Hosted web-app packaging, portable HTML packaging, offline smoke tests and companion verification |
+| [tests/](../tests/) | Unit/integration, browser and legal-command campaign regression tests |
+| [.github/workflows/ci.yml](../.github/workflows/ci.yml) | Locked dependencies, builds, full quality gates and artifact upload |
 
-DepartmentState stores aggregate staffing until the individual employee module replaces this with derived headcount. Daily operating allocation and payroll are expenses, not prepaid reserves. Executive department commands consume the same daily capacity as global actions. The engine settles departmental operations after base daily revenue and overhead, before scheduled effects and event selection. Department events are eligible only when the corresponding unit is active. V1 saves migrate deterministically to V2 by introducing default departments; preserve all other saved fields. The existing local storage key is retained deliberately to discover legacy saves.
+## 3. Manual simulation and command flow
 
-## Employee module (0.3.0)
+A game starts with a seed, campaign or sandbox mode, difficulty and scenario. GameState contains cash, metrics, executive capacity, employees, departments, records, events, pending effects, campaign and RNG state. Monetary values use integer pounds and core scores are bounded to 0–100. Cash and executive compensation are separate.
 
-Employee IDs are monotonically allocated; identity generation hashes game seed and ID independently of daily RNG. Employees retain historical status, grade, department and personnel records. Department headcount and operational competence are synchronized from active employees; actual individual daily payroll is charged in departmental operations, replacing flat payroll. Promotions reduce effective competence and raise salary. One seeded pairwise interaction per day updates persistent relationship affinity; daily employee effects follow departmental operations. Save V3 migration generates named employees for existing staffing allocations without consuming the daily RNG or changing cash/day. Minimum staffing is one employee per active department until campaign restructuring is expanded.
+The UI proposes a typed Command. The dispatcher rejects invalid commands by returning the existing state, or produces an updated state with actual effects. Presentation derives indicators, recommendations, notifications, receipts and career records from that state. The core does not depend on React or browser storage.
 
-## Meeting module (0.4.0)
+One turn is one working day. A pending incident must be resolved before ending the day. Daily settlement follows this ordered sequence in simulation.ts:
 
-Meeting IDs are monotonic. Bookings reserve named employees and a working day, with per-person 480-minute and eight-meeting daily limits. The day transaction settles due meetings before department and employee activity, preserving payroll and charging actual attendance fees. Attendance time scales departmental routine/progress and employee work probability. Follow-ups preserve parent IDs and are capped at four generations. Meeting outcomes and document names persist. Migration to V4 preserves all V3 identities, RNG and finances while initializing an empty calendar.
+1. Base revenue, overhead and daily metrics.
+2. Meetings and competent employee confrontation; available employee time feeds subsequent systems.
+3. Department operations, payroll, employee activity and staffing synchronisation.
+4. Transformation programmes, communications and financial operations.
+5. Simulated OS and agent activity; financial day close and any quarterly report.
+6. Advance day, replenish executive capacity, apply due delayed effects and select eligible incidents.
+7. Check ending conditions and update achievements.
 
-## Communication module (0.5.0)
+The seeded RNG is persisted. Tests exercise deterministic replay and cash reconciliation. Changes to phase order can affect balance and must be tested.
 
-Persistent communication IDs, contextual templates and deterministic RNG produce internal and external records. Ten format definitions supply publication costs and metric effects. Daily communications follow employee operations and update recent social posts before generating a bulletin and a named employee post. Virality and scandal flags are persistent, prevent repeat rewards, and drive corporate metrics; targeted apologies link to their source record. Executive congratulations are limited to one per post. V5 adds an empty communications archive to older saves while preserving all other state.
+## 4. Progression and presentation
 
-## Transformation module (0.6.0)
+Seven campaign stages introduce requirements, funding and capabilities. Sandbox removes campaign gates and victory while retaining ordinary failure conditions. The competent employee encounter is an additional final-stage challenge.
 
-Programme type is a stable single-instance key. Commission validates sponsor, dependencies and an active named lead. Daily work accrues consultancy expenses against a ceiling, and consumes lead availability remaining after meetings. Each of three milestones enters a review state and links to an actual steering meeting; approval requires recorded attendance. Scope expansion increases the work target; competence and governance influence accidental usefulness. Programme completion applies type-specific effects. Portfolio execution follows employee operations and precedes communications. V6 adds an empty portfolio to older saves.
+React presents one focused workspace at a time, with global cash, capacity, notices and day settlement. Progressive discovery recommends workspaces without creating new gameplay restrictions; Show all workspaces remains available. Recommendations do not execute commands automatically. Title, optional induction, receipts, audio preferences and library reading are presentation features. The CV derives fictional records from actual state and exports HTML or uses the browser print dialogue.
 
-## Finance module (0.7.0)
+## 5. Persistence and privacy boundaries
 
-All cash writes pass through record(), classifying receipts and expenses as operating by default and explicitly separating debt principal and acquisitions as financing and investing. FinanceState maintains current-period and lifetime totals independently of the truncated transaction ledger. Daily settlement adds subscriptions, hypothetical savings invoices, interest and acquisition operating flows, then updates sentiment and price and closes accelerated 20-day quarterly reports. Each close reconciles opening cash + operating result + financing + investing to closing cash. Delayed event cash effects posted after day increment belong to the next working day. Legacy saves initialize financial reporting at their existing cash balance and day. No retrospective data fabrication; prices are integer pence and private indicative valuations until campaign listing.
+| Data | Location and behaviour |
+| --- | --- |
+| Manual game | Browser localStorage; save schema V13, legacy V1–V12 migration via storage.ts |
+| Lifetime manual achievements and highest stage | Separate browser-local profiles |
+| Audio, accessibility and navigation preferences | Local preferences, separate from simulation state |
+| Active title/game session | Session storage |
+| Manual backup | Versioned JSON envelope containing game, highest stage and manual achievement profile; validated before import |
+| Autopilot | Separate version-1 local profile; completed attempts, cumulative results and mandate |
+| Book bookmark | Separate local reading-position key |
 
-## OS module (0.8.0)
+Browser storage is origin/profile-local and may be unavailable or cleared by the browser. Export manual backups when moving devices or hosts. Manual backup does not contain the separate Autopilot profile or preferences. No application account or cloud synchronisation is implemented.
 
-OSState stores the deterministic power and licence lifecycle, profiles, token and expense counters, diagnostics and audit history. The desktop is a React view; animation is presentation-only and never delays state changes or persistence. Boot consumes capacity and a licence fee; shutdown expires entitlement and resets active demand to zero. Daily settlement occurs before finance close, posting simulated inference expenses once. Offline days after first activation accumulate avoided token demand. The simulator itself does not shut down. Later agent orchestration must share the power gate and avoid double-counting infrastructure tokens. V8 initializes an offline, unlicensed OS for older saves.
+## 6. Executive Autopilot
 
-## Agent orchestration (0.9.0)
+Autopilot is available after reaching campaign stage two. The policy in [autopilotStrategy.ts](../src/engine/autopilotStrategy.ts) selects real commands for independent deterministic campaigns. [autopilot.ts](../src/engine/autopilot.ts) creates attempts, steps the same dispatcher and records certified, failed and bounded results. [autopilotRunner.ts](../src/engine/autopilotRunner.ts) batches execution; the inline worker is started by [useAutopilot.ts](../src/ui/useAutopilot.ts), with a cooperative local fallback.
 
-AgentState tracks configuration, monotonic run IDs, lifetime counters and the latest 60 reports. At day close, enabled workflows execute only with the OS online and a budget sufficient for all six roles. Adoption bounds the number of full runs; model choice defines token multiplier, cost and seeded risk. Each role consumes the preceding role's output; governance blocks release in strict mode but all six roles still execute and incur simulated costs. Agent inference is charged separately from baseline OS inference before finance closes. Shutdown immediately clears active agent demand; configuration persists for paid restart. V9 initializes a disabled orchestration system for older saves.
+Each completed attempt is recorded separately from manual state. Pause or close stops execution; unfinished attempts restart from their seed. Library reading can coexist with an active mandate; returning to manual management pauses it. Use one Autopilot tab. The cumulative million-attempt target is real computation, not a claim about performance. There is no network inference or background server.
 
-## Incident catalogue (0.10.0)
+## 7. Book and audio
 
-Existing event IDs are preserved; 108 authored additions live in incidentCatalogue.ts. Event selection is a pure seeded pool operation: filter department and system prerequisites, minimum day and previous choice plus elapsed time, then prefer eligible unseen continuations, other unseen events, and finally repeatable standalone events. Decisions append to a validated chronological archive, while legacy resolved IDs remain compatible. Delayed effects continue through the existing settlement queue. V10 adds an empty choice archive to older saves; no historical choice is inferred. The UI reveals immediate effects and pending dates but not future story outcomes.
+The Executive Library includes 22 explicitly allowlisted sections; the source-boundary script checks the approved text and excludes private links. The source manuscript is not wholesale served. The reader escapes markup, preserves the original cover thumbnail and supports local bookmarks and standalone HTML export. The private editorial preview is generated separately under playtest/ and is not published in dist.
 
-## Campaign module (0.11.0)
+The Web Audio implementation generates original sound cues and ambient harmonies locally. It requires user activation, supports independent music/effects volume and mute, and is independent of the deterministic engine. Reduced motion and keyboard navigation are part of the UI contract.
 
-CampaignState stores mode, difficulty, scenario, sequential stage history and entry day. Pure requirements evaluate live state; advance consumes one executive capacity and credits financing cash through record(). Department unlocks combine day and stage; capacity and overhead derive from stage. Difficulty affects starting capital, baseline overhead, regulatory pressure and strategic failure limit. Sandbox retains base capacity and ordinary failure endings while removing stage requirements. A local profile stores maximum campaign stage independently of save replacement to unlock scenario configurations. V11 migrates older saves to stage one without discarding existing departments or progress. Final certification is provisional until the boss module.
+## 8. Build and distribution
 
-## Competent employee confrontation (0.12.0)
+```mermaid
+flowchart LR
+  Source[Source and locked npm dependencies] --> Build[TypeScript and Vite build]
+  Build --> Dist[dist static application]
+  Dist --> Web[Cloudflare Pages or local preview]
+  Dist --> Portable[Self-contained portable HTML]
+  Dist --> PWA[Generated manifest and service worker]
+  Portable --> Artifact[Private CI playtest artifact]
+  PWA --> Web
+```
 
-BossState stores a sequential encounter at stage seven, with a stable employee ID and a linked steering meeting. Spawn hires an exceptionally competent engineer or designates an existing engineering employee if headcount is full. Board retention prevents ordinary redundancy and resignation until containment. Promotion/reassignment reuse employee commands; committee reuses meeting scheduling and actual attendance. Daily settlement after meetings consumes remaining time for two mandatory training days and three dedicated programme governance days; unused time creates usefulness pressure. Downstream department, employee and regular programme simulation receives the updated availability. The dedicated programme expenses enter the operating ledger. Containment is required for final certification. V12 migrates older saves without rewriting completed endings.
+The production builder generates the manifest, icons and content-versioned service worker in dist. Hosted navigation uses a canonical root and normalises redirected cached shell responses. A first successful online visit is needed for offline hosted use. The portable packager inlines assets and avoids service-worker registration under file URLs. Deploy dist, never the repository root or private editorial preview. See [deployment](DEPLOYMENT.md).
 
-## Achievements (0.13.0)
+## 9. Verification and extension
 
-The engine evaluates 74 pure predicates after successful commands and ending checks. AchievementState keeps monotonic unlock records, accepted executive-action counts and idle-day streaks. Rejected commands do not change counters. No award applies a metric or cash effect. V13 initializes empty recognition state for older saves; existing observable conditions can be recognised on later accepted commands. UI merges per-save awards into a separate local-storage lifetime profile, retaining the first earned day for each ID. Reduced-motion-aware notification and filterable collection are presentation concerns.
+CI uses Node 22, locked npm dependencies, a pinned Playwright Noble container and all required gates: companion source boundary, typecheck, unit/integration tests, production/portable build, desktop/mobile Chromium and targeted WebKit browser tests, both offline smoke checks and artifact upload. Browser emulation is not a substitute for actual-device or assistive-technology review.
 
-## Enterprise experience (0.14.0)
+For a rules change, extend types and the command handler/domain module, validate persistence and migration, add deterministic tests, then wire the appropriate UI. For a presentation-only change, avoid modifying engine state and add a browser regression when appropriate. Keep manual and automated profiles separate.
 
-Presentation-only helpers derive cash chart observations, organisational reporting groups and state-transition notifications. The notification centre never mutates game state. Audio uses a local Web Audio synthesizer with original note sequences, separate gain, gesture-based activation and cleanup on unmount. Preferences persist independently of V13 game saves. Audio defaults off; reduced motion respects both the player setting and system media query. The grouped navigation retains existing section IDs and mobile selection focuses its destination. No new dependencies or game-state mutations.
-
-## Release validation (0.15.0)
-
-The test campaign driver starts from newGame and calls dispatch only, without modifying simulated state. It records command history and validates serialized saves after every accepted day close. Deterministic replay uses the same command sequence. Save validation additionally reconciles current-period cash and rejects unknown ledger categories; older migrations preserve existing balances. Dependency lock recovery is a temporary CI step, to be removed after the exact generated lock is committed.
-
-## Onboarding and web app (0.16.0)
-
-Title state is presentation-only; active sessions resume on reload using session storage. New games do not overwrite an existing save without explicit replacement; imports validate a versioned backup envelope or migrated raw save, then merge lifetime achievements and unlocked scenarios. The six-step induction observes accepted commands; it does not alter rules or state. The production builder generates PNG icons, manifest and content-hashed precache worker from dist files. A worker serves only known same-origin assets and the app root, preserving an offline shell while avoiding external requests. Portable packaging strips manifest/icon references and never registers a worker under file://. Save schema stays V13.
-
-## Focused workspace navigation (0.17.0)
-
-The hash resolver maps legacy anchors (workspace, decisions, pending-decision, board-notification) to the executive office and routes other recognised IDs to their dedicated workspace. Exactly one workspace wrapper is visible; hidden panels preserve local selection state, ongoing presentation effects and achievement tracking. All simulation state and command dispatch remain shared; day settlement, cash, capacity, incidents and notices are global. Navigation and guidance are presentation-only. The rule-based recommendation observes existing eligibility and gate functions and never mutates the engine unless the player explicitly executes an action. No stage or save schema changes. The full navigation still exposes existing capabilities; progressively introducing them is separate work.
-
-## Progressive disclosure (0.17.1)
-
-Navigation uses a pure stage/day/previous-use projection from GameState. It changes recommended visibility, not command eligibility, and always retains the current deep-linked workspace. The existing stage-seven containment restriction is unchanged. Sandbox exposes all applicable workspaces. The locally remembered full-navigation option allows early access without altering engine state. First-visit briefings and newly introduced workspace notices live in React session state, reset on game replacement, and do not affect saves. All panels remain mounted to preserve the earlier workspace behavior.
-
-## Executive Library (0.17.2)
-
-Library state is separate from GameState. An explicit public manuscript allowlist contains 22 text sections, rendered with an escaped Markdown subset, and the existing cover thumbnail is inlined by Vite. A local section bookmark is independent of game saves. The reader is a separate view; game state and current route remain in App. The standalone HTML download uses the same escaped content and embeds the thumbnail. No external runtime dependency. Private source docs are not imported; the source verification script checks exact text except the two title-page edits. The private preview remains a separate CI artifact.
-
-## Audio activation (0.17.3)
-
-CorporateAudio exposes observable context/playback status and creates the context only from user interaction. Gesture-driven activation supports the WebKit constructor fallback and starts a silent unlock buffer in the same gesture. Context state changes restart music scheduling or stop it when interrupted. Pending cues are limited to one and cleared on mute. A direct master gain controls all locally synthesised notes; quick controls remain visible on title and workspace. Browser regression instrumentation attaches an analyser to the real master gain to observe RMS signal, avoiding mocked audio success. An additional targeted WebKit emulation test runs in CI. Native-device audibility remains a manual check.
+See the [release checklist](RELEASE_CHECKLIST.md) for current acceptance and [working agreement](../AGENTS.md) for change control.
