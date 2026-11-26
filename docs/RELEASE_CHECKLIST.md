@@ -32,3 +32,7 @@ Portable HTML build, offline Chromium smoke checks at desktop and mobile sizes, 
 ## Onboarding and distribution candidate
 
 Portable 0.15.0 release candidate passed CI run 45746747228 on main. 0.16.0 adds a title screen, guided gameplay, backup transfers, manifest, service worker and deployment preparation. Verify the exact new commit, portable build and offline production preview. Human testing of installation on actual devices, audio, accessibility and player experience remains open; no public host connected.
+
+## First user playtest and redesign
+
+User identified the single-page interface as overwhelming. 0.17.0 focuses the office and introduces individual workspace views, common day controls, context-aware suggested actions, mobile shortcuts and hidden unrelated panels. Verify all existing regression tests against actual navigation and portable/hosted offline builds. Human review of the revised interface is required. Private companion book import passed CI 45750765511, with all 24 source Git blobs matching. Publication review and in-game reading integration remain open. Progressive unlock introductions and real-device testing also remain open.
