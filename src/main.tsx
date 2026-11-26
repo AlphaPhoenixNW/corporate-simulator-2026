@@ -10,6 +10,7 @@ import { MeetingsPanel } from './ui/MeetingsPanel';
 import { CommunicationsPanel } from './ui/CommunicationsPanel';
 import { ProgrammesPanel } from './ui/ProgrammesPanel';
 import { FinancePanel } from './ui/FinancePanel';
+import { OSPanel } from './ui/OSPanel';
 import './styles.css';
 
 const labels: Record<Metric,string> = {
@@ -39,7 +40,7 @@ function App(){
   return <div className={'suite'+(reduced?' reduce-motion':'')}>
     <a className="skip" href="#workspace">Skip to workspace</a>
     <header className="topbar"><div className="brand"><span className="logo" aria-hidden="true">N.</span><div><strong>NOTHING™</strong><span>Executive management suite</span></div></div><div className="top-meta"><span className="stage">01 / Bedroom Startup</span><span className="save" role="status">{saved?'● Local save active':'Local save unavailable'}</span></div></header>
-    <aside className="rail"><div className="rail-caption">WORKSPACE</div><nav aria-label="Workspace"><a href="#workspace">Overview</a><a href="#decisions">Executive actions</a><a href="#metrics">Performance</a><a href="#departments">Departments</a><a href="#employees">People</a><a href="#meetings">Meetings</a><a href="#communications">Communications</a><a href="#programmes">Transformation</a><a href="#finance">Finance</a><a href="#ledger">Ledger</a><a href="#activity">Activity log</a></nav><div className="rail-bottom"><label><input type="checkbox" checked={reduced} onChange={e=>setReduced(e.target.checked)}/> Reduce motion</label><button className="link-button" onClick={()=>setReset(!reset)} aria-expanded={reset}>New simulation</button><small>BUILD 0.7.0 · FINANCE</small></div></aside>
+    <aside className="rail"><div className="rail-caption">WORKSPACE</div><nav aria-label="Workspace"><a href="#workspace">Overview</a><a href="#decisions">Executive actions</a><a href="#metrics">Performance</a><a href="#departments">Departments</a><a href="#employees">People</a><a href="#meetings">Meetings</a><a href="#communications">Communications</a><a href="#programmes">Transformation</a><a href="#finance">Finance</a><a href="#nothing-os">NOTHING™ OS</a><a href="#ledger">Ledger</a><a href="#activity">Activity log</a></nav><div className="rail-bottom"><label><input type="checkbox" checked={reduced} onChange={e=>setReduced(e.target.checked)}/> Reduce motion</label><button className="link-button" onClick={()=>setReset(!reset)} aria-expanded={reset}>New simulation</button><small>BUILD 0.8.0 · NOTHING OS</small></div></aside>
     <main id="workspace" tabIndex={-1}>
       <div className="intro"><div><p className="eyebrow">OFFICE OF THE CHIEF EXECUTIVE</p><h1>Executive overview</h1><p>Delivering tomorrow’s nothing, today.</p></div><div className="day"><span>WORKING DAY</span><strong data-testid="day">{state.day.toString().padStart(3,'0')}</strong></div></div>
       {reset&&<section className="panel reset" aria-label="New simulation"><h2>Start a new simulation</h2><p>This replaces the current local save.</p><label htmlFor="seed">World seed (0–4294967295)</label><input id="seed" value={seed} onChange={e=>setSeed(e.target.value)} inputMode="numeric"/><div className="controls"><button disabled={!validSeed} onClick={()=>{setState(newGame(Number(seed)));setReset(false);}}>Replace save</button><button className="secondary" onClick={()=>setReset(false)}>Cancel</button></div></section>}
@@ -56,6 +57,7 @@ function App(){
       <CommunicationsPanel state={state} send={send}/>
       <ProgrammesPanel state={state} send={send}/>
       <FinancePanel state={state} send={send}/>
+      <OSPanel state={state} send={send} reduced={reduced}/>
       <div className="workspace-grid"><section className="panel" id="ledger"><p className="eyebrow">FINANCIAL CONTROL</p><h2>Transaction ledger</h2>{state.ledger.length===0?<p className="hint">No transactions recorded.</p>:<div className="ledger-scroll"><table><thead><tr><th scope="col">Day</th><th scope="col">Transaction</th><th scope="col">Category</th><th scope="col">Amount</th></tr></thead><tbody>{[...state.ledger].reverse().slice(0,12).map((x,i)=><tr key={i}><td>{x.day}</td><td>{x.label}</td><td>{x.category??"Legacy"}</td><td className={x.amount<0?'negative':'positive'}>{x.amount>0?'+':''}{money(x.amount)}</td></tr>)}</tbody></table></div>}</section><section className="panel" id="activity"><p className="eyebrow">CORPORATE RECORD</p><h2>Activity log</h2><ol className="activity">{state.log.slice(0,10).map((x,i)=><li key={i}>{x}</li>)}</ol></section></div>
       <footer>NOTHING™ · Internal use only · Seed {state.seed} · All financial values are simulated.</footer>
     </main>

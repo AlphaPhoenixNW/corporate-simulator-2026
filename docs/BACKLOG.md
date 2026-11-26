@@ -9,7 +9,7 @@ Status: staged implementation, not a complete game. Checkboxes represent accepte
 - [x] P4 Meetings: all eight types, attendance, costs, follow-up scheduling, documentation.
 - [x] P5 Communications: all ten formats, social network, engagement, influencers and scandals.
 - [x] P6 Transformation programmes: all nine, scope creep, consultants, dependencies, milestones, governance, usefulness incidents.
-- [ ] P7 Finance expansion: subscription revenue, predictive savings, debt, acquisitions, share price, earnings, reports, bonuses and balance.
+- [x] P7 Finance expansion: subscription revenue, predictive savings, debt, acquisitions, share price, earnings, reports, bonuses and balance.
 - [ ] P8 NOTHING OS: boot, desktop, apps, settings, diagnostics, licences, compliance, shutdown and paid restart.
 - [ ] P9 Agent orchestration: all six roles, model choice, simulated tokens/costs, workflows, adoption and hallucinations.
 - [ ] P10 Event library: at least 150 distinct authored events with choices, consequences, delayed effects and persistent flags.
@@ -83,4 +83,10 @@ Implemented and committed:
 - Credit drawdown, repayments, interest and debt ceiling; three acquisition targets with recurring receipts, costs and usefulness incidents.
 - Centralized cash flow classification, reconciled operating results, financing and investing, daily investor sentiment and indicative share price, accelerated 20-day quarterly reports with shareholder communications.
 - Financial dashboard, market history chart, controls and reporting; six additional branching events (32 total). V7 migration starts reporting at existing cash/day.
-- Eleven new unit/integration cases and desktop/mobile E2E scenario. P7 pending CI and economic balancing. Share price is indicative until public listing, accounting is cash-basis not full GAAP/IFRS, and debt/fee assumptions are provisional. Lockfile outstanding.
+- Eleven new unit/integration cases and desktop/mobile E2E scenario. P7 passed CI in run 45741496382 and merged in PR #6 at f2a8c87; economic balancing remains a release task. Share price is indicative until public listing, accounting is cash-basis not full GAAP/IFRS, and debt/fee assumptions are provisional. Lockfile outstanding.
+
+## Increment 0.8.0 — 2026-11-26
+
+- Fictional OS with animated boot/shutdown, responsive desktop, ten applications/consoles, persistent licence lifecycle, three compute profiles, diagnostics and compliance review.
+- Initial £1,200 entitlement, £2,500 restart licence, simulated token demand and expense recorded through the corporate ledger; offline mode eliminates demand and records avoided tokens.
+- Four new branching events (36 total). V8 migration supports V1–V7. Eight unit/integration cases and desktop/mobile E2E scenario. P8 pending CI. Existing corporate apps are linked from live OS consoles rather than duplicated. Full multi-agent workflows belong to P9; token budgets and licence charges remain provisional. Lockfile outstanding.
