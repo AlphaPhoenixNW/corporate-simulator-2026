@@ -139,7 +139,7 @@ export function dispatch(state:GameState,command:Command):GameState {
     s.incidentHistory=[...s.incidentHistory,{eventId:e.id,choiceId:c.id,day:s.day}];
     s.pendingEvent=null;
     log(s,c.label);
-  } else {
+  } else if(command.type==='endDay'){
     if(s.pendingEvent) return state;
     const m=s.metrics;
     const [rng,roll]=random(s.rng); s.rng=rng;
@@ -195,7 +195,7 @@ export function dispatch(state:GameState,command:Command):GameState {
     if(s.day%3===2){
       s.pendingEvent=selectIncident(s,nextRandom())?.id??null;
     }
-  }
+  } else return state;
   checkEnding(s);
   s.achievements=updateAchievements(state,s,command);
   return s;

@@ -72,3 +72,7 @@ The engine evaluates 74 pure predicates after successful commands and ending che
 ## Enterprise experience (0.14.0)
 
 Presentation-only helpers derive cash chart observations, organisational reporting groups and state-transition notifications. The notification centre never mutates game state. Audio uses a local Web Audio synthesizer with original note sequences, separate gain, gesture-based activation and cleanup on unmount. Preferences persist independently of V13 game saves. Audio defaults off; reduced motion respects both the player setting and system media query. The grouped navigation retains existing section IDs and mobile selection focuses its destination. No new dependencies or game-state mutations.
+
+## Release validation (0.15.0)
+
+The test campaign driver starts from newGame and calls dispatch only, without modifying simulated state. It records command history and validates serialized saves after every accepted day close. Deterministic replay uses the same command sequence. Save validation additionally reconciles current-period cash and rejects unknown ledger categories; older migrations preserve existing balances. Dependency lock recovery is a temporary CI step, to be removed after the exact generated lock is committed.

@@ -16,7 +16,7 @@ Status: staged implementation, not a complete game. Checkboxes represent accepte
 - [x] P11 Seven campaign stages, unlocks, difficulty, endings, sandbox.
 - [x] P12 Competent employee boss: multi-stage legitimate corporate interventions.
 - [x] P13 At least 60 functional achievements and animations.
-- [ ] P14 Visual/audio polish, charts, accessibility, reduced motion, keyboard, mobile.
+- [x] P14 Visual/audio polish, charts, accessibility, reduced motion, keyboard, mobile.
 - [ ] P15 Balance, regression, E2E, documentation, release readiness.
 
 ## Working practice
@@ -128,4 +128,10 @@ Implemented and committed:
 
 - Refined navy/gold/cream design system, executive intelligence charts, real cash history, live interactive organisation diagram, grouped desktop navigation and compact mobile jump selector.
 - Global notification centre, contextual original synthesized sound cues, optional looping hold music, persistent audio/volume/reduced-motion preferences; silent by default. Keyboard focus, responsive layouts, accessible chart data and announcement regions.
-- Seven unit/integration cases and desktop/mobile E2E scenario. P14 pending CI. No save schema change or external audio assets. Browser audio is gesture-gated and requires manual listening verification; full visual/accessibility audit and campaign balance remain P15 release work. Lockfile outstanding.
+- Seven unit/integration cases and desktop/mobile E2E scenario. P14 passed CI in run 45744998609 and merged in PR #13 at aa8a180. Manual visual/audio/accessibility review remains in P15. No save schema change or external audio assets. Browser audio is gesture-gated and requires manual listening verification; full visual/accessibility audit and campaign balance remain P15 release work. Lockfile outstanding.
+
+## Increment 0.15.0 — 2026-11-26
+
+- Release playthrough driver uses only public game commands, validates saved state every working day, and emits campaign outcomes for standard and relaxed seeds; full victory is required by the tests.
+- Added deterministic replay and save cash reconciliation guard; unknown runtime command types no longer advance time.
+- CI captures a generated dependency lock for retrieval and conversion to npm ci. The release gate is not complete until the lock is committed and checked. P1 and P15 remain open pending evidence. See RELEASE_CHECKLIST.md.

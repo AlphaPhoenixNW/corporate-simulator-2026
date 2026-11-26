@@ -3,7 +3,7 @@
 
 You are CEO of NOTHING™, a corporation devoted to appearing productive while avoiding measurable value. Delivering tomorrow's nothing, today.
 
-**Status:** 0.14.0 enterprise experience development build; the full game is not yet complete.
+**Status:** 0.15.0 release candidate development build; the full game is not yet complete.
 
 ## Run locally
 
@@ -84,3 +84,7 @@ Final-stage campaigns encounter a persistent exceptionally competent engineer (s
 ### Enterprise experience
 
 The executive intelligence dashboard compares perceived and actual productivity, shows real recent cash observations and governance risks, and provides an interactive organisational chart with live staff allocations. The grouped desktop workspace navigation and compact mobile jump menu access every system. The global notification centre announces stage advancement, incidents, achievements and the final confrontation or ending. Audio is silent by default: opt in through Audio settings for original synthesized contextual cues and optional looping corporate hold music. Volume and reduced-motion preferences persist separately from the game. The OS and achievement animations respect reduced motion. No additional dependencies or external media are required. Save schema remains V13.
+
+### Release verification
+
+The release branch includes full legal-command campaign playthroughs, deterministic command replay, daily save validation and financial reconciliation. These are acceptance gates rather than a claim of success before CI. See docs/RELEASE_CHECKLIST.md for the remaining manual and automated checks.
