@@ -1,5 +1,7 @@
 # PROJECT: CORPORATE SIMULATOR 2026™
 
+> Original product requirements, retained as the scope baseline. For current implementation, accepted owner decisions and outstanding gates see [status](STATUS.md), [architecture](ARCHITECTURE.md) and [governance](GOVERNANCE.md). The original development-phase language is not a direction to restart completed work or bypass publication approval.
+
 ## Executive mandate
 
 Design, develop, implement, test and document a complete, polished, playable corporate management simulation game titled Corporate Simulator 2026™: The Pursuit of Strategic Nothingness.

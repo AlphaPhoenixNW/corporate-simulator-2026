@@ -1,60 +1,43 @@
-# Corporate Simulator 2026™ | private playtest
+# Corporate Simulator 2026™ | Player and playtest guide
 
 ## Start playing
 
-Download the corporate-simulator-playtest artifact from a successful GitHub Actions run while signed in to the repository. Extract the ZIP and open Corporate Simulator 2026.html in a desktop browser (Chrome or Edge recommended). The file contains the complete game; no Node.js installation, server, network or paid inference is required. Mobile local-file handling varies; a hosted deployment is not included in this private playtest. Browser storage is tied to its origin/file location and may be unavailable in some browsers. Keep the same extracted file path and browser profile to retain saves; test reload before a long session.
+Use the configured hosted game, run locally with Node 22.12+ and npm (npm ci, npm run dev), or open the prebuilt portable HTML from an authorised successful Actions artifact. The portable file contains the game and works offline without a server or paid inference. Mobile local-file handling varies; hosted play is generally easier on phones. See [deployment](DEPLOYMENT.md).
 
-At the title screen choose Play now for the default game, Play guided game for optional induction, or Continue simulation for an existing save. Backups and installation exposes JSON save transfers. The web-app build in dist is intended for a future hosted beta; open the portable HTML for the downloadable edition.
+At the title choose Play now, Play guided game or Continue simulation. Backups and installation exposes manual save transfers. Keep the same browser profile and origin/file location to retain saves. Export a backup before replacing your game or clearing storage.
 
 ## Your mandate
 
-You are CEO of NOTHING™. Increase perceived productivity, confidence, prestige and compensation while preventing actual productivity from crossing the difficulty limit. Insolvency or a board confidence collapse also ends the campaign.
+You are CEO of NOTHING™. Increase perceived productivity, confidence, prestige and compensation while keeping actual productivity below the difficulty limit, cash positive and confidence above zero.
 
-Start with Corporate standard difficulty, seed 2026. You have two executive actions per working day initially. Issue strategic announcements and alignment workshops, acquire subscribers, monitor expenses and morale, and resolve pending incidents before concluding the day. Use campaign progression to see requirements for the next stage. Departments unlock with stage and day; transformation programmes require actual milestone committee attendance. OS and AI are simulated, not connected to external services. At the final stage, contain the competent employee before final certification.
+Start with Corporate standard, seed 2026. You have two executive actions initially. Use strategic announcements, alignment workshops and the Executive Brief's suggested action. Acquire subscribers, monitor expenses and morale, resolve pending incidents, then conclude the working day. Campaign progression explains requirements for each stage. Contain the competent employee before final certification. Sandbox removes campaign gates and victory but retains failure conditions.
+
+## Workspaces and discovery
+
+The executive office explains your current mandate and next-stage requirements. On mobile, use the quick navigation or All workspaces selector; on desktop use the sidebar. Workspaces are progressively introduced, with first-visit explanations. Show all workspaces exposes available advanced controls early; sandbox starts with full applicable navigation. Settings and saves holds preferences, backups and title/reset controls.
+
+Department, personnel, calendar, publishing, transformation, finance, OS and agent screens operate on the same manual simulation. OS and AI tokens and costs are fictional. Transformation milestones require actual held committee attendance.
+
+## Library, career and sound
+
+Executive Library is available from the title or rail. Navigate the 22 sections, adjust reading size, retain a local bookmark or export offline HTML. Reading does not advance the manual game. The original cover thumbnail is used.
+
+Executive CV appears from day two or through Show all workspaces. It derives fictional appointments, qualifications and recorded activity from your save. Download HTML or use the browser print dialogue to save a PDF where supported.
+
+Audio is opt-in. Enable sound & music, use Test sound to check the output, and adjust music and reward effects independently. If audio awaits a gesture after reload, use Start audio. Overall mute preserves channel preferences. The original ambience has a slow 128-second harmonic cycle. Accepted commands produce non-modal receipts; expand Show all to inspect actual changes.
+
+## Executive Autopilot
+
+Reach campaign stage two, then open Autopilot from the title or rail. Try one attempt before batches. Results and six autonomous awards are separate from manual play. The million mandate is a cumulative real-computation target. Completed attempts persist; unfinished attempts restart after pause or close. Reading the book allows active automation to continue; returning to manual management pauses it. Use one tab and consider device battery/time for long runs. No server runs in the background. The manual backup does not include this independent profile.
 
 ## Manual acceptance session
 
-- Play the opening five to ten days without a prescribed command sequence. Assess whether the goal, actions, costs, consequences and next-stage requirements are clear.
-- Check desktop layout and a real mobile browser or device; verify text, navigation, scrolling, buttons and charts.
-- Use Tab, Shift+Tab, Enter and Space. Verify visible focus, skip navigation, form labels and the reduced-motion toggle; inspect with a screen reader if available.
-- Opt in to sound, then hold music. Check volume, mute, event sounds and whether the soundtrack is appropriately unobtrusive.
-- Reload after a turn; verify the same company, cash and awards remain. Try a new simulation only after confirming the reset prompt.
-- Record seed, difficulty, working day, action, expected and actual behaviour, and screenshots for any issue.
+- Play the opening five to ten days without a script; assess objective, costs, consequences and next action.
+- Inspect actual desktop/mobile layout, navigation, keyboard focus, screen-reader labels, reduced motion and contrast.
+- Verify audio channels, cue volume and reload activation on your actual device.
+- Save, reload, export and import a backup; confirm reset/replacement prompts.
+- Verify hosted return navigation, referral queries and offline reload after initial caching.
+- Run and pause Autopilot, read the library, resume and check manual cash/day/awards remain unchanged.
+- Report version, browser/device, seed, difficulty, working day, action, expected/actual outcome and sanitised screenshots or saves.
 
-Screenshots included with the artifact are captured by automated Chromium desktop and mobile emulation; they do not substitute for a human visual or accessibility review. Audio is opt-in. This is a release candidate, not a final release.
-
-## Workspace beta (0.17.0)
-
-Start in the executive office. Read your mandate, inspect the next stage's remaining requirements and execute the suggested action if you agree with it. Choose any of the seven executive actions instead. Conclude the working day using the persistent day control; a pending incident blocks settlement until resolved. On a phone use Office, Company, Finance or Campaign shortcuts, or the All workspaces selector. On desktop use the sidebar. Settings and saves contains accessibility/audio preferences, the title screen, backups and reset. Review whether the first working day is understandable without scrolling through unrelated systems. Advanced workspaces remain available; progressive introduction is next. Private companion book included separately in the authenticated artifact only.
-
-## Progressive beta (0.17.1)
-
-New campaign starts with only four recommended workspaces. Additional screens are introduced as your company grows. A first-visit briefing explains what to do in each workspace and what risks to consider. Dismiss it with Got it. Use Show all workspaces whenever you want to access advanced systems early. Sandbox starts with full applicable navigation. Check that introductions are clear and not intrusive, that the current workspace remains accessible, and that the saved navigation preference survives reload.
-
-## Companion library (0.17.2 candidate)
-
-Choose Executive Library from the title screen or game rail. Read any section using the selector or contents, navigate previous/next, increase text size, or download the full book as an offline HTML file. Reading consumes no executive capacity. Return to the same game workspace without advancing time. Section bookmarks persist across reload; panel-local selections may reset when returning. The cover is the original thumbnail, not full resolution. Verify the source note and historical story before public publication.
-
-## Audio hotfix (0.17.3)
-
-Use Enable sound & music on the title or in-game workspace rail. Hold music active means the browser audio context is running and music scheduling has started; it is not proof of physical speaker output. Test sound plays a short fanfare. If audio awaits a tap after reload, use Start audio. Mute audio stops the music and effects. Existing settings still control music and volume. Verify on your actual handset and check system media volume/audio output if the app reports active music but no sound. The soundtrack is still the original short synthesised motif with a louder layered mix; full reward experience and richer music are planned next.
-
-## Ambient audio (0.17.4 candidate)
-
-The short repeating tune is replaced by slow, overlapping synthesised harmonies (128-second harmonic cycle). Play for several minutes and assess comfort; adjust existing master volume or switch off hold music while retaining reward cues. Test sound, reload and mute remain available. No downloaded audio assets or extra setup.
-
-## Reward experience (0.18.0 candidate)
-
-Open Audio settings on title or in game. Corporate hold music and Reward and action sounds can be independently disabled and adjusted; Sound enabled mutes both. Test sound respects effects settings. After an accepted command, a brief non-modal receipt shows its actual outcome and up to four changes; Show all expands the remaining indicators and pauses dismissal. Check action, bonus and day-close feedback, music-only mode, effects-only mode, mute and legacy save/preferences. No game mechanics changed.
-
-## Executive career portfolio (0.19.0 candidate)
-
-Find Executive CV under Records and analysis or Show all workspaces. Review your fictional career, take a bed-led action or bonus, and return to see the actual recorded changes. Download the CV as self-contained HTML; Print / Save as PDF uses your browser print dialogue where available. The portfolio is separate from achievements and does not change your save. New simulations begin a fresh CV; legacy records are not invented.
-
-## Hosted return navigation (0.19.1 candidate)
-
-If a previous deployment fails on return with ERR_FAILED, try the same host with `/recover` (no trailing slash) while online. This bypasses the old worker's root-navigation handler and uses the same browser-local game storage. After the updated build loads, return to the normal root URL. Close and reopen the game, including a referral query, and verify the saved game remains available. Do not clear site storage as a first troubleshooting step.
-
-## Executive Autopilot (0.20.0 candidate)
-
-Reach campaign stage two, open Executive Autopilot from the rail or title, and run a single accelerated campaign. Confirm actual results, dedicated awards and zero external tokens. Start a batch, read the companion book, return to the laboratory and confirm progress; pause, reload and resume. Returning to manual management pauses the mandate. Manual cash/day/awards must remain unchanged. The million mandate is cumulative and genuinely computed, so use small batches for testing; large runs may consume significant device time and battery. One tab recommended; closing the tab stops execution. Completed attempts survive reload; unfinished attempts restart. Inspect the separate autonomous leadership section of your CV after one attempt.
+Automated screenshots and browser emulation supplement, not replace, manual review. See [status](STATUS.md) for current evidence and [release checklist](RELEASE_CHECKLIST.md) for remaining acceptance.
