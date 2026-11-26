@@ -11,7 +11,7 @@ jobs:
     # Keep this image in sync with @playwright/test in package.json.
     # Preinstalled browsers and OS dependencies avoid repeated apt/CDN setup.
     container:
-      image: mcr.microsoft.com/playwright:v1.55.0-noble
+      image: mcr.microsoft.com/playwright:v1.65.1-noble
       options: --ipc=host
     timeout-minutes: 30
     steps:

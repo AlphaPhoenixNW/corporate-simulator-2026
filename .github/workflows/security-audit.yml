@@ -28,7 +28,7 @@ jobs:
           AUDIT_SCOPE: ${{ matrix.scope }}
         run: |
           if [ "$AUDIT_SCOPE" = "production" ]; then
-            npm audit --omit=dev --audit-level=high
+            npm audit --omit=dev --audit-level=low
           else
-            npm audit --audit-level=high
+            npm audit --audit-level=low
           fi
