@@ -10,7 +10,7 @@ Status: staged implementation, not a complete game. Checkboxes represent accepte
 - [x] P5 Communications: all ten formats, social network, engagement, influencers and scandals.
 - [x] P6 Transformation programmes: all nine, scope creep, consultants, dependencies, milestones, governance, usefulness incidents.
 - [x] P7 Finance expansion: subscription revenue, predictive savings, debt, acquisitions, share price, earnings, reports, bonuses and balance.
-- [ ] P8 NOTHING OS: boot, desktop, apps, settings, diagnostics, licences, compliance, shutdown and paid restart.
+- [x] P8 NOTHING OS: boot, desktop, apps, settings, diagnostics, licences, compliance, shutdown and paid restart.
 - [ ] P9 Agent orchestration: all six roles, model choice, simulated tokens/costs, workflows, adoption and hallucinations.
 - [ ] P10 Event library: at least 150 distinct authored events with choices, consequences, delayed effects and persistent flags.
 - [ ] P11 Seven campaign stages, unlocks, difficulty, endings, sandbox.
@@ -89,4 +89,11 @@ Implemented and committed:
 
 - Fictional OS with animated boot/shutdown, responsive desktop, ten applications/consoles, persistent licence lifecycle, three compute profiles, diagnostics and compliance review.
 - Initial £1,200 entitlement, £2,500 restart licence, simulated token demand and expense recorded through the corporate ledger; offline mode eliminates demand and records avoided tokens.
-- Four new branching events (36 total). V8 migration supports V1–V7. Eight unit/integration cases and desktop/mobile E2E scenario. P8 pending CI. Existing corporate apps are linked from live OS consoles rather than duplicated. Full multi-agent workflows belong to P9; token budgets and licence charges remain provisional. Lockfile outstanding.
+- Four new branching events (36 total). V8 migration supports V1–V7. Eight unit/integration cases and desktop/mobile E2E scenario. P8 passed CI in run 45742030933 and merged in PR #7 at c9b9ece. Existing corporate apps are linked from live OS consoles rather than duplicated. Full multi-agent workflows belong to P9; token budgets and licence charges remain provisional. Lockfile outstanding.
+
+## Increment 0.9.0 — 2026-11-26
+
+- Six agent roles, chained outputs, three simulated models, objectives, token budgets, executive adoption and strict/permissive governance.
+- Persistent workflow traces, hallucination and usefulness outcomes, operational reports, token and cost counters, corporate ledger and OS power integration.
+- Agent control centre with execution diagram, OS console, six new branching events (42 total), V9 save migration.
+- Ten unit/integration cases and desktop/mobile E2E scenario. P9 pending CI. Models and reports are local authored simulations; budget applies to full agent workflows, separate from baseline OS overhead. OS avoided-token counter measures baseline only. Model pricing and risk are provisional. Lockfile outstanding.

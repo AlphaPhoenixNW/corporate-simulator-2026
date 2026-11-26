@@ -2,13 +2,14 @@ import {useEffect,useState} from 'react';
 import type {GameState,Command,OSCommand,OSProfile} from '../engine/types';
 import {OS_PROFILES,bootFee,projectedTokens,inferenceFee,osEligibility,DIAGNOSTIC_FEE,COMPLIANCE_FEE} from '../engine/os';
 
+import {plannedRuns,workflowTokens} from '../engine/agents';
 const money=(n:number)=>new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP',maximumFractionDigits:0}).format(n);
 const num=(n:number)=>n.toLocaleString('en-GB');
 const apps=[
   ['overview','System monitor','SYS'],['finance','Financial console','FIN'],['people','People directory','HR'],
   ['calendar','Calendar console','CAL'],['communications','Align™ terminal','COM'],['portfolio','Transformation console','PMO'],
   ['settings','Enterprise settings','CFG'],['diagnostics','Diagnostics','DIA'],['licence','Licence centre','LIC'],
-  ['compliance','Compliance dashboard','GRC']
+  ['compliance','Compliance dashboard','GRC'],['agents','Agentic AI console','AI']
 ] as const;
 type App=typeof apps[number][0];
 const bootSteps=['Verifying enterprise entitlement','Initialising strategic inactivity kernel','Allocating idle processes','Validating absence of deliverables','Enterprise desktop authorised'];
@@ -54,6 +55,7 @@ export function OSPanel({state,send,reduced}:{state:GameState;send:(c:Command)=>
             {app==='calendar'&&<><h3>Calendar console</h3><dl><dt>Scheduled meetings</dt><dd>{state.meetings.filter(m=>m.status==='scheduled').length}</dd><dt>Held meetings</dt><dd>{state.meetings.filter(m=>m.status==='held').length}</dd><dt>Person-hours consumed</dt><dd>{(state.meetings.reduce((n,m)=>n+m.personMinutes,0)/60).toFixed(1)}</dd></dl><a href="#meetings">Open meeting governance</a></>}
             {app==='communications'&&<><h3>Align™ terminal</h3><dl><dt>Communications</dt><dd>{state.communications.length}</dd><dt>Viral posts</dt><dd>{state.communications.filter(c=>c.viral).length}</dd><dt>Open scandals</dt><dd>{state.communications.filter(c=>c.scandal==='open').length}</dd></dl><a href="#communications">Open communications desk</a></>}
             {app==='portfolio'&&<><h3>Transformation console</h3><dl><dt>Commissioned programmes</dt><dd>{state.programmes.length}/9</dd><dt>Consultancy spend</dt><dd>{money(state.programmes.reduce((n,p)=>n+p.consultancy,0))}</dd><dt>Certified programmes</dt><dd>{state.programmes.filter(p=>p.status==='complete').length}</dd></dl><a href="#programmes">Open transformation portfolio</a></>}
+            {app==='agents'&&<><h3>Agentic orchestration console</h3><dl><dt>Workflow status</dt><dd>{state.agents.enabled?'Enabled':'Disabled'}</dd><dt>Projected agent tokens/day</dt><dd>{num(plannedRuns(state)*workflowTokens(state.agents.model))}</dd><dt>Lifetime agent tokens</dt><dd>{num(state.agents.totalTokens)}</dd><dt>Lifetime agent expense</dt><dd>{money(state.agents.totalCost)}</dd></dl><a href="#agents">Open agentic AI control centre</a></>}
             {app==='settings'&&<><h3>Enterprise settings</h3><p>Changing the compute profile uses executive capacity. No real inference is performed.</p><div className="os-profiles">{(Object.keys(OS_PROFILES) as OSProfile[]).map(profile=><div key={profile}><strong>{OS_PROFILES[profile].name}</strong><p>{num(OS_PROFILES[profile].tokens)} tokens/day · {money(inferenceFee(OS_PROFILES[profile].tokens))}/day</p>{action({type:'os',operation:'profile',profile},o.profile===profile?'Selected':'Apply '+OS_PROFILES[profile].name)}</div>)}</div></>}
             {app==='diagnostics'&&<><h3>System diagnostics</h3>{action({type:'os',operation:'diagnose'},'Run diagnostics · '+money(DIAGNOSTIC_FEE))}{diagnostic?<div className="os-report"><strong>Diagnostic record · day {diagnostic.day}</strong><ul>{diagnostic.findings.map(x=><li key={x}>{x}</li>)}</ul></div>:<p>No diagnostic report available.</p>}</>}
             {app==='licence'&&<><h3>Enterprise licence centre</h3><dl><dt>Entitlement status</dt><dd>{o.licence}</dd><dt>Activated sessions</dt><dd>{o.boots}</dd><dt>Total licence charges</dt><dd>{money(o.licenceSpend)}</dd><dt>Next restart entitlement</dt><dd>£2,500</dd></dl><p>Current entitlement expires immediately upon shutdown. No perpetual licence is available.</p></>}
@@ -64,6 +66,6 @@ export function OSPanel({state,send,reduced}:{state:GameState;send:(c:Command)=>
       {online&&!transition&&<footer className="os-taskbar"><span>Day {state.day} · {num(tokens)} projected tokens/day</span>{!confirm?<button disabled={!!osEligibility(state,{type:'os',operation:'shutdown'})} onClick={()=>setConfirm(true)}>Strategic shutdown</button>:<div className="os-shutdown-confirm"><p>Terminate all processes and expire this licence?</p><button disabled={!!osEligibility(state,{type:'os',operation:'shutdown'})} onClick={()=>perform({type:'os',operation:'shutdown'})}>Confirm shutdown</button><button className="secondary" onClick={()=>setConfirm(false)}>Keep operating</button></div>}</footer>}
     </div>
     <details className="os-history"><summary>Operating system audit history ({o.history.length})</summary>{o.history.slice().reverse().map((h,i)=><p key={i}>{h}</p>)}</details>
-    <p className="hint">All tokens, licence charges and inference expenses are fictional in-game values. Operating costs settle at day close; shutdown immediately sets projected demand to zero. Full multi-agent orchestration will be added in the next increment.</p>
+    <p className="hint">All tokens, licence charges and inference expenses are fictional in-game values. Operating costs settle at day close; shutdown immediately sets projected demand to zero. Agent workflow tokens are tracked separately from baseline OS infrastructure; shutting down suspends both.</p>
   </section>;
 }
