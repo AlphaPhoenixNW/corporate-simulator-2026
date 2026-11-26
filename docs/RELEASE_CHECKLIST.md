@@ -36,3 +36,5 @@ Portable 0.15.0 release candidate passed CI run 45746747228 on main. 0.16.0 adds
 ## First user playtest and redesign
 
 User identified the single-page interface as overwhelming. 0.17.0 focuses the office and introduces individual workspace views, common day controls, context-aware suggested actions, mobile shortcuts and hidden unrelated panels. Verify all existing regression tests against actual navigation and portable/hosted offline builds. Human review of the revised interface is required. Private companion book import passed CI 45750765511, with all 24 source Git blobs matching. Publication review and in-game reading integration remain open. Progressive unlock introductions and real-device testing also remain open.
+
+0.17.0 passed CI 45751688589 and merged at 736e647. Progressive discovery candidate 0.17.1 adds no gameplay restrictions; verify exact commit, navigation, briefing dismissal, unlock notices, persistent navigation preference and existing offline/regression checks. Human usability and publication review still open.

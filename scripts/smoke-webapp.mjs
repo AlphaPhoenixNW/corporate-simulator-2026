@@ -4,9 +4,12 @@ import assert from 'node:assert/strict';
 const url='http://127.0.0.1:4174/';
 const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','preview','--host','127.0.0.1','--port','4174','--strictPort'],{stdio:'inherit'});
 async function navigate(page,id){
- const select=page.locator('#workspace-jump');
- if(await select.isVisible())await select.selectOption(id);
- else await page.locator('a[data-route="'+id+'"]').click();
+ const mobile=page.locator('#workspace-jump');
+ const desktop=page.locator('a[data-route="'+id+'"]');
+ const visible=await mobile.isVisible()?await mobile.locator('option[value="'+id+'"]').count()>0:await desktop.count()>0;
+ if(!visible)await page.getByRole('button',{name:/^Show all workspaces/}).click();
+ if(await mobile.isVisible())await mobile.selectOption(id);
+ else await desktop.click();
 }
 let browser;
 try{

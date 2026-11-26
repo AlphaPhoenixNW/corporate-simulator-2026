@@ -84,3 +84,7 @@ Title state is presentation-only; active sessions resume on reload using session
 ## Focused workspace navigation (0.17.0)
 
 The hash resolver maps legacy anchors (workspace, decisions, pending-decision, board-notification) to the executive office and routes other recognised IDs to their dedicated workspace. Exactly one workspace wrapper is visible; hidden panels preserve local selection state, ongoing presentation effects and achievement tracking. All simulation state and command dispatch remain shared; day settlement, cash, capacity, incidents and notices are global. Navigation and guidance are presentation-only. The rule-based recommendation observes existing eligibility and gate functions and never mutates the engine unless the player explicitly executes an action. No stage or save schema changes. The full navigation still exposes existing capabilities; progressively introducing them is separate work.
+
+## Progressive disclosure (0.17.1)
+
+Navigation uses a pure stage/day/previous-use projection from GameState. It changes recommended visibility, not command eligibility, and always retains the current deep-linked workspace. The existing stage-seven containment restriction is unchanged. Sandbox exposes all applicable workspaces. The locally remembered full-navigation option allows early access without altering engine state. First-visit briefings and newly introduced workspace notices live in React session state, reset on game replacement, and do not affect saves. All panels remain mounted to preserve the earlier workspace behavior.

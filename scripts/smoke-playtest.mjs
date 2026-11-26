@@ -6,9 +6,12 @@ import assert from 'node:assert/strict';
 const url=pathToFileURL(resolve('playtest','Corporate Simulator 2026.html')).href;
 await mkdir('playtest/screenshots',{recursive:true});
 async function navigate(page,id){
- const select=page.locator('#workspace-jump');
- if(await select.isVisible())await select.selectOption(id);
- else await page.locator('a[data-route="'+id+'"]').click();
+ const mobile=page.locator('#workspace-jump');
+ const desktop=page.locator('a[data-route="'+id+'"]');
+ const visible=await mobile.isVisible()?await mobile.locator('option[value="'+id+'"]').count()>0:await desktop.count()>0;
+ if(!visible)await page.getByRole('button',{name:/^Show all workspaces/}).click();
+ if(await mobile.isVisible())await mobile.selectOption(id);
+ else await desktop.click();
 }
 const browser=await chromium.launch();
 try{

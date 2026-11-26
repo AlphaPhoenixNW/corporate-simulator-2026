@@ -26,3 +26,7 @@ Screenshots included with the artifact are captured by automated Chromium deskto
 ## Workspace beta (0.17.0)
 
 Start in the executive office. Read your mandate, inspect the next stage's remaining requirements and execute the suggested action if you agree with it. Choose any of the seven executive actions instead. Conclude the working day using the persistent day control; a pending incident blocks settlement until resolved. On a phone use Office, Company, Finance or Campaign shortcuts, or the All workspaces selector. On desktop use the sidebar. Settings and saves contains accessibility/audio preferences, the title screen, backups and reset. Review whether the first working day is understandable without scrolling through unrelated systems. Advanced workspaces remain available; progressive introduction is next. Private companion book included separately in the authenticated artifact only.
+
+## Progressive beta (0.17.1)
+
+New campaign starts with only four recommended workspaces. Additional screens are introduced as your company grows. A first-visit briefing explains what to do in each workspace and what risks to consider. Dismiss it with Got it. Use Show all workspaces whenever you want to access advanced systems early. Sandbox starts with full applicable navigation. Check that introductions are clear and not intrusive, that the current workspace remains accessible, and that the saved navigation preference survives reload.
