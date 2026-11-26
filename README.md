@@ -12,9 +12,13 @@ Welcome to NOTHING™, an entirely fictional corporation dedicated to maximising
 
 You are the CEO. Establish departments, recruit employees, convene meetings, commission transformations, manage an increasingly elaborate economy and prevent an exceptionally competent employee from ruining everything.
 
-**Current version:** see [package.json](package.json). For the recorded release baseline, acceptance and publication decisions, see [current project status](docs/STATUS.md).
+**Official release:** [v1.0.0 Executive Edition](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/releases/tag/v1.0.0), published 26 November 2026 (Global Non-Delivery Day™). Current development version: see [package.json](package.json). For the recorded release baseline, acceptance and publication decisions, see [current project status](docs/STATUS.md).
 
 ## Begin your executive appointment
+
+**[Play online](https://corporate-simulator-2026.pages.dev) · [Download the standalone offline HTML](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/releases/download/v1.0.0/Corporate-Simulator-2026-v1.0.0.html) · [Official release](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/releases/tag/v1.0.0)**
+
+No installation is needed for the hosted or downloaded edition. For development from source:
 
 Requires Node.js 22.12+ and npm.
 
@@ -78,7 +82,7 @@ The game includes **The Art of Doing Nothing™**, the Founder's satirical manag
 | [Current status](docs/STATUS.md) | Recorded release baseline and verification evidence |
 | [Governance](docs/GOVERNANCE.md) | Actual project authority and engineering rules |
 | [Backlog](docs/BACKLOG.md) | Implementation and verification evidence |
-| [Release checklist](docs/RELEASE_CHECKLIST.md) | Outstanding acceptance gates |
+| [Release checklist](docs/RELEASE_CHECKLIST.md) | Completed launch gates and post-launch objectives |
 
 ## Quality assurance
 

@@ -48,3 +48,8 @@ User identified the single-page interface as overwhelming. 0.17.0 focuses the of
 0.17.2 main CI 45753976511 passed. Human feedback identified silent audio despite toggles and insufficient action feedback. 0.17.3 audio hotfix adds gesture start/resume, playback state, test cue, louder mix and real signal checks on Chromium and targeted WebKit. Verify actual handset audibility before release. v0.18.0 reward feedback, richer soundtrack and independent music/effect volume remain planned.
 
 0.18.0 candidate: owner accepted v0.17.4 ambience; retain original score. Validate independent sound categories, decision receipt truthfulness, desktop/mobile usability and offline builds. Public-source release remains subject to owner approval, license choice and review of all tracked files and history.
+
+
+## Initial public release | 26 November 2026
+
+The [v1.0.0 Executive Edition](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/releases/tag/v1.0.0) was published at 09:48:40 UTC from 9118f9d. See [current status](STATUS.md) for exact verification, [release checklist](RELEASE_CHECKLIST.md) for completed gates and accepted post-launch objectives, and [publication review](PUBLICATION_REVIEW.md) for authority and privacy scope.

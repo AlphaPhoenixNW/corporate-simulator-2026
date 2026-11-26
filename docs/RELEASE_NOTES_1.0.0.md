@@ -2,13 +2,13 @@
 
 ## Corporate Simulator 2026™: Executive Edition
 
-**Proposed v1.0.0 launch communiqué · Office of the Founder**  
+**v1.0.0 launch communiqué · Office of the Founder · 26 November 2026**  
 **Delivering tomorrow's nothing, today.**
 
 *Ducimus ut nihil agamus.*  
 We lead so that we may do nothing.
 
-> Following an unprecedented programme of cross-functional alignment, enterprise-wide duvet optimisation and outcome-neutral capability maturation, NOTHING™ is preparing to announce the operational availability of its flagship executive transformation platform.
+> Following an unprecedented programme of cross-functional alignment, enterprise-wide duvet optimisation and outcome-neutral capability maturation, NOTHING™ proudly announces the operational availability of its flagship executive transformation platform.
 
 For generations, organisations have struggled with the unintended consequences of productivity. We have listened to stakeholders, commissioned ourselves to examine the problem and arrived at a bold conclusion: the future of work need not involve work.
 
@@ -49,7 +49,7 @@ The final confrontation with an unusually competent employee will test the limit
 
 ### Your onboarding pathway
 
-When the official release is authorised, open the approved hosted address or the verified standalone HTML artifact attached to the release. No account, external inference service or paid API is required. For local development, use Node.js 22.12+ and run `npm ci` followed by `npm run dev`.
+[Play online](https://corporate-simulator-2026.pages.dev) or [download the standalone HTML](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/releases/download/v1.0.0/Corporate-Simulator-2026-v1.0.0.html) from the [official release](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/releases/tag/v1.0.0). No account, external inference service or paid API is required. For local development, use Node.js 22.12+ and run `npm ci` followed by `npm run dev`.
 
 Browser-local saves are not cloud-synchronised. Export a JSON backup before clearing browser storage or changing devices or origins. Hosted offline use requires a first online visit. Autopilot runs while the page can execute.
 
@@ -57,8 +57,8 @@ Browser-local saves are not cloud-synchronised. Export a JSON backup before clea
 
 Original software is [MIT-licensed](../LICENSE); [literary, artwork, character and brand rights](../RIGHTS.md) are reserved. Third-party components retain their licences. Report security issues according to [SECURITY.md](../SECURITY.md). This is management satire, not a real business or professional qualification.
 
-### Internal launch gate (remove from public announcement)
+### Release assurance
 
-Draft fictional statements and promotional copy are subject to owner approval. Publish only after exact candidate/main verification, live production deployment checks, remaining acceptance decisions and explicit owner authority. No release tag has been created. Replace provisional installation references with verified release URLs when authorised.
+Published 26 November 2026, 09:48:40 UTC, tag v1.0.0 at 9118f9d. The release baseline passed 173 unit/integration tests, 47 browser tests, dependency audits, offline checks and live canonical security headers. Extended accessibility, device performance and exhaustive achievement reachability remain accepted post-launch objectives. See [current status](STATUS.md).
 
 **Absolutely nothing. Consistently. At scale.**
