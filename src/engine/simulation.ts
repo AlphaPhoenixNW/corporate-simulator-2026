@@ -7,6 +7,7 @@ import { changeCommunication, runCommunications, generateCommunication } from '.
 import { changeProgramme, runProgrammes } from './programmes';
 import { initialFinance, trackCash, changeFinance, runFinance, closeFinanceDay } from './finance';
 import { initialOS, changeOS, runOS } from './os';
+import { initialAgents, changeAgents, runAgents } from './agents';
 export const DAILY_CAPACITY = 2;
 const clamp = (n:number) => Math.max(0,Math.min(100,n));
 export function random(rng:number): [number,number] {
@@ -16,7 +17,7 @@ export function random(rng:number): [number,number] {
 export function newGame(seed=2026): GameState {
   const normalized = seed >>> 0;
   const staff=seedEmployees(normalized,initialDepartments(),1);
-  return {version:8,os:initialOS(),finance:initialFinance(),programmes:[],communications:[],nextCommunicationId:1,meetings:[],nextMeetingId:1,...staff,departments:syncDepartments(initialDepartments(),staff.employees),seed:normalized,rng:normalized,day:1,cash:75000,capacity:DAILY_CAPACITY,compensation:0,
+  return {version:9,agents:initialAgents(),os:initialOS(),finance:initialFinance(),programmes:[],communications:[],nextCommunicationId:1,meetings:[],nextMeetingId:1,...staff,departments:syncDepartments(initialDepartments(),staff.employees),seed:normalized,rng:normalized,day:1,cash:75000,capacity:DAILY_CAPACITY,compensation:0,
     metrics:{confidence:55,prestige:20,morale:70,bureaucracy:15,perceived:25,actual:12,buzzwords:20,meetings:10,regulation:10,incompetence:25},
     pendingEvent:null,resolvedEvents:[],scheduled:[],log:['Day 1: NOTHING™ incorporated. No product roadmap has been approved.'],ledger:[],ending:null};
 }
@@ -98,6 +99,12 @@ export function dispatch(state:GameState,command:Command):GameState {
     const result=changeOS(s,command);
     if(!result)return state;
     s.capacity--;s.os=result.os;
+    if(command.operation==='shutdown')s.agents={...s.agents,lastTokens:0,lastStatus:'Offline: all agent inference suspended.'};
+    record(s,result.message,-result.cost);apply(s,result.delta,result.message);log(s,result.message);
+  } else if(command.type==='agent'){
+    const result=changeAgents(s,command);
+    if(!result)return state;
+    s.capacity--;s.agents=result.agents;
     record(s,result.message,-result.cost);apply(s,result.delta,result.message);log(s,result.message);
   } else if(command.type==='choose'){
     const e=EVENTS.find(x=>x.id===s.pendingEvent);
@@ -142,6 +149,11 @@ export function dispatch(state:GameState,command:Command):GameState {
     const operatingSystem=runOS(s.os);
     s.os=operatingSystem.os;record(s,'NOTHING™ OS simulated inference',-operatingSystem.cost);
     apply(s,operatingSystem.delta,'Operating system activity');
+    const orchestration=runAgents(s,nextRandom);
+    s.agents=orchestration.agents;record(s,'Agentic workflow simulated inference',-orchestration.cost);
+    apply(s,orchestration.delta,'Agent orchestration');
+    for(const report of orchestration.reports)log(s,report);
+    if(orchestration.runs.length)s.communications=[...s.communications,{...generateCommunication(s,'email',s.nextCommunicationId++,nextRandom),subject:'Agentic operations report | Day '+s.day,body:orchestration.reports.join(' ')}];
     s.finance=closeFinanceDay(s);
     if(s.finance.reports.at(-1)?.endDay===s.day){
       const report=s.finance.reports.at(-1)!;
