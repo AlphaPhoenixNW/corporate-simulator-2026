@@ -14,7 +14,7 @@ Status: staged implementation, not a complete game. Checkboxes represent accepte
 - [x] P9 Agent orchestration: all six roles, model choice, simulated tokens/costs, workflows, adoption and hallucinations.
 - [x] P10 Event library: at least 150 distinct authored events with choices, consequences, delayed effects and persistent flags.
 - [x] P11 Seven campaign stages, unlocks, difficulty, endings, sandbox.
-- [ ] P12 Competent employee boss: multi-stage legitimate corporate interventions.
+- [x] P12 Competent employee boss: multi-stage legitimate corporate interventions.
 - [ ] P13 At least 60 functional achievements and animations.
 - [ ] P14 Visual/audio polish, charts, accessibility, reduced motion, keyboard, mobile.
 - [ ] P15 Balance, regression, E2E, documentation, release readiness.
@@ -116,4 +116,10 @@ Implemented and committed:
 
 - Final-stage encounter, real named 100-skill employee, board retention protection, daily useful-work pressure scaled by available time.
 - Five interventions: promotion, actual steering committee attendance, departmental reassignment, two qualifying training days, three funded dedicated transformation governance days. Final certification gates containment.
-- Dashboard, persistent audit trail, payroll and corporate ledger integration, employee calendar and time utilisation, V12 migration. Ten unit/integration cases and desktop/mobile E2E. P12 pending CI. Boss pressure, fees and time requirements provisional; the dedicated encounter programme is separate from the regular nine-programme portfolio. Legacy completed campaigns retain their ending. Lockfile and balance work outstanding.
+- Dashboard, persistent audit trail, payroll and corporate ledger integration, employee calendar and time utilisation, V12 migration. Ten unit/integration cases and desktop/mobile E2E. P12 passed CI in run 45744082038 and merged in PR #11 at 764456f. Boss pressure, fees and time requirements provisional; the dedicated encounter programme is separate from the regular nine-programme portfolio. Legacy completed campaigns retain their ending. Lockfile and balance work outstanding.
+
+## Increment 0.13.0 — 2026-11-26
+
+- 74 unique gameplay-driven achievements across eight categories, all requested named awards included. Successful executive action counts, best inactivity streak, observable state and ending predicates. No gameplay metric rewards.
+- Persistent per-run unlocks and separate lifetime browser collection, category progress, filters, animated dismissible notification with reduced-motion handling. V13 migration; historical action counts are not invented.
+- Ten unit/integration cases and desktop/mobile E2E. P13 pending CI. Achievement notification is within the awards panel; global notification placement and wider visual/audio polish remain P14. Thresholds and long-run attainability require P15 balancing. Lockfile outstanding.
