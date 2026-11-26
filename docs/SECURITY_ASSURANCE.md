@@ -37,10 +37,13 @@ Committed candidate: Vite 7.3.8, Vitest 4.1.12 and Playwright 1.65.1. Vitest 4 r
 
 Preliminary review found noreply addresses for 118 reachable commits on the then-current branch. Targeted source and PR/comment screening found no matching credentials or personal email addresses in examined material; not a complete scan.
 
-- [ ] Run private-only reachable history scan, including checksum-verified Gitleaks and counts-only Python inventory of historic/current blobs, author metadata, messages, PRs/comments/issues and active artifacts. No raw matches, reports or archives are uploaded. Binary/oversized content, GitHub-only refs, old logs and artifact contents still require separate review.
-- [ ] Review historical artifacts before publication: sampled runs before hardening still contain active downloadable builds, including the earlier editorial preview by workflow design. No destructive removal authorised.
-- [ ] Check WebP metadata in the private inventory; owner review of visual likeness and artwork rights remains required. Connector cannot directly inspect binary cover.
-- [ ] Resolve known private source references in the historical import notes and source manuscript publisher note; do not rewrite history or alter original prose without an agreed publication approach.
+- [x] Private-only history inventory and checksum-verified Gitleaks passed on 60da196 ([run 45775368000](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45775368000)): 127 commits, 639 unique reachable blobs (638 UTF-8, one binary, none skipped for size), 254 noreply metadata email entries, no Gitleaks findings, 28 PRs and 12 issue comments screened. The inventory reported 20 historical blobs and three current blobs referencing the private source, plus one likely scanner-definition local path false positive. This covers fetched refs, not unreachable or GitHub-only objects.
+- [ ] Review historical artifacts before publication: initial inventory found 33 active archives, 32 predating hardening. Extended private workflow now scans text members of all active archives and associated run logs with bounded read-only downloads and counts-only output. Binary image contents, other retained logs and any failed/skipped archives require separate review. No destructive removal authorised.
+- [x] Cover metadata check: 3340-byte WebP, no EXIF, XMP or ICC chunks in the examined container.
+- [ ] Owner review of visual likeness and artwork rights remains required. Connector cannot directly inspect binary cover.
+- [x] Neutralise precise private source identifiers in current import notes and backlog. Keep the original manuscript publisher note unchanged; the in-game companion already uses the approved neutral wording.
+- [ ] Confirm the remaining source note and historical provenance are acceptable for disclosure, or use a clean public distribution snapshot with approved editorial redaction. Removing current references does not erase history.
+- [ ] Re-run inventory to verify the scanner-definition local path false positive, review artifact/log pattern counts and investigate residual findings.
 - [ ] Review repository settings and choose safe publication history or clean distribution repository.
 
 ## Stage 4: final acceptance

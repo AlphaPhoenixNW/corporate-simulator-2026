@@ -7,7 +7,7 @@ This is the current publication decision checklist, not authorisation to change 
 - [ ] Complete the [staged security assurance programme](SECURITY_ASSURANCE.md).
 - [ ] Review all tracked files, commit history, author metadata, assets and repository settings for private data.
 - [ ] Review cover artwork, including any identifiable likeness or embedded metadata.
-- [ ] Remove or neutralise private-source references in the approved public-facing material where appropriate, without changing the book's substantive prose.
+- [ ] Resolve residual source publisher note and historical private provenance before choosing publication route. Current import notes and backlog use neutral descriptions; in-game book retains approved wording and original manuscript is unchanged.
 - [ ] Confirm the software licence and separate treatment of literary/artwork rights with the owner.
 - [ ] Decide whether existing history can be published safely or a clean distribution repository is needed.
 - [x] Record baseline main CI and branding PR verification in [status](STATUS.md).

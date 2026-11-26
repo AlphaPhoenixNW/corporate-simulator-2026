@@ -15,14 +15,14 @@ jobs:
   privacy:
     if: github.event.repository.private == true && (github.event_name == 'workflow_dispatch' || (github.head_ref == 'security/publication-hardening' && github.event.pull_request.head.repo.full_name == github.repository))
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           fetch-tags: true
           persist-credentials: false
-      - name: Inventory reachable history and repository surfaces
+      - name: Inventory history, repository surfaces, artifact text and associated logs
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 scripts/review-publication-privacy.py
