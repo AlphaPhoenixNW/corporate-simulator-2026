@@ -25,12 +25,15 @@ jobs:
         run: npm run test:playtest
       - name: Verify hosted web app offline
         run: npm run test:webapp
+      - name: Build private companion book preview
+        run: node scripts/build-companion-preview.mjs
       - name: Upload verified playable build
         uses: actions/upload-artifact@v4
         with:
           name: corporate-simulator-playtest
           path: |
             playtest/Corporate Simulator 2026.html
+            playtest/Executive Library.html
             playtest/screenshots/
             docs/PLAYTEST_GUIDE.md
             dist/
