@@ -72,7 +72,7 @@ describe('meeting simulation',()=>{
   });
   it('migrates older saves and validates persisted meeting identities',()=>{
     const s=newGame(),legacy={...s,version:3,meetings:undefined,nextMeetingId:undefined};
-    expect(decodeSave(JSON.stringify(legacy))).toMatchObject({version:10,meetings:[],nextMeetingId:1});
+    expect(decodeSave(JSON.stringify(legacy))).toMatchObject({version:11,meetings:[],nextMeetingId:1});
     const booked=book(s);
     expect(validMeetings(booked.meetings,booked.nextMeetingId,booked.employees)).toBe(true);
     expect(decodeSave(JSON.stringify(booked))).toEqual(booked);

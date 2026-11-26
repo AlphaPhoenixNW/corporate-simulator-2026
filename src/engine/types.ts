@@ -97,11 +97,17 @@ export interface CorporateEvent { id: string; title: string; description: string
 export interface Action { id: string; label: string; detail: string; cost: number; effect: Delta }
 export interface LedgerEntry { day: number; label: string; amount: number; category?:CashCategory }
 export interface ScheduledEffect { day: number; effect: Delta; message: string }
+export type Difficulty='relaxed'|'standard'|'ruthless';
+export type GameMode='campaign'|'sandbox';
+export type Scenario='founder'|'board-crisis'|'compliance-crisis';
+export interface CampaignState {mode:GameMode;difficulty:Difficulty;scenario:Scenario;stage:number;enteredDay:number;history:{stage:number;day:number}[]}
+export interface GameOptions {mode?:GameMode;difficulty?:Difficulty;scenario?:Scenario}
+export type CampaignCommand={type:'campaign';operation:'advance'|'certify'};
 export interface GameState {
-  version: 10; incidentHistory:IncidentDecision[]; agents:AgentState; os:OSState; finance:FinanceState; programmes: Programme[]; communications: Communication[]; nextCommunicationId:number; meetings: Meeting[]; nextMeetingId:number; departments: DepartmentState[]; employees: Employee[]; relationships: Relationship[]; nextEmployeeId: number; seed: number; rng: number; day: number; cash: number;
+  version: 11; campaign:CampaignState; incidentHistory:IncidentDecision[]; agents:AgentState; os:OSState; finance:FinanceState; programmes: Programme[]; communications: Communication[]; nextCommunicationId:number; meetings: Meeting[]; nextMeetingId:number; departments: DepartmentState[]; employees: Employee[]; relationships: Relationship[]; nextEmployeeId: number; seed: number; rng: number; day: number; cash: number;
   metrics: Metrics; capacity: number; compensation: number;
   pendingEvent: string | null; resolvedEvents: string[];
   scheduled: ScheduledEffect[]; log: string[]; ledger: LedgerEntry[];
-  ending: 'insolvent' | 'useful' | 'board' | null;
+  ending: 'insolvent' | 'useful' | 'board' | 'certified' | null;
 }
-export type Command = AgentCommand | OSCommand | FinanceCommand | ProgrammeCommand | CommunicationCommand | MeetingCommand | EmployeeCommand | DepartmentCommand | { type: 'action'; id: string } | { type: 'choose'; id: string } | { type: 'endDay' };
+export type Command = CampaignCommand | AgentCommand | OSCommand | FinanceCommand | ProgrammeCommand | CommunicationCommand | MeetingCommand | EmployeeCommand | DepartmentCommand | { type: 'action'; id: string } | { type: 'choose'; id: string } | { type: 'endDay' };
