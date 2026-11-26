@@ -63,6 +63,9 @@ The game includes **The Art of Doing Nothing™**, the Founder's satirical manag
 | --- | --- |
 | [FOUNDER.md](FOUNDER.md) | The Founder's strategic vision and personal philosophy |
 | [Brand strategy](docs/brand/BRAND_STRATEGY.md) | Corporate identity, visual standards and editorial governance |
+| [Founder's security statement](docs/FOUNDER_SECURITY_STATEMENT.md) | Commitment to secure non-delivery (fictional stakeholder letter) |
+| [Security policy](SECURITY.md) | Responsible vulnerability reporting and supported scope |
+| [Security assurance](docs/SECURITY_ASSURANCE.md) | Real pre-publication checks and remediation evidence |
 | [NORA.md](NORA.md) | The executive assistant's first-person development retrospective |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Corporate onboarding and practical contribution procedures |
 | [CHANGELOG.md](CHANGELOG.md) | Selected verified release history |
@@ -93,6 +96,6 @@ CI runs the full quality gates using locked dependencies and a pinned Playwright
 
 The repository owner directs the project; implementation and editorial work were developed with ChatGPT/Codex assistance. Nora is the fictional executive-assistant persona used in the retrospective, not an independent human employee or an in-game service.
 
-This is management satire, not an actual business or professional qualification. See [publication review](docs/PUBLICATION_REVIEW.md) for current source-release and licensing decisions. Fictional branding does not grant reuse permissions.
+This is management satire, not an actual business or professional qualification. The original software and technical documentation are licensed under [MIT](LICENSE). The companion book, artwork, literary material, fictional characters and brand identity are separately reserved; see [rights and permitted use](RIGHTS.md). Third-party components retain their own licences. See [publication review](docs/PUBLICATION_REVIEW.md) for release decisions.
 
 **Absolutely nothing. Consistently. At scale.**

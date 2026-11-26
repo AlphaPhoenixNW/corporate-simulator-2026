@@ -4,6 +4,13 @@ const root=resolve('dist'),output=resolve('playtest');
 let html=await readFile(resolve(root,'index.html'),'utf8');
 // The portable file has no service worker, manifest or external icon files.
 html=html.replace(/<link\b[^>]*rel="(?:manifest|apple-touch-icon)"[^>]*>/g,'');
+// Insert notices into the original HTML shell BEFORE inlining any JavaScript.
+// The bundled book exporter contains its own literal closing body tags.
+const notices=await readFile(resolve(root,'LICENSES.txt'),'utf8');
+if(!notices.includes('MIT License')||!notices.includes('All rights reserved'))throw Error('Distribution rights notices missing');
+const documentEnd=/<\/body>\s*<\/html>\s*$/i;
+if(!documentEnd.test(html))throw Error('Expected closing document body and html tags');
+html=html.replace(documentEnd,closing=>'<template id="distribution-rights-notices">'+notices.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</template>'+closing);
 const asset=async url=>{
  if(!/^\/?(?:\.\/)?assets\/[a-zA-Z0-9_.-]+$/.test(url))throw Error('Unexpected production asset: '+url);
  const path=resolve(root,url.replace(/^\//,''));

@@ -150,7 +150,7 @@ Balance candidate B passed 139 unit/integration tests and 28 browser cases in ru
 
 ## First player feedback and Executive Library
 
-Player reported the single scrolling dashboard is overwhelming and does not communicate next actions. Prioritise v0.17 workspace navigation, focused executive office, context-aware objectives, and progressive disclosure. The original companion manuscript from AlphaPhoenixNW/nothing has been imported under private docs/companion-book with a private offline HTML reader preview and small original-cover thumbnail. No public publication before review. Integrate the library into the redesigned game, preserve full original prose, and verify navigation on mobile/desktop.
+Player reported the single scrolling dashboard is overwhelming and does not communicate next actions. Prioritise v0.17 workspace navigation, focused executive office, context-aware objectives, and progressive disclosure. The original companion manuscript from the owner's separate private editorial repository has been imported under private docs/companion-book with a private offline HTML reader preview and small original-cover thumbnail. No public publication before review. Integrate the library into the redesigned game, preserve full original prose, and verify navigation on mobile/desktop.
 
 ## Increment 0.17.0 — focused workspace redesign
 
