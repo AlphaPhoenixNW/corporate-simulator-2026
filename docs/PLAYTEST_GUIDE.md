@@ -54,3 +54,7 @@ Find Executive CV under Records and analysis or Show all workspaces. Review your
 ## Hosted return navigation (0.19.1 candidate)
 
 If a previous deployment fails on return with ERR_FAILED, try the same host with `/recover` (no trailing slash) while online. This bypasses the old worker's root-navigation handler and uses the same browser-local game storage. After the updated build loads, return to the normal root URL. Close and reopen the game, including a referral query, and verify the saved game remains available. Do not clear site storage as a first troubleshooting step.
+
+## Executive Autopilot (0.20.0 candidate)
+
+Reach campaign stage two, open Executive Autopilot from the rail or title, and run a single accelerated campaign. Confirm actual results, dedicated awards and zero external tokens. Start a batch, read the companion book, return to the laboratory and confirm progress; pause, reload and resume. Returning to manual management pauses the mandate. Manual cash/day/awards must remain unchanged. The million mandate is cumulative and genuinely computed, so use small batches for testing; large runs may consume significant device time and battery. One tab recommended; closing the tab stops execution. Completed attempts survive reload; unfinished attempts restart. Inspect the separate autonomous leadership section of your CV after one attempt.

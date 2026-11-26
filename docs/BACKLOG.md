@@ -201,3 +201,7 @@ Player reported the single scrolling dashboard is overwhelming and does not comm
 
 - Owner reported Chrome ERR_FAILED returning to the deployed game. Pages deployment and prior CI succeeded. Source review identified a documented Pages HTML redirect/service-worker navigation incompatibility (candidate root cause; live browser verification pending).
 - Cache canonical root instead of redirected index.html; normalise any redirected shell before returning it, version cache, reload build assets, claim clients after installing the fix. Preserve localStorage and gameplay. Test actual 308 hosting redirect, close/reopen with referral query, redirected cached response recovery and offline navigation on desktop/mobile. Keep Autopilot deferred until return navigation is verified.
+
+## Increment 0.20.0 — Executive Autopilot
+
+- Owner accepted CV and recovered hosted navigation; 0.19.1 merged after CI 45763447661. Autopilot is the final planned gameplay increment. Share the regression driver's existing deterministic decision policy with the real engine, preserve manual play and all 74 manual awards. Separate profile, genuine cumulative target of 1 million attempts, bounded attempts recorded separately, pause/resume and live reading link. Inline worker supports portable distribution; cooperative fallback. CV grammar fix and separately labelled autonomous leadership supplement. CI, actual runtime performance and human playtest pending. No repository visibility or licence changes.

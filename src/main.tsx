@@ -21,6 +21,8 @@ import type {Difficulty,GameMode,Scenario,GameOptions} from './engine/types';
 import {BossPanel} from './ui/BossPanel';
 import {AchievementPanel} from './ui/AchievementPanel';
 import {CareerPanel} from './ui/CareerPanel';
+import {AutopilotPanel} from './ui/AutopilotPanel';
+import {useAutopilot} from './ui/useAutopilot';
 import {ExecutiveIntelligence} from './ui/ExecutiveIntelligence';
 import {WorkspaceNavigation} from './ui/WorkspaceNavigation';
 import {resolveWorkspace,workspaceAvailable,workspaceInfo,recommend,type Workspace} from './ui/workspaces';
@@ -61,6 +63,8 @@ function App(){
   const [playing,setPlaying]=useState(()=>sessionPlaying()&&!!loadGame());
   const [tutorial,setTutorial]=useState(-1);
   const [libraryOpen,setLibraryOpen]=useState(false);
+  const [autopilotOpen,setAutopilotOpen]=useState(false);
+  const lab=useAutopilot();
   const [workspace,setWorkspace]=useState<Workspace>(()=>resolveWorkspace(location.hash));
   const [showAll,setShowAll]=useState(()=>{try{return localStorage.getItem('nothing-sim:all-workspaces')==='yes';}catch{return false;}});
   const [introduced,setIntroduced]=useState<Workspace[]>([]);
@@ -116,7 +120,9 @@ function App(){
   const info=workspaceInfo(current),guidance=recommend(state);
   const view=(id:Workspace,content:React.ReactNode)=><div className="workspace-view" hidden={current!==id}>{content}</div>;
   const openLibrary=()=>{setLibraryOpen(true);setReceipt(null);window.scrollTo(0,0);};
-  const closeLibrary=()=>{setLibraryOpen(false);requestAnimationFrame(()=>{window.scrollTo(0,0);document.getElementById(playing?'workspace':'launch-title')?.focus({preventScroll:true});});};
+  const closeLibrary=()=>{setLibraryOpen(false);requestAnimationFrame(()=>{window.scrollTo(0,0);if(!autopilotOpen)document.getElementById(playing?'workspace':'launch-title')?.focus({preventScroll:true});});};
+  const openAutopilot=()=>{setAutopilotOpen(true);setReceipt(null);window.scrollTo(0,0);};
+  const closeAutopilot=()=>{if(lab.running)lab.pause();setAutopilotOpen(false);window.scrollTo(0,0);};
   const changeAudio=(patch:Partial<Preferences>)=>{
     const next={...preferences,...patch};audio.current?.configure(next.audio,next.music,next.volume,next.effects,next.effectsVolume);
     if(next.audio)void audio.current?.activate();setPreferences(next);
@@ -129,13 +135,14 @@ function App(){
   };
   const testAudio=()=>{if(preferences.audio&&preferences.effects){void audio.current?.activate();audio.current?.play('award');}};
   const quickAudio=<AudioQuickControl enabled={preferences.audio&&(preferences.music||preferences.effects)} effects={preferences.effects&&preferences.effectsVolume>0} enableLabel={preferences.music===preferences.effects?'Enable sound & music':'Enable audio'} status={audioStatus} onToggle={toggleAudio} onTest={testAudio}/>;
-  if(libraryOpen)return <ExecutiveLibrary onBack={closeLibrary} returnLabel={playing?'Return to simulation':'Return to title screen'}/>;
-  if(!playing)return <TitleScreen game={hasGame?state:null} highest={highest} onStart={start} onContinue={enter} onImport={importGame} onLibrary={openLibrary} audioControl={<>{quickAudio}<AudioSettings preferences={preferences} onChange={changeAudio}/></>}/>;
+  if(libraryOpen)return <ExecutiveLibrary onBack={closeLibrary} returnLabel={autopilotOpen?'Return to Executive Autopilot':playing?'Return to simulation':'Return to title screen'}/>;
+  if(autopilotOpen)return <AutopilotPanel lab={lab} onBack={closeAutopilot} onLibrary={openLibrary}/>;
+  if(!playing)return <TitleScreen game={hasGame?state:null} highest={highest} onStart={start} onContinue={enter} onImport={importGame} onLibrary={openLibrary} onAutopilot={openAutopilot} audioControl={<>{quickAudio}<AudioSettings preferences={preferences} onChange={changeAudio}/></>}/>;
   return <div className={'suite'+(reduced?' reduce-motion':'')+(current==='career'?' career-print':'')}>
     <a className="skip" href="#workspace">Skip to workspace</a>
     <header className="topbar"><div className="brand"><span className="logo" aria-hidden="true">N.</span><div><strong>NOTHING™</strong><span>Executive management suite</span></div></div><div className="top-meta"><span className="stage" data-testid="campaign-stage">{state.campaign.mode==="sandbox"?"Endless sandbox":String(state.campaign.stage).padStart(2,"0")+" / "+STAGES[state.campaign.stage-1].name}</span><span className="save" role="status">{saved?'● Local save active':'Local save unavailable'}</span></div></header>
-    <aside className="rail"><div className="rail-caption">WORKSPACE</div><WorkspaceNavigation state={state} current={current} onNavigate={navigate} showAll={showAll} setShowAll={setShowAll}/>{quickAudio}<button className="secondary library-entry" onClick={openLibrary}>Executive Library</button><details className="workspace-settings"><summary>Settings and saves</summary><div className="rail-bottom"><label><input type="checkbox" checked={reduced} onChange={e=>setPreferences(p=>({...p,reduced:e.target.checked}))}/> Reduce motion</label>
-    <AudioSettings preferences={preferences} onChange={changeAudio}/><button className="link-button" onClick={()=>setReset(!reset)} aria-expanded={reset}>New simulation</button><button className="link-button" onClick={menu}>Title screen and backups</button><button className="link-button" onClick={()=>{setTutorial(0);navigate('office');}}>Show executive induction</button><small>BUILD 0.19.1 · CAREER PORTFOLIO</small></div></details></aside>
+    <aside className="rail"><div className="rail-caption">WORKSPACE</div><WorkspaceNavigation state={state} current={current} onNavigate={navigate} showAll={showAll} setShowAll={setShowAll}/>{quickAudio}<button className="secondary library-entry" onClick={openLibrary}>Executive Library</button>{highest>=2&&<button className="secondary library-entry" onClick={openAutopilot}>Executive Autopilot</button>}<details className="workspace-settings"><summary>Settings and saves</summary><div className="rail-bottom"><label><input type="checkbox" checked={reduced} onChange={e=>setPreferences(p=>({...p,reduced:e.target.checked}))}/> Reduce motion</label>
+    <AudioSettings preferences={preferences} onChange={changeAudio}/><button className="link-button" onClick={()=>setReset(!reset)} aria-expanded={reset}>New simulation</button><button className="link-button" onClick={menu}>Title screen and backups</button><button className="link-button" onClick={()=>{setTutorial(0);navigate('office');}}>Show executive induction</button><small>BUILD 0.20.0 · EXECUTIVE AUTOPILOT</small></div></details></aside>
     <main id="workspace" tabIndex={-1}>
       <div className="intro"><div><p className="eyebrow">OFFICE OF THE CHIEF EXECUTIVE</p><h1>{current==='office'?'Executive overview':info.label}</h1><p>{info.description}</p></div><div className="day"><span>WORKING DAY</span><strong data-testid="day">{state.day.toString().padStart(3,'0')}</strong></div></div>
       {reset&&<section className="panel reset" aria-label="New simulation"><h2>Start a new simulation</h2><p>This replaces the current local save.</p><label htmlFor="seed">World seed (0–4294967295)</label><input id="seed" value={seed} onChange={e=>setSeed(e.target.value)} inputMode="numeric"/><div className="people-filter"><label htmlFor="game-mode">Mode</label><select id="game-mode" value={mode} onChange={e=>setMode(e.target.value as GameMode)}><option value="campaign">Campaign</option><option value="sandbox">Endless sandbox</option></select></div>
@@ -164,7 +171,7 @@ function App(){
       {view('agents',<AgentsPanel state={state} send={send}/>)}
       {view('incidents',<IncidentsPanel state={state}/>)}
       {view('achievements',<AchievementPanel state={state}/>)}
-      {current==='career'&&view('career',<CareerPanel state={state}/>)}
+      {current==='career'&&view('career',<CareerPanel state={state} automation={lab.profile}/>)}
       {view('ledger',<section className="panel" id="ledger"><p className="eyebrow">FINANCIAL CONTROL</p><h2>Transaction ledger</h2>{state.ledger.length===0?<p className="hint">No transactions recorded.</p>:<div className="ledger-scroll"><table><thead><tr><th scope="col">Day</th><th scope="col">Transaction</th><th scope="col">Category</th><th scope="col">Amount</th></tr></thead><tbody>{[...state.ledger].reverse().slice(0,12).map((x,i)=><tr key={i}><td>{x.day}</td><td>{x.label}</td><td>{x.category??"Legacy"}</td><td className={x.amount<0?'negative':'positive'}>{x.amount>0?'+':''}{money(x.amount)}</td></tr>)}</tbody></table></div>}</section>)}{view('activity',<section className="panel" id="activity"><p className="eyebrow">CORPORATE RECORD</p><h2>Activity log</h2><ol className="activity">{state.log.slice(0,10).map((x,i)=><li key={i}>{x}</li>)}</ol></section>)}
       <div className="day-controls"><button className="advance" disabled={!!state.ending||!!e} onClick={()=>send({type:'endDay'})}>Conclude working day <span aria-hidden="true">→</span></button><p className="hint">{state.ending?'Simulation concluded.':e?'Resolve the pending corporate decision first.':state.capacity?`${state.capacity} executive action${state.capacity===1?'':'s'} remain. You can conclude the day without using them.`:'All executive actions used. Conclude the day to recover your capacity.'}</p></div>
       <footer>NOTHING™ · Internal use only · Seed {state.seed} · All financial values are simulated.</footer>

@@ -43,6 +43,15 @@ try{
    await page.getByRole('region',{name:'Strategic intelligence'}).scrollIntoViewIfNeeded();
    await page.screenshot({path:'playtest/screenshots/'+name+'-intelligence.png'});
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth),false);
+   // The standalone HTML includes a worker or cooperative fallback, no extra files.
+   await page.evaluate(()=>localStorage.setItem('nothing-sim:campaign-profile','2'));
+   await page.reload();
+   await page.getByRole('button',{name:'Executive Autopilot',exact:true}).click();
+   await page.getByRole('button',{name:'Run one campaign',exact:true}).click();
+   await page.waitForFunction(()=>document.querySelector('[data-testid="auto-attempts"]')?.textContent==='1',{},{timeout:20000});
+   assert.equal(await page.getByTestId('auto-certified').innerText(),'1');
+   await page.getByRole('button',{name:/Return to management/}).click();
+   assert.equal(await page.getByTestId('cash').innerText(),'£75,000');
    assert.deepEqual(errors,[]);assert.deepEqual(network,[]);
    console.log('PORTABLE_PLAYTEST_PASS',name);
   }finally{await context.close();}
