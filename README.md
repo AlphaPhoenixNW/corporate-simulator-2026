@@ -3,7 +3,7 @@
 
 You are CEO of NOTHING™, a corporation devoted to appearing productive while avoiding measurable value. Delivering tomorrow's nothing, today.
 
-**Status:** 0.17.0 focused-workspace beta candidate; the full game is not yet complete.
+**Status:** 0.17.1 progressive-workspace beta candidate; the full game is not yet complete.
 
 ## Run locally
 
@@ -102,3 +102,7 @@ A fresh session starts at the title screen with instant Play now, optional guide
 ### Focused executive office
 
 The first workspace shows the immediate goal, live campaign requirements, a rule-based suggested next action, cash, available executive capacity and the most important risk scores. Dedicated workspaces replace the previous giant scrolling page. Desktop navigation and mobile Office / Company / Finance / Campaign shortcuts plus the All workspaces selector open one active view at a time. Day control and pending decisions remain global. Hash routes support browser history, deep links and reload. Settings and saves are grouped in a collapsed panel. Existing engine commands and save schema are unchanged. Advanced systems are still reachable through the full navigation; progressive introduction is planned separately. The companion book is a private offline reader in the signed-in CI artifact, not publicly deployed.
+
+### Progressive workspace discovery
+
+Campaign starts with Office, Campaign, Departments and Finance. People and records are introduced on subsequent days; communications, transformation and technology are suggested at relevant expansion stages. Previously used systems and earned awards remain discoverable. Show all workspaces reveals every applicable screen immediately and is remembered locally; sandbox shows the full navigation by default. Each management workspace has a dismissible first-visit briefing explaining its purpose, first step and risk. New introductions appear in the office after real game transitions. These are navigation recommendations, not new simulation restrictions. Briefing dismissals and the new-workspace notification queue are session-local. Existing save format is unchanged.

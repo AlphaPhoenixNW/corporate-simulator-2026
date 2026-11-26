@@ -6,8 +6,11 @@ export async function enterGame(page:Page){
 }
 export async function goWorkspace(page:Page,id:Workspace){
  const mobile=page.locator('#workspace-jump');
+ const desktop=page.locator('a[data-route="'+id+'"]');
+ const visible=await mobile.isVisible()?await mobile.locator('option[value="'+id+'"]').count()>0:await desktop.count()>0;
+ if(!visible)await page.getByRole('button',{name:/^Show all workspaces/}).click();
  if(await mobile.isVisible())await mobile.selectOption(id);
- else await page.locator('a[data-route="'+id+'"]').click();
+ else await desktop.click();
 }
 export async function openSettings(page:Page){
  const settings=page.locator('details.workspace-settings');
