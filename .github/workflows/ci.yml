@@ -18,6 +18,18 @@ jobs:
         run: npm ci --no-audit --no-fund
       - run: npm run typecheck
       - run: npm test
-      - run: npm run build
+      - run: npm run build:playtest
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
+      - name: Verify portable offline playtest
+        run: npm run test:playtest
+      - name: Upload verified playable build
+        uses: actions/upload-artifact@v4
+        with:
+          name: corporate-simulator-playtest
+          path: |
+            playtest/Corporate Simulator 2026.html
+            playtest/screenshots/
+            docs/PLAYTEST_GUIDE.md
+          if-no-files-found: error
+          retention-days: 30

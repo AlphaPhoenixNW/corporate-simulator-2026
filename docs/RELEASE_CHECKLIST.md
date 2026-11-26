@@ -4,14 +4,14 @@ Candidate: 0.15.0. Do not tag 1.0.0 until acceptance evidence is recorded.
 
 | Gate | Required evidence | State |
 | --- | --- | --- |
-| TypeScript and production build | Green CI on exact release commit | Passed on initial candidate; recheck lock commit |
-| Unit, integration and desktop/mobile browser tests | Green CI, no skipped tests | 133 unit and 28 browser cases passed; recheck lock commit |
-| Standard campaign | Fresh seed, legal commands, seven stages, contained employee, certified ending | Passed: seed 2026, day 43, £484,815, actual 2 |
-| Relaxed campaign | Same with alternate seed and difficulty | Passed: seed 42, day 43, £547,648, actual 1 |
-| Ruthless campaign | Legal-command playthrough and tuning | Pending |
-| Determinism and save integrity | Replay equality, daily save round trips, cash reconciliation | Passed initial candidate |
-| Sandbox longevity and achievements | Multi-seed long-run tests, check rule reachability | Pending |
-| Dependency lock | Commit generated package-lock.json and run npm ci | Lock recovered from successful CI; npm ci recheck pending |
+| TypeScript and production build | Green CI on exact release commit | Passed balance candidate B |
+| Unit, integration and desktop/mobile browser tests | Green CI, no skipped tests | 139 unit and 28 browser cases passed |
+| Standard campaign | Fresh seed, legal commands, seven stages, contained employee, certified ending | Passed B: seed 2026, day 42, £325,030, actual 1 |
+| Relaxed campaign | Same with alternate seed and difficulty | Passed B: seed 42, day 42, £412,273, actual 0 |
+| Ruthless campaign | Legal-command playthrough and tuning | Passed B: seed 73, day 43, £279,678, actual 0 |
+| Determinism and save integrity | Replay equality, daily save round trips, cash reconciliation | Passed balance candidate B |
+| Sandbox longevity and achievements | Multi-seed long-run tests, check rule reachability | Three 100-day runs passed; exhaustive award reachability not yet verified |
+| Dependency lock | Commit generated package-lock.json and run npm ci | Passed locked installs and balance candidate B |
 | Desktop and mobile visual inspection | Actual rendered screenshots, overflow, readable typography | Pending |
 | Accessibility | Keyboard and focus navigation, screen reader review, reduced motion, contrast | Pending |
 | Audio | Human listening and mute/volume checks | Pending |
@@ -23,4 +23,8 @@ Initial evidence: [CI run 45745508045](https://github.com/AlphaPhoenixNW/corpora
 
 ### Balance candidate B
 
-Initial successful playthroughs showed large liquidity surpluses and zero morale. This candidate charges subscriber account servicing (£14/£20/£28 per client-day depending on pricing, multiplied by difficulty), increases stage overhead, reduces later financing grants and reduces the daily shareholder confidence change by two when morale is below 20. The legal-command driver now values wellbeing and tests ruthless seed 73 plus sandbox seeds 7, 42 and 2026 to day 101. The earlier results are a baseline, not evidence for the revised rules. New CI evidence is required before release.
+Initial successful playthroughs showed large liquidity surpluses and zero morale. This candidate charges subscriber account servicing (£14/£20/£28 per client-day depending on pricing, multiplied by difficulty), increases stage overhead, reduces later financing grants and reduces the daily shareholder confidence change by two when morale is below 20. The legal-command driver now values wellbeing and tests ruthless seed 73 plus sandbox seeds 7, 42 and 2026 to day 101. The earlier results are a baseline, not evidence for the revised rules. Candidate B passed all automated gates in [run 45746084184](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45746084184) at commit 38478f6. Merged PR #14. Standard final morale 30, relaxed 46, ruthless 36. The three sandbox runs survived 100 days; cash remained positive. Economic challenge still requires human playtesting.
+
+### Private playtest packaging
+
+Portable HTML build, offline Chromium smoke checks at desktop and mobile sizes, save reload, no external network requests, screenshots and a downloadable CI artifact are pending verification. See PLAYTEST_GUIDE.md. Human visual, screen reader and audio review remain open. No public deployment or release tag has been authorised.

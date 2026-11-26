@@ -10,7 +10,7 @@ You are CEO of NOTHING™, a corporation devoted to appearing productive while a
 Requires Node.js 22.12+ and npm.
 
 ```sh
-npm install
+npm ci
 npm run dev
 ```
 
@@ -32,7 +32,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-GitHub Actions runs these quality gates on Ubuntu 24.04. The [first successful foundation run](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45738801621) passed TypeScript, seven unit/integration cases, production build and both desktop/mobile browser cases. A dependency lockfile still needs to be generated and committed. The 0.2.0 department increment adds nine unit tests and desktop/mobile departmental E2E coverage; department CI passed in run 45739290421. The employee increment adds nine unit tests and a desktop/mobile browser scenario; employee CI passed in run 45739687827. The meeting increment adds ten unit tests and a desktop/mobile scenario; meeting CI passed in run 45739968402. The communications increment adds nine unit tests and a desktop/mobile scenario; communications CI passed in run 45740556589. Transformation adds ten unit tests and a desktop/mobile scenario; transformation CI passed in run 45741039232. Finance adds eleven unit tests and a desktop/mobile scenario; finance CI passed in run 45741496382. OS adds eight unit tests and a desktop/mobile scenario; OS CI passed in run 45742030933. Agent orchestration adds ten unit tests and a desktop/mobile scenario; agent orchestration CI passed in run 45742438242. Incident catalogue adds eight unit tests and a desktop/mobile scenario; incident CI passed in run 45743104484. Campaign adds ten unit tests and a desktop/mobile scenario; campaign CI passed in run 45743521884. The boss adds ten unit tests and a desktop/mobile scenario; new CI results are pending.
+GitHub Actions runs these quality gates on Ubuntu 24.04. The [first successful foundation run](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45738801621) passed TypeScript, seven unit/integration cases, production build and both desktop/mobile browser cases. A verified dependency lockfile is committed; CI uses npm ci. The 0.2.0 department increment adds nine unit tests and desktop/mobile departmental E2E coverage; department CI passed in run 45739290421. The employee increment adds nine unit tests and a desktop/mobile browser scenario; employee CI passed in run 45739687827. The meeting increment adds ten unit tests and a desktop/mobile scenario; meeting CI passed in run 45739968402. The communications increment adds nine unit tests and a desktop/mobile scenario; communications CI passed in run 45740556589. Transformation adds ten unit tests and a desktop/mobile scenario; transformation CI passed in run 45741039232. Finance adds eleven unit tests and a desktop/mobile scenario; finance CI passed in run 45741496382. OS adds eight unit tests and a desktop/mobile scenario; OS CI passed in run 45742030933. Agent orchestration adds ten unit tests and a desktop/mobile scenario; agent orchestration CI passed in run 45742438242. Incident catalogue adds eight unit tests and a desktop/mobile scenario; incident CI passed in run 45743104484. Campaign adds ten unit tests and a desktop/mobile scenario; campaign CI passed in run 45743521884. The boss adds ten unit tests and a desktop/mobile scenario; new CI results are pending.
 
 ## Development reference
 
@@ -90,3 +90,7 @@ The executive intelligence dashboard compares perceived and actual productivity,
 The release branch includes full legal-command campaign playthroughs, deterministic command replay, daily save validation and financial reconciliation. These are acceptance gates rather than a claim of success before CI. See docs/RELEASE_CHECKLIST.md for the remaining manual and automated checks.
 
 Balance candidate: subscriber servicing incurs a daily fictional operating expense based on pricing and difficulty; later campaign stages carry higher overhead and reduced capital injections. Very low morale reduces daily shareholder confidence growth. The release suite attempts complete standard, relaxed and ruthless campaigns plus 100-day sandbox runs across three seeds; all results must be verified in CI.
+
+## Private playable build
+
+Successful CI runs upload a self-contained HTML playtest with desktop/mobile screenshots and the playtest guide. Download the corporate-simulator-playtest artifact from the Actions run, extract it and open the HTML file in a desktop browser. No Node installation is required for this portable build. Local generation: npm ci, npm run build:playtest, npx playwright install chromium, npm run test:playtest. See docs/PLAYTEST_GUIDE.md. The repository remains private; no public hosting has been configured.

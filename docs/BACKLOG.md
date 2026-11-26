@@ -3,7 +3,7 @@
 Status: staged implementation, not a complete game. Checkboxes represent accepted work, not merely planned code.
 
 - [x] P0 Preserve complete project brief; establish working agreement and architecture.
-- [ ] P1 Foundation: Vite/React/TS, deterministic turn engine, 11 metrics, action capacity, initial economy, decisions, local persistence, responsive dashboard, automated tests and verification.
+- [x] P1 Foundation: Vite/React/TS, deterministic turn engine, 11 metrics, action capacity, initial economy, decisions, local persistence, responsive dashboard, automated tests and verification.
 - [x] P2 Ten departments; budgets, influence, politics, differentiated mechanics, staffing and unlocks.
 - [x] P3 Persistent employee identities, ten archetypes, relationships, hiring, promotions, reviews, discipline, redundancies, restructuring.
 - [x] P4 Meetings: all eight types, attendance, costs, follow-up scheduling, documentation.
@@ -139,3 +139,5 @@ Implemented and committed:
 Release verification update: run 45745508045 passed all gates, including full standard seed 2026 and relaxed seed 42 campaign victories on day 43, replay equality, and daily save validation. Recovered the actual generated npm lockfile from job logs, validated manifest correspondence, and switched CI to npm ci. Reverification pending. P1/P15 remain open until remaining acceptance checks are satisfied.
 
 Balance candidate B: recurring customer servicing costs, higher stage overhead, reduced later capital grants, low-morale confidence pressure, wellbeing-aware test driver, ruthless and three 100-day sandbox playthrough gates. No save schema changes. Existing victory/replay tests remain required; these parameters are provisional until measured. Manual audit and release deployment remain open.
+
+Balance candidate B passed 139 unit/integration tests and 28 browser cases in run 45746084184, including three campaign victories and three 100-day sandbox runs. Locked installs verified. PR #14 merged at f66cd02. P15 remains open for manual playtesting, remaining award reachability, release notes and final tag. Private playtest packaging adds self-contained HTML, offline browser smoke checks, screenshots, and guide. No public exposure of repository or game configured.
