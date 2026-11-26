@@ -32,11 +32,12 @@ describe('enterprise experience',()=>{
  it('defaults to silent audio and validates saved preferences',()=>{
   expect(decodePreferences(null)).toEqual(DEFAULT_PREFERENCES);
   expect(decodePreferences('{bad')).toEqual(DEFAULT_PREFERENCES);
-  expect(decodePreferences(JSON.stringify({audio:true,music:true,reduced:true,volume:150}))).toEqual({audio:true,music:true,reduced:true,volume:100});
-  expect(decodePreferences(JSON.stringify({audio:'yes',volume:-5}))).toMatchObject({audio:false,volume:0});
+  expect(decodePreferences(JSON.stringify({audio:true,music:true,reduced:true,volume:150}))).toEqual({audio:true,music:true,reduced:true,volume:100,effects:true,effectsVolume:100});
+  expect(decodePreferences(JSON.stringify({audio:'yes',volume:-5}))).toMatchObject({audio:false,volume:0,effectsVolume:0});
+  expect(decodePreferences(JSON.stringify({audio:true,music:true,effects:false,volume:25,effectsVolume:80}))).toMatchObject({audio:true,music:true,effects:false,volume:25,effectsVolume:80});
  });
- it('defines six contextual cues, with safe inactive lifecycle',()=>{
-  expect(frequency(69)).toBe(440);expect(Object.keys(CUES)).toHaveLength(6);
+ it('defines nine contextual cues, with safe inactive lifecycle',()=>{
+  expect(frequency(69)).toBe(440);expect(Object.keys(CUES)).toHaveLength(9);
   const audio=new CorporateAudio();audio.configure(false,false,35);audio.play('award');audio.dispose();
  });
 });

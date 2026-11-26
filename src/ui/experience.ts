@@ -24,11 +24,12 @@ export function chartPoints(values:number[],width=300,height=90,pad=10){
 export function organisation(s:GameState){
  return s.departments.map(d=>({id:d.id,name:DEPARTMENTS[d.id].name,active:d.active,focus:d.focus,employees:s.employees.filter(e=>e.department===d.id&&e.status==='active'),request:d.request}));
 }
-export interface Preferences {reduced:boolean;audio:boolean;music:boolean;volume:number}
-export const DEFAULT_PREFERENCES:Preferences={reduced:false,audio:false,music:false,volume:35};
+export interface Preferences {reduced:boolean;audio:boolean;music:boolean;effects:boolean;volume:number;effectsVolume:number}
+export const DEFAULT_PREFERENCES:Preferences={reduced:false,audio:false,music:true,effects:true,volume:35,effectsVolume:35};
+const level=(v:unknown,fallback:number)=>typeof v==='number'&&Number.isFinite(v)?Math.min(100,Math.max(0,Math.round(v))):fallback;
 export function decodePreferences(raw:string|null):Preferences{
  try{const v=JSON.parse(raw??'null');if(!v||typeof v!=='object')return {...DEFAULT_PREFERENCES};
- return {reduced:typeof v.reduced==='boolean'?v.reduced:false,audio:typeof v.audio==='boolean'?v.audio:false,music:typeof v.music==='boolean'?v.music:false,volume:Number.isFinite(v.volume)?Math.min(100,Math.max(0,Math.round(v.volume))):35};}catch{return {...DEFAULT_PREFERENCES};}
+ return {reduced:typeof v.reduced==='boolean'?v.reduced:false,audio:typeof v.audio==='boolean'?v.audio:false,music:typeof v.music==='boolean'?v.music:true,effects:typeof v.effects==='boolean'?v.effects:true,volume:level(v.volume,35),effectsVolume:level(v.effectsVolume,level(v.volume,35))};}catch{return {...DEFAULT_PREFERENCES};}
 }
 const KEY='nothing-sim:experience';
 export function loadPreferences(){try{return decodePreferences(localStorage.getItem(KEY));}catch{return {...DEFAULT_PREFERENCES};}}

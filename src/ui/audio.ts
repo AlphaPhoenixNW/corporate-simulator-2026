@@ -1,6 +1,6 @@
 // Original local synthesis. The audio graph is created only from a player gesture.
 import {AMBIENT_STEP,AMBIENT_DURATION,ambientFrame,type AmbientVoice} from './ambience';
-export const CUES={action:[72,76],day:[60,64,67],incident:[65,61,65],award:[67,72,76,79],shutdown:[72,67,60],ending:[60,55,48]} as const;
+export const CUES={action:[72,76],day:[60,64,67],incident:[65,61,65],award:[67,72,76,79],shutdown:[72,67,60],ending:[60,55,48],bonus:[64,67,72,79],expansion:[60,67,72,76,79],revenue:[67,71,76]} as const;
 export type Cue=keyof typeof CUES;
 export type AudioStatus='muted'|'zero-volume'|'waiting'|'ready'|'playing'|'unavailable';
 export const AUDIO_STATUS:Record<AudioStatus,string>={
@@ -10,6 +10,11 @@ export const frequency=(midi:number)=>440*2**((midi-69)/12);
 export class CorporateAudio {
  private context:AudioContext|null=null;
  private gain:GainNode|null=null;
+ private musicGain:GainNode|null=null;
+ private effectsGain:GainNode|null=null;
+ private effects=true;
+ private effectsVolume=.35;
+ private cueNodes=new Set<OscillatorNode>();
  private timer:ReturnType<typeof setInterval>|null=null;
  private position=0;
  private pads=new Map<OscillatorNode,GainNode>();
@@ -21,8 +26,8 @@ export class CorporateAudio {
  private lastStatus:AudioStatus='muted';
  constructor(private onStatus:(status:AudioStatus)=>void=()=>{}){}
  get status():AudioStatus{
-  if(!this.enabled)return 'muted';
-  if(this.volume===0)return 'zero-volume';
+  if(!this.enabled||(!this.music&&!this.effects))return 'muted';
+  if(!(this.music&&this.volume>0)&&!(this.effects&&this.effectsVolume>0))return 'zero-volume';
   if(this.unavailable)return 'unavailable';
   if(this.context?.state!=='running')return 'waiting';
   return this.timer!==null?'playing':'ready';
@@ -35,8 +40,10 @@ export class CorporateAudio {
     const Audio=typeof window!=='undefined'?(window.AudioContext||(window as Window & {webkitAudioContext?:typeof AudioContext}).webkitAudioContext):undefined;
     if(!Audio){this.unavailable=true;this.publish();return false;}
     const c=new Audio();
-    this.context=c;this.gain=c.createGain();this.gain.gain.value=this.volume;
+    this.context=c;this.gain=c.createGain();this.gain.gain.value=1;
     this.gain.connect(c.destination);
+    this.musicGain=c.createGain();this.musicGain.gain.value=this.music?this.volume:0;this.musicGain.connect(this.gain);
+    this.effectsGain=c.createGain();this.effectsGain.gain.value=this.effects?this.effectsVolume:0;this.effectsGain.connect(this.gain);
     this.unavailable=false;
     c.onstatechange=()=>{if(this.context!==c)return;this.syncMusic();this.flushCue();this.publish();};
    }
@@ -55,26 +62,37 @@ export class CorporateAudio {
    return c.state==='running';
   }catch{if(!this.context)this.unavailable=true;this.publish();return false;}
  }
- configure(enabled:boolean,music:boolean,volume:number){
-  this.enabled=enabled;this.music=music;this.volume=Math.max(0,Math.min(1,volume/100));
-  if(!enabled||this.volume===0)this.pending=null;
-  if(this.gain&&this.context&&this.context.state!=='closed')this.gain.gain.setTargetAtTime(enabled?this.volume:0,this.context.currentTime,.025);
+ configure(enabled:boolean,music:boolean,volume:number,effects=true,effectsVolume=volume){
+  this.enabled=enabled;this.music=music;this.effects=effects;
+  this.volume=Math.max(0,Math.min(1,volume/100));this.effectsVolume=Math.max(0,Math.min(1,effectsVolume/100));
+  if(!enabled||!effects||this.effectsVolume===0){this.pending=null;this.stopCues();}
+  if(this.context&&this.context.state!=='closed'){
+   const now=this.context.currentTime;
+   this.musicGain?.gain.setTargetAtTime(enabled&&music?this.volume:0,now,.025);
+   this.effectsGain?.gain.setTargetAtTime(enabled&&effects?this.effectsVolume:0,now,.025);
+  }
   this.syncMusic();this.publish();
  }
+ private stopCues(){
+  const c=this.context;if(!c||c.state==='closed')return;
+  for(const osc of this.cueNodes)osc.stop(c.currentTime+.16);
+  this.cueNodes.clear();
+ }
  private note(midi:number,delay:number,duration:number,level:number,type:OscillatorType='sine'){
-  const c=this.context,g=this.gain;if(!this.enabled||!this.volume||!c||!g||c.state!=='running'||!midi)return;
+  const c=this.context,g=this.effectsGain;if(!this.enabled||!this.effects||!this.effectsVolume||!c||!g||c.state!=='running'||!midi)return;
   const start=c.currentTime+delay,osc=c.createOscillator(),env=c.createGain();
   osc.type=type;osc.frequency.value=frequency(midi);env.gain.setValueAtTime(.0001,start);env.gain.exponentialRampToValueAtTime(level,start+.018);env.gain.exponentialRampToValueAtTime(.0001,start+duration);
-  osc.connect(env);env.connect(g);osc.start(start);osc.stop(start+duration+.02);osc.onended=()=>{osc.disconnect();env.disconnect();};
+  osc.connect(env);env.connect(g);this.cueNodes.add(osc);osc.onended=()=>{this.cueNodes.delete(osc);osc.disconnect();env.disconnect();};osc.start(start);osc.stop(start+duration+.02);
  }
  private flushCue(){if(this.pending&&this.enabled&&this.context?.state==='running'){const cue=this.pending;this.pending=null;this.play(cue);}}
  play(cue:Cue){
-  if(!this.enabled||!this.volume)return;
+  if(!this.enabled||!this.effects||!this.effectsVolume)return;
   if(this.context?.state!=='running'){this.pending=cue;return;}
-  CUES[cue].forEach((n,i)=>this.note(n,i*.12,.30,.20,'triangle'));
+  this.stopCues();
+  CUES[cue].forEach((n,i)=>this.note(n,i*.12,.30,cue==='action'?.14:.20,'triangle'));
  }
  private pad(voice:AmbientVoice){
-  const c=this.context,g=this.gain;if(!c||!g||c.state!=='running')return;
+  const c=this.context,g=this.musicGain;if(!c||!g||c.state!=='running')return;
   const start=c.currentTime+voice.delay,stop=start+AMBIENT_DURATION;
   const osc=c.createOscillator(),env=c.createGain();
   osc.type=voice.type;osc.frequency.value=frequency(voice.midi);
@@ -110,8 +128,8 @@ export class CorporateAudio {
   this.tick();this.timer=setInterval(()=>this.tick(),AMBIENT_STEP*1000);
  }
  dispose(){
-  if(this.timer!==null)clearInterval(this.timer);this.timer=null;this.pending=null;this.stopPads();
-  const c=this.context;this.context=null;this.gain=null;
+  if(this.timer!==null)clearInterval(this.timer);this.timer=null;this.pending=null;this.stopPads();this.stopCues();
+  const c=this.context;this.context=null;this.gain=null;this.musicGain=null;this.effectsGain=null;
   if(c){c.onstatechange=null;if(c.state!=='closed')void c.close().catch(()=>{});}
  }
 }

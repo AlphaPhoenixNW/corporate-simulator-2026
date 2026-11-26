@@ -1,0 +1,26 @@
+import {test,expect} from '@playwright/test';
+import {enterGame,goWorkspace} from '../support/enterGame';
+test('shows actual decision changes immediately and replaces receipts without changing the simulation',async({page})=>{
+ await enterGame(page);await goWorkspace(page,'office');
+ await page.getByRole('button',{name:/Practise bed-led leadership/}).click();
+ const receipt=page.getByTestId('decision-feedback');
+ await expect(receipt).toContainText('DECISION RATIFIED');
+ await expect(receipt).toContainText('The Chief Executive remains strategically horizontal.');
+ await receipt.getByRole('button',{name:/Show all/}).click();
+ await expect(receipt).toContainText('Actual productivity');
+ await expect(receipt).toContainText('−3');
+ await expect(receipt).toContainText('−1 action');
+ await expect(page.getByTestId('cash')).toHaveText('£75,000');
+ await receipt.getByRole('button',{name:'Dismiss decision feedback'}).click();
+ await expect(receipt).toHaveCount(0);
+ await page.getByRole('button',{name:/Approve executive bonus/}).click();
+ await expect(receipt).toContainText('EXECUTIVE RECOGNITION');
+ await expect(receipt).toContainText('+£1,800');
+ await expect(receipt).toContainText('−£1,800');
+ await expect(page.getByTestId('cash')).toHaveText('£73,200');
+ await expect(page.locator('.compact-kpis')).toContainText('0/2');
+ await page.getByRole('button',{name:/Conclude working day/}).click();
+ await expect(receipt).toContainText('Working day 1 reconciled');
+ await expect(page.getByTestId('day')).toHaveText('002');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth)).toBe(false);
+});

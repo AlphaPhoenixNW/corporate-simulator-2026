@@ -118,3 +118,7 @@ Enable sound & music directly from the title or workspace rail. The status indic
 ### Low-fatigue ambience (0.17.4 candidate)
 
 The short hold-music motif is replaced with original, locally synthesised sustained harmonies. Sixteen slowly crossfading chords span 128 seconds; no repeating lead melody or external media. The existing reward cues and audio preferences are retained. Audio remains opt-in; music can be disabled independently of effects. Listening fatigue requires human assessment. The eventual public repository will support source, portable HTML and hosted play; public visibility is not changed by this increment.
+
+### Executive reward experience (0.18.0 candidate)
+
+The accepted original ambient score is unchanged. Music and reward/action effects have independent toggles and volumes, with an overall mute control; previous volume preferences migrate to both channels. New cues distinguish bonuses, expansion and positive cash events. Each accepted command displays a non-modal decision receipt with contextual prose and actual cash, compensation, capacity and metric deltas. Seven everyday executive actions each have three rotating flavour lines. No simulation rules or save schema changes. The candidate is deliberately modest; public repository licensing and publication review remain separate.
