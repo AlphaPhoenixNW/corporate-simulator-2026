@@ -34,4 +34,4 @@ Implemented and committed:
 - Seven Vitest cases and Playwright scenario configured for desktop and mobile Chromium.
 - GitHub Actions workflow for typecheck, unit tests, production build and E2E.
 
-**Verification:** source committed; full execution not yet confirmed. P1 stays open. First next tasks: generate package-lock.json, verify dependency installation and CI, correct failures, and run balancing/UX checks. Then implement P2 departments. Do not mark the full game complete.
+**Verification:** GitHub Actions run 45738801621 on commit dcf0836 passed dependency installation, typecheck, all seven unit/integration tests, production build, Chromium installation and desktop/mobile E2E. Fixed nullable test fixture typing (97c3fef) and pinned Ubuntu 24.04 for Playwright compatibility (dcf0836). P1 remains open for lockfile and initial balancing/UX checks. P2 can proceed on this verified baseline. Do not mark the full game complete.
