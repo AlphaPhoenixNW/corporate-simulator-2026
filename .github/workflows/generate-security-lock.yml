@@ -17,7 +17,10 @@ jobs:
         with:
           node-version: '22'
       - name: Resolve selected versions without executing package scripts
-        run: npm install --save-dev --save-exact --package-lock-only --ignore-scripts --no-audit --no-fund vite@7.3.8 vitest@4.1.12 @playwright/test@1.65.1
+        run: |
+          npm pkg set 'devDependencies.vite=7.3.8' 'devDependencies.vitest=4.1.12' 'devDependencies.@playwright/test=1.65.1'
+          rm package-lock.json
+          npm install --package-lock-only --ignore-scripts --no-audit --no-fund
       - name: Emit generated manifests for review
         run: |
           node --input-type=module <<'NODE'
