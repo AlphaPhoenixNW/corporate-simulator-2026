@@ -26,7 +26,7 @@ export function decodeSave(raw:string):GameState | null {
     }
     if(!validEmployees(v.employees,v.relationships,v.nextEmployeeId,departments))return null;
     const state=v as unknown as GameState;
-    if(v.version===3)return {...state,version:4,meetings:[],nextMeetingId:1};
+    if(v.version===3)return {...state,version:5,meetings:[],nextMeetingId:1,communications:[],nextCommunicationId:1};
     if(!validMeetings(v.meetings,v.nextMeetingId,state.employees))return null;
     if(v.version===4)return {...state,version:5,communications:[],nextCommunicationId:1};
     if(!validCommunications(v.communications,v.nextCommunicationId,state.employees))return null;
