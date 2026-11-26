@@ -1,6 +1,7 @@
+import {enterGame} from '../support/enterGame';
 import {test,expect} from '@playwright/test';
 test('earn an award, reload and retain lifetime recognition after replacing the simulation',async({page})=>{
- await page.goto('/');
+ await enterGame(page);
  const panel=page.getByRole('region',{name:'Achievement framework'});
  await expect(panel.getByTestId('achievement-lifetime')).toHaveText('0/74');
  await page.getByRole('button',{name:/Practise bed-led leadership/}).click();

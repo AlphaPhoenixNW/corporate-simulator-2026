@@ -1,6 +1,7 @@
+import {enterGame} from '../support/enterGame';
 import {test,expect} from '@playwright/test';
 test('enable orchestration, execute a workflow and persist its six-role trace',async({page})=>{
-  await page.goto('/');
+  await enterGame(page);
   const os=page.getByRole('region',{name:'NOTHING™ OS Enterprise Edition'});
   await os.getByRole('button',{name:/Activate enterprise licence/}).click();
   const section=page.getByRole('region',{name:'Agentic AI control centre'});

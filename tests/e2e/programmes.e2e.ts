@@ -1,6 +1,7 @@
+import {enterGame} from '../support/enterGame';
 import {test,expect} from '@playwright/test';
 test('commission a transformation and retain its portfolio record',async({page})=>{
-  await page.goto('/');
+  await enterGame(page);
   const section=page.getByRole('region',{name:'Transformation portfolio'});
   await expect(section.getByTestId('programme-count')).toHaveText('0/9');
   await section.getByRole('button',{name:/Commission programme/}).click();

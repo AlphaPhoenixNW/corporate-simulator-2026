@@ -1,6 +1,7 @@
+import {enterGame} from '../support/enterGame';
 import {test,expect} from '@playwright/test';
 test('inspect the organisation, receive global recognition and persist accessibility preferences',async({page})=>{
- await page.goto('/');
+ await enterGame(page);
  const intelligence=page.getByRole('region',{name:'Strategic intelligence'});
  await expect(intelligence.getByRole('img',{name:'Cash history over recent working days'})).toBeVisible();
  await intelligence.getByRole('button',{name:/Engineering/}).click();
