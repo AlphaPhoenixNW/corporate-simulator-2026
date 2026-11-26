@@ -3,6 +3,7 @@ import { METRIC_KEYS, type GameState, type Command, type Delta } from './types';
 import { initialDepartments, changeDepartment, runDepartments } from './departments';
 import { seedEmployees, syncDepartments, payrollByDepartment, reconcileStaffing, changeEmployee, runEmployees } from './employees';
 import { changeMeeting, runMeetings } from './meetings';
+import { changeCommunication, runCommunications, generateCommunication } from './communications';
 export const DAILY_CAPACITY = 2;
 const clamp = (n:number) => Math.max(0,Math.min(100,n));
 export function random(rng:number): [number,number] {
@@ -12,7 +13,7 @@ export function random(rng:number): [number,number] {
 export function newGame(seed=2026): GameState {
   const normalized = seed >>> 0;
   const staff=seedEmployees(normalized,initialDepartments(),1);
-  return {version:4,meetings:[],nextMeetingId:1,...staff,departments:syncDepartments(initialDepartments(),staff.employees),seed:normalized,rng:normalized,day:1,cash:75000,capacity:DAILY_CAPACITY,compensation:0,
+  return {version:5,communications:[],nextCommunicationId:1,meetings:[],nextMeetingId:1,...staff,departments:syncDepartments(initialDepartments(),staff.employees),seed:normalized,rng:normalized,day:1,cash:75000,capacity:DAILY_CAPACITY,compensation:0,
     metrics:{confidence:55,prestige:20,morale:70,bureaucracy:15,perceived:25,actual:12,buzzwords:20,meetings:10,regulation:10,incompetence:25},
     pendingEvent:null,resolvedEvents:[],scheduled:[],log:['Day 1: NOTHING™ incorporated. No product roadmap has been approved.'],ledger:[],ending:null};
 }
@@ -35,6 +36,7 @@ function checkEnding(s:GameState) {
 export function dispatch(state:GameState,command:Command):GameState {
   if(state.ending) return state;
   const s:GameState = {...state,metrics:{...state.metrics}};
+  const nextRandom=()=>{const [next,value]=random(s.rng);s.rng=next;return value;};
   if(command.type==='action'){
     const a=ACTIONS.find(x=>x.id===command.id);
     if(!a || s.capacity<1 || s.cash<a.cost || s.pendingEvent) return state;
@@ -42,6 +44,9 @@ export function dispatch(state:GameState,command:Command):GameState {
     record(s,a.label,-a.cost);
     apply(s,a.effect,a.label);
     log(s,a.label+' completed. An outcome is not anticipated.');
+    if(a.id==='statement'||a.id==='consultants'){
+      s.communications=[...s.communications,generateCommunication(s,a.id==='statement'?'announcement':'consultancy',s.nextCommunicationId++,nextRandom)];
+    }
   } else if(command.type==='department'){
     const result=changeDepartment(s,command);
     if(!result)return state;
@@ -59,11 +64,20 @@ export function dispatch(state:GameState,command:Command):GameState {
     s.departments=syncDepartments(s.departments,s.employees);
     record(s,result.message,-result.cost);
     apply(s,result.delta,result.message);log(s,result.message);
+    if(command.operation==='review'){
+      const employee=s.employees.find(e=>e.id===command.id);
+      s.communications=[...s.communications,generateCommunication(s,'performance-review',s.nextCommunicationId++,nextRandom,undefined,employee)];
+    }
   } else if(command.type==='meeting'){
     const result=changeMeeting(s,command);
     if(!result)return state;
     s.capacity--;s.meetings=result.meetings;s.nextMeetingId=result.nextMeetingId;
     log(s,result.message);
+  } else if(command.type==='communication'){
+    const result=changeCommunication(s,command,nextRandom);
+    if(!result)return state;
+    s.capacity-=result.capacity;s.communications=result.communications;s.nextCommunicationId=result.nextCommunicationId;
+    record(s,result.message,-result.cost);apply(s,result.delta,result.message);log(s,result.message);
   } else if(command.type==='choose'){
     const e=EVENTS.find(x=>x.id===s.pendingEvent);
     const c=e?.choices.find(x=>x.id===command.id);
@@ -94,6 +108,9 @@ export function dispatch(state:GameState,command:Command):GameState {
     s.employees=people.employees;s.relationships=people.relationships;
     s.departments=syncDepartments(s.departments,s.employees);
     apply(s,people.delta,'Employee activity');for(const report of people.reports)log(s,report);
+    const comms=runCommunications(s,nextRandom);
+    s.communications=comms.communications;s.nextCommunicationId=comms.nextCommunicationId;
+    apply(s,comms.delta,'Corporate communications');for(const report of comms.reports)log(s,report);
     log(s,'Daily operations reconciled. No further alignment required until tomorrow.');
     s.day++; s.capacity=DAILY_CAPACITY;
     const due=s.scheduled.filter(x=>x.day<=s.day);

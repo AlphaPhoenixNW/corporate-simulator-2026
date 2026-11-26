@@ -32,3 +32,7 @@ Employee IDs are monotonically allocated; identity generation hashes game seed a
 ## Meeting module (0.4.0)
 
 Meeting IDs are monotonic. Bookings reserve named employees and a working day, with per-person 480-minute and eight-meeting daily limits. The day transaction settles due meetings before department and employee activity, preserving payroll and charging actual attendance fees. Attendance time scales departmental routine/progress and employee work probability. Follow-ups preserve parent IDs and are capped at four generations. Meeting outcomes and document names persist. Migration to V4 preserves all V3 identities, RNG and finances while initializing an empty calendar.
+
+## Communication module (0.5.0)
+
+Persistent communication IDs, contextual templates and deterministic RNG produce internal and external records. Ten format definitions supply publication costs and metric effects. Daily communications follow employee operations and update recent social posts before generating a bulletin and a named employee post. Virality and scandal flags are persistent, prevent repeat rewards, and drive corporate metrics; targeted apologies link to their source record. Executive congratulations are limited to one per post. V5 adds an empty communications archive to older saves while preserving all other state.
