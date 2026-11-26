@@ -22,6 +22,8 @@ export function useAutopilot(){
   const receive=(message:AutoMessage)=>{
    if(generation.current!==token)return;
    if(message.type==='result'){
+    const persisted=loadAutopilot();
+    if(persisted.attempts>current.current.attempts){current.current=persisted;setProfile(persisted);stop();setNotice('Another tab has recorded newer progress. Resume from the latest checkpoint.');return;}
     const recorded=recordAttempt(current.current,message.result);
     if(recorded!==current.current)commit(recorded);
    }else if(message.type==='progress')setProgress(message.progress);
