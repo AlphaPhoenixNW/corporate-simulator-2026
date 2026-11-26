@@ -43,16 +43,25 @@ export interface Communication {
   viral:boolean; scandal:'none'|'open'|'resolved'; relatedId:number|null;
 }
 export type CommunicationCommand = {type:'communication';operation:'publish';format:CommunicationType} | {type:'communication';operation:'congratulate'|'respond';id:number};
+export const PROGRAMME_TYPES=['salesforce','cloud','quantum','agile','agentic','transformation','non-intervention','bed-led','os-migration'] as const;
+export type ProgrammeType=typeof PROGRAMME_TYPES[number];
+export interface Programme {
+  type:ProgrammeType; startDay:number; status:'active'|'review'|'paused'|'complete'|'cancelled';
+  budget:number; spent:number; consultancy:number; milestone:number; progress:number; target:number;
+  scopeCreep:number; incidents:number; committeeId:number|null; leadId:number; history:string[];
+}
+export type ProgrammeCommand={type:'programme';operation:'commission'|'replace-lead';programme:ProgrammeType;leadId:number}|
+  {type:'programme';operation:'topup'|'committee'|'approve'|'pause'|'resume'|'cancel';programme:ProgrammeType};
 export interface Choice { id: string; label: string; detail: string; effect: Delta; delayed?: { days: number; effect: Delta; message: string } }
 export interface CorporateEvent { id: string; title: string; description: string; choices: Choice[]; department?: DepartmentId }
 export interface Action { id: string; label: string; detail: string; cost: number; effect: Delta }
 export interface LedgerEntry { day: number; label: string; amount: number }
 export interface ScheduledEffect { day: number; effect: Delta; message: string }
 export interface GameState {
-  version: 5; communications: Communication[]; nextCommunicationId:number; meetings: Meeting[]; nextMeetingId:number; departments: DepartmentState[]; employees: Employee[]; relationships: Relationship[]; nextEmployeeId: number; seed: number; rng: number; day: number; cash: number;
+  version: 6; programmes: Programme[]; communications: Communication[]; nextCommunicationId:number; meetings: Meeting[]; nextMeetingId:number; departments: DepartmentState[]; employees: Employee[]; relationships: Relationship[]; nextEmployeeId: number; seed: number; rng: number; day: number; cash: number;
   metrics: Metrics; capacity: number; compensation: number;
   pendingEvent: string | null; resolvedEvents: string[];
   scheduled: ScheduledEffect[]; log: string[]; ledger: LedgerEntry[];
   ending: 'insolvent' | 'useful' | 'board' | null;
 }
-export type Command = CommunicationCommand | MeetingCommand | EmployeeCommand | DepartmentCommand | { type: 'action'; id: string } | { type: 'choose'; id: string } | { type: 'endDay' };
+export type Command = ProgrammeCommand | CommunicationCommand | MeetingCommand | EmployeeCommand | DepartmentCommand | { type: 'action'; id: string } | { type: 'choose'; id: string } | { type: 'endDay' };
