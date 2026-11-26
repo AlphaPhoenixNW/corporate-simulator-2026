@@ -13,7 +13,7 @@ Status: staged implementation, not a complete game. Checkboxes represent accepte
 - [x] P8 NOTHING OS: boot, desktop, apps, settings, diagnostics, licences, compliance, shutdown and paid restart.
 - [x] P9 Agent orchestration: all six roles, model choice, simulated tokens/costs, workflows, adoption and hallucinations.
 - [x] P10 Event library: at least 150 distinct authored events with choices, consequences, delayed effects and persistent flags.
-- [ ] P11 Seven campaign stages, unlocks, difficulty, endings, sandbox.
+- [x] P11 Seven campaign stages, unlocks, difficulty, endings, sandbox.
 - [ ] P12 Competent employee boss: multi-stage legitimate corporate interventions.
 - [ ] P13 At least 60 functional achievements and animations.
 - [ ] P14 Visual/audio polish, charts, accessibility, reduced motion, keyboard, mobile.
@@ -110,4 +110,10 @@ Implemented and committed:
 - Seven stages with explicit progression gates, capital injections, stage overhead, expanded executive capacity, progressive department availability and simulated public listing.
 - Three difficulties, three scenarios (two unlockable through a separate local profile), sandbox without stage victory, existing three failure endings and provisional final certification.
 - Campaign dashboard and new-game configuration; V11 migration preserves all prior systems while starting the new progression at stage one.
-- Ten new unit/integration cases and desktop/mobile E2E. P11 pending CI. Campaign criteria and economy need end-to-end balancing; final certification must incorporate the competent employee confrontation in P12. Sandbox retains failure rules. Public listing changes market status and scrutiny, not real stock trading. Lockfile outstanding.
+- Ten new unit/integration cases and desktop/mobile E2E. P11 passed CI in run 45743521884 and merged in PR #10 at bc8435e. Campaign criteria and economy need end-to-end balancing; final certification must incorporate the competent employee confrontation in P12. Sandbox retains failure rules. Public listing changes market status and scrutiny, not real stock trading. Lockfile outstanding.
+
+## Increment 0.12.0 — 2026-11-26
+
+- Final-stage encounter, real named 100-skill employee, board retention protection, daily useful-work pressure scaled by available time.
+- Five interventions: promotion, actual steering committee attendance, departmental reassignment, two qualifying training days, three funded dedicated transformation governance days. Final certification gates containment.
+- Dashboard, persistent audit trail, payroll and corporate ledger integration, employee calendar and time utilisation, V12 migration. Ten unit/integration cases and desktop/mobile E2E. P12 pending CI. Boss pressure, fees and time requirements provisional; the dedicated encounter programme is separate from the regular nine-programme portfolio. Legacy completed campaigns retain their ending. Lockfile and balance work outstanding.
