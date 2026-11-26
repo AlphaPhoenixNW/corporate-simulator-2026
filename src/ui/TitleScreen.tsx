@@ -17,6 +17,6 @@ export function TitleScreen({game,highest,onStart,onContinue,onImport,onLibrary,
  {audioControl}
  <button className="launch-outline" onClick={onLibrary}>Executive Library · Read the book</button>
  <details className="launch-utilities"><summary>Backups and installation</summary><SaveTransfer game={game} onImport={onImport}/><InstallControl/></details>
- <p className="launch-hint">No account required · Browser-local saves · No external AI services</p><small className="launch-version">BUILD 0.17.3 / AUDIO FIX</small>
+ <p className="launch-hint">No account required · Browser-local saves · No external AI services</p><small className="launch-version">BUILD 0.17.4 / AMBIENCE</small>
  </section></main>;
 }

@@ -177,3 +177,9 @@ Player reported the single scrolling dashboard is overwhelming and does not comm
 - Add real master-gain signal regression test in desktop Chromium, mobile Chromium and targeted WebKit iPhone emulation. Physical speaker output and actual handset behavior still need human verification. No engine or save schema changes. CI pending.
 
 - Audio CI 45755659089: 158 unit tests and 38 existing browser tests passed. All three real-audio scenarios reached the reload recovery step, then Start audio erroneously muted playback. The document capture-phase auto-resume could update the button's status before its React click handler executed. Exclude explicit audio controls from generic recovery, pass an explicit enable/resume/mute intent, and verify the saved enabled preference after restart and explicit mute while awaiting a gesture. Full rerun pending.
+
+## Increment 0.17.4 — low-fatigue ambience
+
+- v0.17.3 passed CI 45756123061 (158 unit, 41 browser cases, offline checks), merged at 96e7454; main CI 45756604417 passed. Human playtest confirms audio works but the repeated 7.68-second motif is fatiguing.
+- Replace the melody with sixteen original sustained harmonies, 8-second transitions, 11-second overlapping envelopes and restrained levels. Retain audio unlock/status, existing volume, music-off and cues; cancel scheduled pads promptly on interruption or mute. No samples or dependencies. Add structural tests and retain real audio signal checks. Human listening assessment remains necessary.
+- Owner clarified release goal: a basic playable public-source repository, with hosted access as a convenience. Avoid unnecessary polish. Repository visibility stays private until explicit release approval, licensing and repository/history review; no visibility changes here. Immediate decision feedback remains a possible small follow-up, not a requirement for commercial-grade polish.
