@@ -8,6 +8,7 @@ import { changeProgramme, runProgrammes } from './programmes';
 import { initialFinance, trackCash, changeFinance, runFinance, closeFinanceDay } from './finance';
 import { initialOS, changeOS, runOS } from './os';
 import { initialAgents, changeAgents, runAgents } from './agents';
+import { selectIncident } from './incidents';
 export const DAILY_CAPACITY = 2;
 const clamp = (n:number) => Math.max(0,Math.min(100,n));
 export function random(rng:number): [number,number] {
@@ -17,7 +18,7 @@ export function random(rng:number): [number,number] {
 export function newGame(seed=2026): GameState {
   const normalized = seed >>> 0;
   const staff=seedEmployees(normalized,initialDepartments(),1);
-  return {version:9,agents:initialAgents(),os:initialOS(),finance:initialFinance(),programmes:[],communications:[],nextCommunicationId:1,meetings:[],nextMeetingId:1,...staff,departments:syncDepartments(initialDepartments(),staff.employees),seed:normalized,rng:normalized,day:1,cash:75000,capacity:DAILY_CAPACITY,compensation:0,
+  return {version:10,incidentHistory:[],agents:initialAgents(),os:initialOS(),finance:initialFinance(),programmes:[],communications:[],nextCommunicationId:1,meetings:[],nextMeetingId:1,...staff,departments:syncDepartments(initialDepartments(),staff.employees),seed:normalized,rng:normalized,day:1,cash:75000,capacity:DAILY_CAPACITY,compensation:0,
     metrics:{confidence:55,prestige:20,morale:70,bureaucracy:15,perceived:25,actual:12,buzzwords:20,meetings:10,regulation:10,incompetence:25},
     pendingEvent:null,resolvedEvents:[],scheduled:[],log:['Day 1: NOTHING™ incorporated. No product roadmap has been approved.'],ledger:[],ending:null};
 }
@@ -113,6 +114,7 @@ export function dispatch(state:GameState,command:Command):GameState {
     apply(s,c.effect,e.title);
     if(c.delayed) s.scheduled=[...s.scheduled,{day:s.day+c.delayed.days,effect:c.delayed.effect,message:c.delayed.message}];
     s.resolvedEvents=[...s.resolvedEvents,e.id];
+    s.incidentHistory=[...s.incidentHistory,{eventId:e.id,choiceId:c.id,day:s.day}];
     s.pendingEvent=null;
     log(s,c.label);
   } else {
@@ -166,11 +168,7 @@ export function dispatch(state:GameState,command:Command):GameState {
     s.scheduled=s.scheduled.filter(x=>x.day>s.day);
     for(const effect of due){apply(s,effect.effect,effect.message);log(s,effect.message);}
     if(s.day%3===2){
-      const eligible=EVENTS.filter(e=>!e.department||s.departments.some(d=>d.id===e.department&&d.active));
-      const unused=eligible.filter(e=>!s.resolvedEvents.includes(e.id));
-      const pool=unused.length?unused:eligible;
-      const [next,value]=random(s.rng); s.rng=next;
-      s.pendingEvent=pool[Math.floor(value*pool.length)].id;
+      s.pendingEvent=selectIncident(s,nextRandom())?.id??null;
     }
   }
   checkEnding(s);

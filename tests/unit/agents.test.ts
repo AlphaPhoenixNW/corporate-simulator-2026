@@ -75,7 +75,7 @@ describe('agent orchestration',()=>{
   });
   it('migrates v8 saves and persists valid workflow histories',()=>{
     const s=newGame(),legacy={...s,version:8,agents:undefined};
-    expect(decodeSave(JSON.stringify(legacy))).toMatchObject({version:9,agents:initialAgents()});
+    expect(decodeSave(JSON.stringify(legacy))).toMatchObject({version:10,agents:initialAgents()});
     const n=dispatch(enabled(),{type:'endDay'});
     expect(decodeSave(JSON.stringify(n))).toEqual(n);
     expect(decodeSave(JSON.stringify({...n,agents:{...n.agents,budget:123}}))).toBeNull();

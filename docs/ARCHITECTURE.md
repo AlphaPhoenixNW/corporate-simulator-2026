@@ -52,3 +52,7 @@ OSState stores the deterministic power and licence lifecycle, profiles, token an
 ## Agent orchestration (0.9.0)
 
 AgentState tracks configuration, monotonic run IDs, lifetime counters and the latest 60 reports. At day close, enabled workflows execute only with the OS online and a budget sufficient for all six roles. Adoption bounds the number of full runs; model choice defines token multiplier, cost and seeded risk. Each role consumes the preceding role's output; governance blocks release in strict mode but all six roles still execute and incur simulated costs. Agent inference is charged separately from baseline OS inference before finance closes. Shutdown immediately clears active agent demand; configuration persists for paid restart. V9 initializes a disabled orchestration system for older saves.
+
+## Incident catalogue (0.10.0)
+
+Existing event IDs are preserved; 108 authored additions live in incidentCatalogue.ts. Event selection is a pure seeded pool operation: filter department and system prerequisites, minimum day and previous choice plus elapsed time, then prefer eligible unseen continuations, other unseen events, and finally repeatable standalone events. Decisions append to a validated chronological archive, while legacy resolved IDs remain compatible. Delayed effects continue through the existing settlement queue. V10 adds an empty choice archive to older saves; no historical choice is inferred. The UI reveals immediate effects and pending dates but not future story outcomes.

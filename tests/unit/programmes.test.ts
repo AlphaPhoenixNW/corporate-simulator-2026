@@ -77,7 +77,7 @@ describe('transformation programmes',()=>{
   });
   it('migrates v5 saves and validates persistent portfolio records',()=>{
     const s=newGame(),legacy={...s,version:5,programmes:undefined};
-    expect(decodeSave(JSON.stringify(legacy))).toMatchObject({version:9,programmes:[]});
+    expect(decodeSave(JSON.stringify(legacy))).toMatchObject({version:10,programmes:[]});
     const next=commission(s);
     expect(validProgrammes(next.programmes,next.employees,next.meetings)).toBe(true);
     expect(decodeSave(JSON.stringify(next))).toEqual(next);

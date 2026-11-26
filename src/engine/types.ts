@@ -88,12 +88,17 @@ export interface AgentRun {id:number;day:number;model:AgentModel;objective:Agent
 export interface AgentState {enabled:boolean;model:AgentModel;objective:AgentObjective;governance:'strict'|'permissive';budget:number;adoption:number;nextId:number;runs:AgentRun[];totalRuns:number;totalTokens:number;totalCost:number;hallucinations:number;usefulRuns:number;lastTokens:number;lastStatus:string}
 export type AgentCommand={type:'agent';operation:'toggle'|'promote-adoption'|'governance'}|{type:'agent';operation:'model';model:AgentModel}|{type:'agent';operation:'objective';objective:AgentObjective}|{type:'agent';operation:'budget';budget:number};
 export interface Choice { id: string; label: string; detail: string; effect: Delta; delayed?: { days: number; effect: Delta; message: string } }
-export interface CorporateEvent { id: string; title: string; description: string; choices: Choice[]; department?: DepartmentId }
+export const INCIDENT_CATEGORIES=['people','engineering','finance','sales','compliance','marketing','meetings','transformation','executive','os','agents','strategy','general'] as const;
+export type IncidentCategory=typeof INCIDENT_CATEGORIES[number];
+export type IncidentSystem='staff'|'customers'|'exposure'|'social'|'meetings'|'programmes'|'os'|'agents';
+export interface IncidentTrigger {minDay?:number;system?:IncidentSystem;after?:{eventId:string;choiceId:string;days:number}}
+export interface IncidentDecision {eventId:string;choiceId:string;day:number}
+export interface CorporateEvent { id: string; title: string; description: string; choices: Choice[]; department?: DepartmentId;category?:IncidentCategory;trigger?:IncidentTrigger }
 export interface Action { id: string; label: string; detail: string; cost: number; effect: Delta }
 export interface LedgerEntry { day: number; label: string; amount: number; category?:CashCategory }
 export interface ScheduledEffect { day: number; effect: Delta; message: string }
 export interface GameState {
-  version: 9; agents:AgentState; os:OSState; finance:FinanceState; programmes: Programme[]; communications: Communication[]; nextCommunicationId:number; meetings: Meeting[]; nextMeetingId:number; departments: DepartmentState[]; employees: Employee[]; relationships: Relationship[]; nextEmployeeId: number; seed: number; rng: number; day: number; cash: number;
+  version: 10; incidentHistory:IncidentDecision[]; agents:AgentState; os:OSState; finance:FinanceState; programmes: Programme[]; communications: Communication[]; nextCommunicationId:number; meetings: Meeting[]; nextMeetingId:number; departments: DepartmentState[]; employees: Employee[]; relationships: Relationship[]; nextEmployeeId: number; seed: number; rng: number; day: number; cash: number;
   metrics: Metrics; capacity: number; compensation: number;
   pendingEvent: string | null; resolvedEvents: string[];
   scheduled: ScheduledEffect[]; log: string[]; ledger: LedgerEntry[];

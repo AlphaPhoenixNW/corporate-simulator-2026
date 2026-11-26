@@ -11,7 +11,7 @@ Status: staged implementation, not a complete game. Checkboxes represent accepte
 - [x] P6 Transformation programmes: all nine, scope creep, consultants, dependencies, milestones, governance, usefulness incidents.
 - [x] P7 Finance expansion: subscription revenue, predictive savings, debt, acquisitions, share price, earnings, reports, bonuses and balance.
 - [x] P8 NOTHING OS: boot, desktop, apps, settings, diagnostics, licences, compliance, shutdown and paid restart.
-- [ ] P9 Agent orchestration: all six roles, model choice, simulated tokens/costs, workflows, adoption and hallucinations.
+- [x] P9 Agent orchestration: all six roles, model choice, simulated tokens/costs, workflows, adoption and hallucinations.
 - [ ] P10 Event library: at least 150 distinct authored events with choices, consequences, delayed effects and persistent flags.
 - [ ] P11 Seven campaign stages, unlocks, difficulty, endings, sandbox.
 - [ ] P12 Competent employee boss: multi-stage legitimate corporate interventions.
@@ -96,4 +96,11 @@ Implemented and committed:
 - Six agent roles, chained outputs, three simulated models, objectives, token budgets, executive adoption and strict/permissive governance.
 - Persistent workflow traces, hallucination and usefulness outcomes, operational reports, token and cost counters, corporate ledger and OS power integration.
 - Agent control centre with execution diagram, OS console, six new branching events (42 total), V9 save migration.
-- Ten unit/integration cases and desktop/mobile E2E scenario. P9 pending CI. Models and reports are local authored simulations; budget applies to full agent workflows, separate from baseline OS overhead. OS avoided-token counter measures baseline only. Model pricing and risk are provisional. Lockfile outstanding.
+- Ten unit/integration cases and desktop/mobile E2E scenario. P9 passed CI in run 45742438242 and merged in PR #8 at acb842e. Models and reports are local authored simulations; budget applies to full agent workflows, separate from baseline OS overhead. OS avoided-token counter measures baseline only. Model pricing and risk are provisional. Lockfile outstanding.
+
+## Increment 0.10.0 — 2026-11-26
+
+- 108 individually authored additional events; 150 total with two meaningful choices each, twelve categories, 36 new delayed-effect scenarios and twelve branching continuations.
+- Context-aware selection, department gates, system prerequisites, minimum day and persistent previous-choice conditions. Due unseen continuations take priority; resolved continuations do not repeat.
+- Immediate effects displayed at decision time; decision archive, category progress and pending consequence dates; V10 migration preserves encountered IDs without fabricating old choices.
+- Eight unit/integration cases and desktop/mobile E2E scenario. P10 pending CI. Event cadence remains every three working days; triggers are primarily category-level, not all tied to individual live incidents. Choice balance and long-run event distribution need P15 tuning. Lockfile outstanding.

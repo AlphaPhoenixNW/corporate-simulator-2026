@@ -11,7 +11,7 @@ describe('department simulation',()=>{
     expect(s.departments).toHaveLength(10);
     expect(s.departments.filter(d=>d.active)).toHaveLength(3);
     expect(new Set(Object.values(DEPARTMENTS).map(d=>d.objective)).size).toBe(10);
-    expect(EVENTS.filter(e=>e.department)).toHaveLength(10);
+    expect(new Set(EVENTS.flatMap(e=>e.department?[e.department]:[])).size).toBe(10);
     expect(validDepartments(s.departments)).toBe(true);
   });
   it('adjusts a daily budget using capacity without immediately spending cash',()=>{
@@ -52,11 +52,11 @@ describe('department simulation',()=>{
     expect(result.reports).toContain(DEPARTMENTS.engineering.failure);
     expect(result.delta.actual).toBeGreaterThan(0);
   });
-  it('migrates v1 saves without changing day, cash or RNG; validates v9',()=>{
+  it('migrates v1 saves without changing day, cash or RNG; validates v10',()=>{
     const s=newGame(42);
     const legacy={...s,version:1,departments:undefined,day:9,cash:12345};
     const migrated=decodeSave(JSON.stringify(legacy))!;
-    expect(migrated).toMatchObject({version:9,day:9,cash:12345,rng:42});
+    expect(migrated).toMatchObject({version:10,day:9,cash:12345,rng:42});
     expect(migrated.departments.map(d=>d.headcount)).toEqual(initialDepartments().map(d=>d.headcount));
     expect(decodeSave(JSON.stringify(migrated))).toEqual(migrated);
     expect(decodeSave(JSON.stringify({...migrated,departments:[]}))).toBeNull();
