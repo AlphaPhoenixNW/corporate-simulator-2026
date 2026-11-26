@@ -26,19 +26,30 @@ await writeFile(join(dist,'manifest.webmanifest'),JSON.stringify(manifest,null,2
 const assets=(await readdir(join(dist,'assets'))).sort().map(x=>'assets/'+x);
 const files=['index.html','manifest.webmanifest','icons/icon-192.png','icons/icon-512.png',...assets];
 const hash=createHash('sha256');for(const f of files)hash.update(await readFile(join(dist,f)));
-const cache='nothing-sim-app-'+hash.digest('hex').slice(0,16);
+const cache='nothing-sim-app-v2-'+hash.digest('hex').slice(0,16);
 const sw=`const CACHE=${JSON.stringify(cache)};
-const FILES=${JSON.stringify(files)};
+const FILES=${JSON.stringify(files.map(f=>f==='index.html'?'':f))};
 const absolute=p=>new URL(p,self.registration.scope).href;
-self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES.map(absolute)))));
+const SHELL=absolute('');
+// Navigation requests use redirect: manual. Never replay a followed redirect.
+const navigationResponse=response=>response.redirected?new Response(response.body,{status:response.status,statusText:response.statusText,headers:response.headers}):response;
+self.addEventListener('install',event=>event.waitUntil((async()=>{
+ const c=await caches.open(CACHE);
+ await c.addAll(FILES.filter(f=>f!=='').map(f=>new Request(absolute(f),{cache:'reload'})));
+ const shell=await fetch(SHELL,{cache:'reload'});
+ if(!shell.ok)throw Error('Application shell unavailable');
+ await c.put(SHELL,navigationResponse(shell));
+ // Replace the previous broken navigation handler, even with an old tab open.
+ await self.skipWaiting();
+})()));
 self.addEventListener('activate',event=>event.waitUntil((async()=>{for(const name of await caches.keys())if(name.startsWith('nothing-sim-app-')&&name!==CACHE)await caches.delete(name);await self.clients.claim();})()));
 self.addEventListener('fetch',event=>{
  const request=event.request,url=new URL(request.url);
  if(request.method!=='GET'||url.origin!==self.location.origin)return;
  if(request.mode==='navigate'&&[absolute(''),absolute('index.html')].includes(url.origin+url.pathname)){
-  event.respondWith(caches.open(CACHE).then(c=>c.match(absolute('index.html'))).then(r=>r||fetch(request)));return;
+  event.respondWith(caches.open(CACHE).then(c=>c.match(SHELL)).catch(()=>undefined).then(r=>r?navigationResponse(r):fetch(request)));return;
  }
- if(FILES.some(f=>absolute(f)===url.href))event.respondWith(caches.open(CACHE).then(c=>c.match(request)).then(r=>r||fetch(request)));
+ if(FILES.some(f=>absolute(f)===url.href))event.respondWith(caches.open(CACHE).then(c=>c.match(request)).catch(()=>undefined).then(r=>r||fetch(request)));
 });
 `;
 await writeFile(join(dist,'sw.js'),sw);
