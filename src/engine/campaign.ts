@@ -11,12 +11,12 @@ export const SCENARIOS:Record<Scenario,{name:string;description:string;unlock:nu
 };
 export const STAGES=[
  {name:'Bedroom Startup',description:'Create the appearance of an organisation.',grant:0,overhead:0,capacity:2},
- {name:'Seed-Funded Nothingness',description:'Convert investor faith into capital and unlock Marketing and Sales.',grant:15000,overhead:100,capacity:2},
- {name:'Venture Capital Darling',description:'Expand the governance structure and unlock Legal and Corporate Strategy.',grant:25000,overhead:250,capacity:3},
- {name:'Enterprise Transformation Partner',description:'Certify enterprise programmes and unlock Digital Transformation.',grant:35000,overhead:450,capacity:3},
- {name:'Multinational Corporation',description:'Scale customer subscriptions and unlock AI and Agentic Innovation.',grant:50000,overhead:750,capacity:4},
- {name:'Publicly Listed Organisation',description:'List the simulated shares and face heightened market scrutiny.',grant:60000,overhead:1050,capacity:4},
- {name:'Systemically Important Nothingness Provider',description:'Become indispensable without measurable delivery.',grant:75000,overhead:1400,capacity:4}
+ {name:'Seed-Funded Nothingness',description:'Convert investor faith into capital and unlock Marketing and Sales.',grant:15000,overhead:150,capacity:2},
+ {name:'Venture Capital Darling',description:'Expand the governance structure and unlock Legal and Corporate Strategy.',grant:20000,overhead:400,capacity:3},
+ {name:'Enterprise Transformation Partner',description:'Certify enterprise programmes and unlock Digital Transformation.',grant:28000,overhead:750,capacity:3},
+ {name:'Multinational Corporation',description:'Scale customer subscriptions and unlock AI and Agentic Innovation.',grant:40000,overhead:1200,capacity:4},
+ {name:'Publicly Listed Organisation',description:'List the simulated shares and face heightened market scrutiny.',grant:48000,overhead:1800,capacity:4},
+ {name:'Systemically Important Nothingness Provider',description:'Become indispensable without measurable delivery.',grant:55000,overhead:2400,capacity:4}
 ] as const;
 export const DEPARTMENT_STAGE:Record<DepartmentId,number>={hr:1,finance:1,engineering:1,marketing:2,sales:2,legal:3,strategy:3,digital:4,ai:5,executive:1};
 export function initialCampaign(options:GameOptions={}):CampaignState{

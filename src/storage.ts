@@ -56,6 +56,9 @@ export function decodeSave(raw:string):GameState | null {
     if(!validBoss(v.boss,state))return null;
     if(v.version===12)return {...state,version:13,achievements:initialAchievements()};
     if(!validAchievements(v.achievements,state.day))return null;
+    const f=state.finance,p=f.period;
+    if(f.openingCash+p.revenue-p.expenses+p.financing+p.investing!==state.cash)return null;
+    if(state.ledger.some(l=>l.category!==undefined&&!['revenue','expense','financing','investing'].includes(l.category)))return null;
     return state;
   } catch { return null; }
 }
