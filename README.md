@@ -126,3 +126,7 @@ The accepted original ambient score is unchanged. Music and reward/action effect
 ### Executive Career Portfolio (0.19.0 candidate)
 
 A separate Executive CV workspace is introduced on working day two (or immediately through Show all workspaces). The living fictional résumé derives career appointments, recorded decisions, retained meetings, current business indicators and internal fictional qualifications from the current game state. It does not award achievements, change the simulation, or fabricate missing history. Download a self-contained HTML CV, or use the browser's print-to-PDF option. Existing saves work without migration.
+
+### Hosted return-navigation fix (0.19.1 candidate)
+
+Cloudflare Pages canonicalises `/index.html` to `/`. A cached followed redirect can fail a subsequent browser navigation with `ERR_FAILED`. The service worker now precaches the canonical root, normalises redirected navigation responses, reloads assets during installation and falls back to the network if cache lookup fails. A versioned app-shell cache replaces the old one without clearing local saves. Hosted smoke tests emulate Pages redirects and verify new-tab return, referral queries, redirected-cache recovery and offline navigation. Existing affected browsers may open `/recover` on the same host to bypass the old navigation handler; close other game tabs first. No Cloudflare account or simulation changes.

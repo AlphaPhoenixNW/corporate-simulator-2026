@@ -196,3 +196,8 @@ Player reported the single scrolling dashboard is overwhelming and does not comm
 
 - Owner accepted v0.18.0 feedback in human playtest; PR #23 merged at d0731a5. Two final features agreed before release: living fictional CV and separate automated simulation laboratory. Autopilot is deferred to its own branch (v0.20.0), including a link to the companion book while running.
 - Career workspace progressively appears day 2; live CV from current state, actual stage history and recorded activities, no fabricated lifetime totals. Fictional internal qualifications are distinct from achievements. Standalone escaped HTML download and browser print-to-PDF, no new dependencies or save schema. All outcomes fictional, clearly labelled. Automated and human verification pending.
+
+## Increment 0.19.1 — hosted return navigation
+
+- Owner reported Chrome ERR_FAILED returning to the deployed game. Pages deployment and prior CI succeeded. Source review identified a documented Pages HTML redirect/service-worker navigation incompatibility (candidate root cause; live browser verification pending).
+- Cache canonical root instead of redirected index.html; normalise any redirected shell before returning it, version cache, reload build assets, claim clients after installing the fix. Preserve localStorage and gameplay. Test actual 308 hosting redirect, close/reopen with referral query, redirected cached response recovery and offline navigation on desktop/mobile. Keep Autopilot deferred until return navigation is verified.

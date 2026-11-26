@@ -50,3 +50,7 @@ Open Audio settings on title or in game. Corporate hold music and Reward and act
 ## Executive career portfolio (0.19.0 candidate)
 
 Find Executive CV under Records and analysis or Show all workspaces. Review your fictional career, take a bed-led action or bonus, and return to see the actual recorded changes. Download the CV as self-contained HTML; Print / Save as PDF uses your browser print dialogue where available. The portfolio is separate from achievements and does not change your save. New simulations begin a fresh CV; legacy records are not invented.
+
+## Hosted return navigation (0.19.1 candidate)
+
+If a previous deployment fails on return with ERR_FAILED, try the same host with `/recover` (no trailing slash) while online. This bypasses the old worker's root-navigation handler and uses the same browser-local game storage. After the updated build loads, return to the normal root URL. Close and reopen the game, including a referral query, and verify the saved game remains available. Do not clear site storage as a first troubleshooting step.
