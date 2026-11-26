@@ -17,7 +17,7 @@ Current gameplay baseline: v0.20.0; proposed release version 1.0.0 (not yet tagg
 | Documentation | EA-001 and security evidence recorded; verify final links and rendered GitHub views |
 | Artwork | SVG assets committed; cover metadata checked and existing artwork owner-approved under EA-001 |
 | Publication | EA-001 approves existing history, MIT software and reserved literary/brand rights; artifact cleanup verified; owner settings configured while private; public enforcement and explicit approval pending |
-| Hosted security | Local policy passed on main 154eb4e and PR #32; live deployment probe prepared; exact production address and final response headers pending |
+| Hosted security | Local policy passed on main 154eb4e and PR #32; live deployment probe passed on immutable main 58a7e41 deployment; canonical address and final release deployment remain pending |
 | Governance | [Owner-confirmed settings](ADMINISTRATIVE_CONFIGURATION.md); public-only controls pending |
 | Final release | Verify exact final main commit, record owner acceptance and tag only after approval |
 

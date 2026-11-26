@@ -7,13 +7,13 @@ This is the maintained status record, not a live CI feed. Evidence is dated and 
 | Area | State |
 | --- | --- |
 | Software baseline | v0.20.0 gameplay baseline; proposed 1.0.0 Executive Edition changes release label only |
-| Production source | Main at motto/governance merge 58a7e41 (PR #32); post-merge verification pending at preparation |
+| Production source | Main at motto/governance merge 58a7e41 (PR #32); post-merge verification passed |
 | Hosted edition | Cloudflare Pages is configured and has been used for owner playtesting; see [deployment](DEPLOYMENT.md) |
 | Portable edition | Self-contained HTML build, independently verified offline |
 | Executive Library | Integrated, full 22-section reader; owner accepts retention of the manuscript |
 | Corporate literature and identity | Owner accepts overall game and repository direction; literature/branding merged; formal motto approved 26 November 2026 |
 | Public source release | Not yet authorised; EA-001 selects MIT software, reserved literary/brand rights, retained history and existing artwork |
-| Release readiness | Security merge and main regression verified; artifact cleanup complete; owner confirms administrative settings, with owner functional acceptance confirmed; public-only enforcement, live headers and comprehensive accessibility/extended performance outstanding in the [release checklist](RELEASE_CHECKLIST.md) |
+| Release readiness | Security merge and main regression verified; artifact cleanup complete; owner confirms administrative settings, with owner functional acceptance confirmed; public-only enforcement, canonical production/final deployment headers, privacy classification and comprehensive accessibility/extended performance outstanding in the [release checklist](RELEASE_CHECKLIST.md) |
 
 ## Recorded verification evidence
 
@@ -26,10 +26,11 @@ This is the maintained status record, not a live CI feed. Evidence is dated and 
 | 20e05c1 | Security PR #28 | [Simulation passed](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45776938531), [dependency audits passed](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45776938674), [privacy passed](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45776938500); Cloudflare passed | 
 | ba80e6e | Corrected security PR #28 | [Simulation passed](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45779062087), [audits passed](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45779062063), [privacy passed](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45779062279); Cloudflare passed |
 | 154eb4e | Security merge to main | [Simulation passed](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45779632860), [audits passed](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45779632793); 173 unit/integration, 47 browser cases, 22 companion sections, portable and hosted offline, hosted policy, both audits zero vulnerabilities; Cloudflare passed |
-
 | 88a115b | Motto/governance PR #32 | [Simulation passed](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45783744821), [audits passed](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45783744993), Cloudflare passed; 87 relative links checked, zero broken; documentation only |
+| 58a7e41 | Motto/governance main merge | [Simulation passed](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45784544987), [audits passed](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45784545089), Cloudflare passed |
+| f1bb397 | Initial proposed 1.0.0 PR #33 | [Simulation passed](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45784798982), [audits passed](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45784798994), [live header probe passed](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45784799202), [privacy inventory completed](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45784799001), Cloudflare passed; new privacy pattern matches require classification |
 
-PR #32 merged at 58a7e41 with identical tree. [Main simulation](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45784544987) and [audits](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45784545089) are separate verification. Owner functional acceptance confirmed on 26 November 2026 during PR #32 (seven checks); see [human acceptance](HUMAN_ACCEPTANCE.md).
+PR #32 merged at 58a7e41 with identical tree. [Main simulation](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45784544987) and [audits](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45784545089) both passed. Owner functional acceptance confirmed on 26 November 2026 during PR #32 (seven checks); see [human acceptance](HUMAN_ACCEPTANCE.md).
 
 [EA-001](EA-001.md) records the owner decisions. PR #28 is merged; public visibility is not authorised. See [administrative configuration](ADMINISTRATIVE_CONFIGURATION.md) for owner-confirmed settings and [publication review](PUBLICATION_REVIEW.md) for outstanding gates.
 
