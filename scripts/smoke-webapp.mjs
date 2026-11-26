@@ -13,7 +13,7 @@ assert.match(globalHeaders['Content-Security-Policy'],/script-src 'self';/);
 assert.match(globalHeaders['Content-Security-Policy'],/worker-src 'self' blob:/);
 assert.equal(globalHeaders['X-Frame-Options'],'DENY');
 assert.equal(globalHeaders['X-Content-Type-Options'],'nosniff');
-const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.webmanifest':'application/manifest+json','.png':'image/png'};
+const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.webmanifest':'application/manifest+json','.png':'image/png','.txt':'text/plain; charset=utf-8'};
 const server=createServer(async(req,res)=>{
  try{
   const requested=new URL(req.url,url);
@@ -84,6 +84,8 @@ try{
    await page.reload();
    await page.getByTestId('day').waitFor();
    await context.setOffline(true);await page.goto(url+'?utm_source=offline-reopen');
+   const notices=await page.evaluate(async()=>{const r=await fetch('./LICENSES.txt');if(!r.ok)throw Error('Distribution notices unavailable offline');return r.text();});
+   assert(notices.includes('MIT License')&&notices.includes('All rights reserved'),'Hosted distribution notices missing');
    await page.getByRole('button',{name:'Executive Library',exact:true}).click();
    const reader=page.getByRole('main',{name:'Executive Library'});
    await reader.getByLabel('Reading section').selectOption('11');

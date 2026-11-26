@@ -22,6 +22,10 @@ try{
    page.on('pageerror',error=>errors.push(error.message));
    page.on('request',request=>{if(/^https?:/.test(request.url()))network.push(request.url());});
    await page.goto(url);
+   // Notices must be an actual document node, not accidentally injected into the bundled script.
+   const rights=await page.evaluate(()=>{const t=document.querySelector('body > template#distribution-rights-notices');return t?.content.textContent??null;});
+   assert(rights?.includes('MIT License')&&rights.includes('All rights reserved'),'Portable distribution notices missing or misplaced');
+   assert.deepEqual(errors,[],'Portable bundle must parse and execute without JavaScript errors');
    await page.getByRole('button',{name:'Executive Library · Read the book'}).click();
    const reader=page.getByRole('main',{name:'Executive Library'});
    await reader.getByLabel('Reading section').selectOption('2');

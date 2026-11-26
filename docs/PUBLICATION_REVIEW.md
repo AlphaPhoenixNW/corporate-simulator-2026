@@ -10,7 +10,7 @@ This is the current publication decision checklist, not authorisation to change 
 - [x] Owner accepts retention of existing history and disclosed private provenance under EA-001. Current import notes and backlog use neutral descriptions; in-game book retains approved wording and original manuscript is unchanged.
 - [x] Owner selects [MIT software licence](../LICENSE) and [reserved literary/artwork/brand rights](../RIGHTS.md).
 - [x] Owner selects existing history rather than clean distribution repository.
-- [ ] Verify authorised superseded artifact cleanup and remove temporary cleanup workflow.
+- [x] Authorised cleanup verified ([cleanup run 45777988790](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45777988790)): 35 deleted, zero eligible remaining, last verified build preserved; temporary cleanup workflow removed.
 - [x] Owner authorises preparation and merger of PR #28 after exact-head verification; no public visibility authority granted.
 - [x] Record baseline main CI and branding PR verification in [status](STATUS.md).
 - [ ] Record final main CI, remaining human Autopilot/accessibility and release acceptance evidence.

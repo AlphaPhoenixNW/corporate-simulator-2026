@@ -45,13 +45,13 @@ Preliminary review found noreply addresses for 118 reachable commits on the then
 - [x] Neutralise precise private source identifiers in current import notes and backlog. Keep the original manuscript publisher note unchanged; the in-game companion already uses the approved neutral wording.
 - [x] EA-001 authorises retaining existing history including disclosed private provenance and the original manuscript publisher note. This does not authorise publication of unrelated private material.
 - [x] Revised classifier and synthetic probes passed: current/historical source and completed-run logs reported no unclassified username-shaped paths; earlier matches were classified as runner accounts or regex punctuation.
-- [ ] Execute and verify EA-001 superseded artifact deletion, then remove temporary write-capable workflow. Preserve the last verified build and new candidates.
+- [x] EA-001 superseded artifact cleanup verified on 196059f ([cleanup run 45777988790](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45777988790)): 35 eligible artifacts deleted, zero eligible remaining, verified artifact 15096028968 retained. Temporary write-capable workflow removed in the follow-up commit; no Git history or workflow logs deleted.
 - [ ] Verify owner-controlled repository protections and security settings. History route selected under EA-001.
 
 ## Stage 4: final acceptance
 
 - [x] All five checks on 20e05c1 passed: [simulation 45776938531](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45776938531), [audit 45776938674](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45776938674), privacy and Cloudflare. 173 unit/integration and 47 browser cases, 22 companion sections, both offline editions and hosted policy passed; zero reported vulnerabilities in both scopes.
-- [ ] Verify exact final PR and main commits after EA-001 changes.
+- [ ] Verify exact final PR and main commits after EA-001 changes. [Run 45777988578](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45777988578) passed typecheck, build, unit and browser cases but failed portable offline startup: the rights-notice insertion matched a closing body tag within bundled book-export JavaScript. Follow-up inserts into the original shell before bundling, requires anchored closing document tags, and asserts portable notice placement and hosted offline notice availability. Full re-verification required.
 - [x] EA-001 selects MIT for original software and reserves literary/artwork/brand rights. See [LICENCE](../LICENSE) and [rights](../RIGHTS.md).
 - [ ] Record remaining human acceptance and live headers.
 - [ ] Obtain explicit owner authorisation for publication.
