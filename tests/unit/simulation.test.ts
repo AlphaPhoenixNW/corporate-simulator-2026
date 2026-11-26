@@ -1,5 +1,6 @@
 import { describe,it,expect } from 'vitest';
 import { dispatch,newGame } from '../../src/engine/simulation';
+import type { GameState } from '../../src/engine/types';
 import { EVENTS } from '../../src/engine/content';
 import { decodeSave } from '../../src/storage';
 describe('daily simulation',()=>{
@@ -30,7 +31,7 @@ describe('daily simulation',()=>{
     expect(next.resolvedEvents).toContain(e.id);
   });
   it('applies delayed effects on the due day',()=>{
-    let s={...newGame(),pendingEvent:'functional-product'};
+    let s: GameState={...newGame(),pendingEvent:'functional-product'};
     s=dispatch(s,{type:'choose',id:'launch'});
     expect(s.cash).toBe(79000);
     expect(s.scheduled[0].day).toBe(3);
