@@ -32,15 +32,22 @@ test('validates an imported backup and requires explicit confirmation before rep
  await page.getByRole('button',{name:'Title screen and backups'}).click();
  await page.getByText('Backups and installation',{exact:true}).click();
  const input=page.getByLabel('Import saved game',{exact:true});
- await input.setInputFiles({name:'invalid.json',mimeType:'application/json',buffer:Buffer.from('{invalid')});
+ const selectFile=async(name:string,content:string)=>input.evaluate((element,{name,content})=>{
+  const transfer=new DataTransfer();
+  transfer.items.add(new File([content],name,{type:'application/json'}));
+  const control=element as HTMLInputElement;
+  control.files=transfer.files;
+  control.dispatchEvent(new Event('change',{bubbles:true}));
+ },{name,content});
+ await selectFile('invalid.json','{invalid');
  await expect(page.getByRole('alert')).toContainText('not a valid');
  const s=dispatch(newGame(42),{type:'action',id:'rest'}),b=createBackup(s,3,[{id:'boot',day:5}]);
- await input.setInputFiles({name:'backup.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(b))});
+ await selectFile('backup.json',JSON.stringify(b));
  const preview=page.getByRole('region',{name:'Import confirmation'});
  await expect(preview).toContainText('Seed 42');
  await preview.getByRole('button',{name:'Cancel import'}).click();
  await expect(page.getByText('Seed 2026 · Corporate standard')).toBeVisible();
- await input.setInputFiles({name:'backup.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(b))});
+ await selectFile('backup.json',JSON.stringify(b));
  await preview.getByRole('button',{name:'Confirm import'}).click();
  await expect(page.getByText('Seed 42 · Corporate standard')).toBeVisible();
  const downloadPromise=page.waitForEvent('download');
