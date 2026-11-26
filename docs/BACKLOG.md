@@ -8,7 +8,7 @@ Status: staged implementation, not a complete game. Checkboxes represent accepte
 - [x] P3 Persistent employee identities, ten archetypes, relationships, hiring, promotions, reviews, discipline, redundancies, restructuring.
 - [x] P4 Meetings: all eight types, attendance, costs, follow-up scheduling, documentation.
 - [x] P5 Communications: all ten formats, social network, engagement, influencers and scandals.
-- [ ] P6 Transformation programmes: all nine, scope creep, consultants, dependencies, milestones, governance, usefulness incidents.
+- [x] P6 Transformation programmes: all nine, scope creep, consultants, dependencies, milestones, governance, usefulness incidents.
 - [ ] P7 Finance expansion: subscription revenue, predictive savings, debt, acquisitions, share price, earnings, reports, bonuses and balance.
 - [ ] P8 NOTHING OS: boot, desktop, apps, settings, diagnostics, licences, compliance, shutdown and paid restart.
 - [ ] P9 Agent orchestration: all six roles, model choice, simulated tokens/costs, workflows, adoption and hallucinations.
@@ -75,4 +75,12 @@ Implemented and committed:
 - Nine authored transformation programmes and 27 milestone gates; sponsor and prerequisite rules, named leads, spending ceilings, consultancy invoices, lead availability, scope expansion and usefulness incidents.
 - Actual steering committees must be held before approval; integration with meeting attendance, employee status, departmental governance, corporate communications and cash ledger.
 - Portfolio dashboard, programme controls and history. Six further branching events (26 total). V6 migrates V1–V5.
-- Ten unit/integration cases and desktop/mobile E2E scenario. P6 pending CI. Programme budgets, fees and risk require balancing; committee costs are accounted separately; transformation programmes are single-instance per save. Lockfile outstanding.
+- Ten unit/integration cases and desktop/mobile E2E scenario. P6 passed all checks in run 45741039232 and merged in PR #5 at 65abe0a. Programme budgets, fees and risk require balancing; committee costs are accounted separately; transformation programmes are single-instance per save. Lockfile outstanding.
+
+## Increment 0.7.0 — 2026-11-26
+
+- Persistent subscription customers, three pricing strategies, hypothetical savings invoices, regulatory exposure and churn; sales department affects acquisition yield.
+- Credit drawdown, repayments, interest and debt ceiling; three acquisition targets with recurring receipts, costs and usefulness incidents.
+- Centralized cash flow classification, reconciled operating results, financing and investing, daily investor sentiment and indicative share price, accelerated 20-day quarterly reports with shareholder communications.
+- Financial dashboard, market history chart, controls and reporting; six additional branching events (32 total). V7 migration starts reporting at existing cash/day.
+- Eleven new unit/integration cases and desktop/mobile E2E scenario. P7 pending CI and economic balancing. Share price is indicative until public listing, accounting is cash-basis not full GAAP/IFRS, and debt/fee assumptions are provisional. Lockfile outstanding.
