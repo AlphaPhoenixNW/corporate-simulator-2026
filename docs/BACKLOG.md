@@ -6,8 +6,8 @@ Status: staged implementation, not a complete game. Checkboxes represent accepte
 - [ ] P1 Foundation: Vite/React/TS, deterministic turn engine, 11 metrics, action capacity, initial economy, decisions, local persistence, responsive dashboard, automated tests and verification.
 - [x] P2 Ten departments; budgets, influence, politics, differentiated mechanics, staffing and unlocks.
 - [x] P3 Persistent employee identities, ten archetypes, relationships, hiring, promotions, reviews, discipline, redundancies, restructuring.
-- [ ] P4 Meetings: all eight types, attendance, costs, follow-up scheduling, documentation.
-- [ ] P5 Communications: all nine formats, social network, engagement, influencers and scandals.
+- [x] P4 Meetings: all eight types, attendance, costs, follow-up scheduling, documentation.
+- [ ] P5 Communications: all ten formats, social network, engagement, influencers and scandals.
 - [ ] P6 Transformation programmes: all nine, scope creep, consultants, dependencies, milestones, governance, usefulness incidents.
 - [ ] P7 Finance expansion: subscription revenue, predictive savings, debt, acquisitions, share price, earnings, reports, bonuses and balance.
 - [ ] P8 NOTHING OS: boot, desktop, apps, settings, diagnostics, licences, compliance, shutdown and paid restart.
@@ -60,4 +60,12 @@ Implemented and committed:
 - Meetings run at day close and reduce individual and departmental operational time, employee morale and actual productivity while increasing perceived productivity and bureaucracy.
 - Procedural outcomes, conflicting recommendations, document records and automatic follow-up chains.
 - Responsive governance calendar and history; save schema V4 with V1–V3 migration.
-- Ten unit/integration cases and desktop/mobile E2E scenario. P4 pending CI. Fees, capacity ceilings and follow-up depth are provisional. Stand-up bookings are manual; automatic recurring series and richer document formats can be added during polish. Lockfile and general balance checks remain outstanding.
+- Ten unit/integration cases and desktop/mobile E2E scenario. P4 passed all checks in run 45739968402 and merged in PR #3 at 312d374. Fees, capacity ceilings and follow-up depth are provisional. Stand-up bookings are manual; automatic recurring series and richer document formats can be added during polish. Lockfile and general balance checks remain outstanding.
+
+## Increment 0.5.0 — 2026-11-26
+
+- Ten communication formats (the original brief enumerates ten), contextual local templates, executive publishing costs and capacity, daily bulletins and employee social posts.
+- Align™ tracks impressions, reactions, comments, executive congratulations, influencer rankings, viral events and persistent scandals with targeted apology responses.
+- Existing announcement, consultancy and employee-review actions generate communications; six new branching events, 20 total.
+- Responsive publishing desk, filtered communication history, social comments and crisis controls. Save V5 migrates V1–V4.
+- Nine unit/integration cases and desktop/mobile E2E scenario; P5 pending CI. Template diversity, engagement balancing and additional event integration remain later polish tasks. Lockfile still outstanding.
