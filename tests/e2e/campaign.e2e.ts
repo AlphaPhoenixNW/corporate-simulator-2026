@@ -1,0 +1,23 @@
+import {test,expect} from '@playwright/test';
+import {newGame} from '../../src/engine/simulation';
+import {SAVE_KEY} from '../../src/storage';
+test('advance a qualified campaign stage, retain it and start a sandbox',async({page})=>{
+ const s=newGame();const ready={...s,day:3,metrics:{...s.metrics,confidence:60,perceived:40,actual:0}};
+ await page.addInitScript(({key,raw})=>{if(!localStorage.getItem(key))localStorage.setItem(key,raw);},{key:SAVE_KEY,raw:JSON.stringify(ready)});
+ await page.goto('/');
+ const section=page.getByRole('region',{name:'Campaign progression'});
+ await expect(section.getByTestId('campaign-current')).toHaveText('1/7');
+ await section.getByRole('button',{name:'Authorise next campaign stage'}).click();
+ await expect(section.getByTestId('campaign-current')).toHaveText('2/7');
+ await expect(page.getByTestId('cash')).toHaveText('£90,000');
+ await page.reload();
+ await expect(section.getByTestId('campaign-current')).toHaveText('2/7');
+ await page.getByRole('button',{name:'New simulation',exact:true}).click();
+ const reset=page.getByRole('region',{name:'New simulation'});
+ await reset.getByLabel('Mode',{exact:true}).selectOption('sandbox');
+ await reset.getByLabel('Difficulty',{exact:true}).selectOption('relaxed');
+ await reset.getByRole('button',{name:'Replace save'}).click();
+ await expect(section.getByTestId('campaign-current')).toHaveText('Sandbox');
+ await expect(page.getByTestId('cash')).toHaveText('£112,500');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth)).toBe(false);
+});

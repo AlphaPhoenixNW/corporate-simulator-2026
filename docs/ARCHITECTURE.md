@@ -56,3 +56,7 @@ AgentState tracks configuration, monotonic run IDs, lifetime counters and the la
 ## Incident catalogue (0.10.0)
 
 Existing event IDs are preserved; 108 authored additions live in incidentCatalogue.ts. Event selection is a pure seeded pool operation: filter department and system prerequisites, minimum day and previous choice plus elapsed time, then prefer eligible unseen continuations, other unseen events, and finally repeatable standalone events. Decisions append to a validated chronological archive, while legacy resolved IDs remain compatible. Delayed effects continue through the existing settlement queue. V10 adds an empty choice archive to older saves; no historical choice is inferred. The UI reveals immediate effects and pending dates but not future story outcomes.
+
+## Campaign module (0.11.0)
+
+CampaignState stores mode, difficulty, scenario, sequential stage history and entry day. Pure requirements evaluate live state; advance consumes one executive capacity and credits financing cash through record(). Department unlocks combine day and stage; capacity and overhead derive from stage. Difficulty affects starting capital, baseline overhead, regulatory pressure and strategic failure limit. Sandbox retains base capacity and ordinary failure endings while removing stage requirements. A local profile stores maximum campaign stage independently of save replacement to unlock scenario configurations. V11 migrates older saves to stage one without discarding existing departments or progress. Final certification is provisional until the boss module.

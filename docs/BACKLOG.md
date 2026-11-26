@@ -12,7 +12,7 @@ Status: staged implementation, not a complete game. Checkboxes represent accepte
 - [x] P7 Finance expansion: subscription revenue, predictive savings, debt, acquisitions, share price, earnings, reports, bonuses and balance.
 - [x] P8 NOTHING OS: boot, desktop, apps, settings, diagnostics, licences, compliance, shutdown and paid restart.
 - [x] P9 Agent orchestration: all six roles, model choice, simulated tokens/costs, workflows, adoption and hallucinations.
-- [ ] P10 Event library: at least 150 distinct authored events with choices, consequences, delayed effects and persistent flags.
+- [x] P10 Event library: at least 150 distinct authored events with choices, consequences, delayed effects and persistent flags.
 - [ ] P11 Seven campaign stages, unlocks, difficulty, endings, sandbox.
 - [ ] P12 Competent employee boss: multi-stage legitimate corporate interventions.
 - [ ] P13 At least 60 functional achievements and animations.
@@ -103,4 +103,11 @@ Implemented and committed:
 - 108 individually authored additional events; 150 total with two meaningful choices each, twelve categories, 36 new delayed-effect scenarios and twelve branching continuations.
 - Context-aware selection, department gates, system prerequisites, minimum day and persistent previous-choice conditions. Due unseen continuations take priority; resolved continuations do not repeat.
 - Immediate effects displayed at decision time; decision archive, category progress and pending consequence dates; V10 migration preserves encountered IDs without fabricating old choices.
-- Eight unit/integration cases and desktop/mobile E2E scenario. P10 pending CI. Event cadence remains every three working days; triggers are primarily category-level, not all tied to individual live incidents. Choice balance and long-run event distribution need P15 tuning. Lockfile outstanding.
+- Eight unit/integration cases and desktop/mobile E2E scenario. P10 passed CI in run 45743104484 and merged in PR #9 at a18ea5b. Event cadence remains every three working days; triggers are primarily category-level, not all tied to individual live incidents. Choice balance and long-run event distribution need P15 tuning. Lockfile outstanding.
+
+## Increment 0.11.0 — 2026-11-26
+
+- Seven stages with explicit progression gates, capital injections, stage overhead, expanded executive capacity, progressive department availability and simulated public listing.
+- Three difficulties, three scenarios (two unlockable through a separate local profile), sandbox without stage victory, existing three failure endings and provisional final certification.
+- Campaign dashboard and new-game configuration; V11 migration preserves all prior systems while starting the new progression at stage one.
+- Ten new unit/integration cases and desktop/mobile E2E. P11 pending CI. Campaign criteria and economy need end-to-end balancing; final certification must incorporate the competent employee confrontation in P12. Sandbox retains failure rules. Public listing changes market status and scrutiny, not real stock trading. Lockfile outstanding.
