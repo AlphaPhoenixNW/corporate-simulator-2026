@@ -34,7 +34,11 @@ export function departmentEligibility(s:GameState,id:DepartmentId,op:DepartmentC
   if(op==='increase'&&d.budget>=MAX_BUDGET)return 'Budget ceiling reached';
   if(op==='decrease'&&d.budget<=MIN_BUDGET)return 'Budget floor reached';
   if(op==='hire'&&(d.headcount>=MAX_HEADCOUNT||s.cash<HIRE_COST))return 'Staffing limit or insufficient liquidity';
-  if(op==='reduce'&&d.headcount<=1)return 'Minimum staffing reached';
+  if(op==='reduce'){
+    if(d.headcount<=1)return 'Minimum staffing reached';
+    const team=s.employees.filter(e=>e.department===id&&e.status==='active');
+    if(s.cash<team[team.length-1].salary*5)return 'Insufficient liquidity for redundancy';
+  }
   return null;
 }
 export function changeDepartment(s:GameState,command:DepartmentCommand):{departments:DepartmentState[]; cost:number; message:string}|null{
@@ -56,7 +60,7 @@ export function changeDepartment(s:GameState,command:DepartmentCommand):{departm
   return {departments,cost,message:DEPARTMENTS[command.id].name+': '+command.operation+' authorised.'};
 }
 export interface DepartmentDay { departments:DepartmentState[]; delta:Delta; costs:{label:string;amount:number}[]; reports:string[] }
-export function runDepartments(departments:DepartmentState[],random:()=>number):DepartmentDay{
+export function runDepartments(departments:DepartmentState[],random:()=>number,payroll?:Partial<Record<DepartmentId,number>>):DepartmentDay{
   const delta:Delta={},costs:DepartmentDay['costs']=[],reports:string[]=[];
   const active=departments.filter(d=>d.active);
   const leader=[...active].sort((a,b)=>b.influence-a.influence)[0];
@@ -66,7 +70,7 @@ export function runDepartments(departments:DepartmentState[],random:()=>number):
   const next=departments.map(d=>{
     if(!d.active)return d;
     const def=DEPARTMENTS[d.id],roll=random();
-    const spent=d.budget+d.headcount*DAILY_WAGE;
+    const spent=d.budget+(payroll?payroll[d.id]??0:d.headcount*DAILY_WAGE);
     costs.push({label:def.name+' operating costs',amount:-spent});
     const funded=d.budget>=d.headcount*50;
     const scale=funded?Math.min(2,(.75+d.competence/200)+(d.headcount-1)*.25):.5;
@@ -91,6 +95,6 @@ export function validDepartments(value:unknown):value is DepartmentState[]{
   const bounded=(n:unknown,max:number,min=0)=>typeof n==='number'&&Number.isInteger(n)&&n>=min&&n<=max;
   return DEPARTMENT_IDS.every((id,i)=>{
     const d=value[i];
-    return d&&typeof d==='object'&&d.id===id&&typeof d.active==='boolean'&&bounded(d.budget,MAX_BUDGET)&&d.budget%BUDGET_STEP===0&&bounded(d.headcount,MAX_HEADCOUNT,d.active?1:0)&&(d.active||d.headcount===0)&&bounded(d.morale,100)&&bounded(d.competence,100)&&bounded(d.influence,100)&&bounded(d.progress,99)&&bounded(d.spent,MAX_BUDGET+MAX_HEADCOUNT*DAILY_WAGE)&&typeof d.request==='boolean'&&typeof d.report==='string'&&['governance','operations'].includes(d.focus);
+    return d&&typeof d==='object'&&d.id===id&&typeof d.active==='boolean'&&bounded(d.budget,MAX_BUDGET)&&d.budget%BUDGET_STEP===0&&bounded(d.headcount,MAX_HEADCOUNT,d.active?1:0)&&(d.active||d.headcount===0)&&bounded(d.morale,100)&&bounded(d.competence,100)&&bounded(d.influence,100)&&bounded(d.progress,99)&&bounded(d.spent,MAX_BUDGET+MAX_HEADCOUNT*1000)&&typeof d.request==='boolean'&&typeof d.report==='string'&&['governance','operations'].includes(d.focus);
   });
 }
