@@ -80,7 +80,7 @@ export function reconcileStaffing(s:GameState,departments:DepartmentState[],id:D
   if(desired<team.length){
     const last=team[team.length-1];cost=redundancyCost(last);
     if(s.cash<cost)return null;
-    employees=employees.map(e=>e.id===last.id?{...e,status:'redundant',departed:s.day,promotionRequested:false,report:'Position removed in departmental restructuring.'}:e);
+    employees=employees.map(e=>e.id===last.id?{...e,status:'redundant' as const,departed:s.day,promotionRequested:false,report:'Position removed in departmental restructuring.'}:e);
   }
   return {employees,nextEmployeeId,cost};
 }

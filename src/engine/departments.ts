@@ -34,7 +34,11 @@ export function departmentEligibility(s:GameState,id:DepartmentId,op:DepartmentC
   if(op==='increase'&&d.budget>=MAX_BUDGET)return 'Budget ceiling reached';
   if(op==='decrease'&&d.budget<=MIN_BUDGET)return 'Budget floor reached';
   if(op==='hire'&&(d.headcount>=MAX_HEADCOUNT||s.cash<HIRE_COST))return 'Staffing limit or insufficient liquidity';
-  if(op==='reduce'&&d.headcount<=1)return 'Minimum staffing reached';
+  if(op==='reduce'){
+    if(d.headcount<=1)return 'Minimum staffing reached';
+    const team=s.employees.filter(e=>e.department===id&&e.status==='active');
+    if(s.cash<team[team.length-1].salary*5)return 'Insufficient liquidity for redundancy';
+  }
   return null;
 }
 export function changeDepartment(s:GameState,command:DepartmentCommand):{departments:DepartmentState[]; cost:number; message:string}|null{

@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { DEPARTMENTS, departmentEligibility, ACTIVATION_COST, HIRE_COST, DAILY_WAGE, BUDGET_STEP } from '../engine/departments';
+import { DEPARTMENTS, departmentEligibility, ACTIVATION_COST, HIRE_COST, BUDGET_STEP } from '../engine/departments';
+import { payrollByDepartment } from '../engine/employees';
 import type { GameState, Command, DepartmentCommand, DepartmentId } from '../engine/types';
 
 const money=(n:number)=>new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP',maximumFractionDigits:0}).format(n);
@@ -9,7 +10,8 @@ export function DepartmentsPanel({state,send}:{state:GameState;send:(command:Com
   const definition=DEPARTMENTS[d.id];
   const active=state.departments.filter(x=>x.active);
   const totalHeadcount=active.reduce((n,x)=>n+x.headcount,0);
-  const daily=active.reduce((n,x)=>n+x.budget+x.headcount*DAILY_WAGE,0);
+  const payroll=payrollByDepartment(state.employees);
+  const daily=active.reduce((n,x)=>n+x.budget+(payroll[x.id]??0),0);
   const operations:{op:DepartmentCommand['operation'];label:string}[]=d.active?[
     {op:'increase',label:'Increase budget '+money(BUDGET_STEP)},{op:'decrease',label:'Decrease budget '+money(BUDGET_STEP)},
     {op:'hire',label:'Hire staff · '+money(HIRE_COST)},{op:'reduce',label:'Reduce headcount'},
@@ -18,7 +20,7 @@ export function DepartmentsPanel({state,send}:{state:GameState;send:(command:Com
   return <section className="panel departments" id="departments" aria-labelledby="department-heading">
     <p className="eyebrow">ORGANISATIONAL GOVERNANCE</p><h2 id="department-heading">Corporate departments</h2>
     <div className="department-summary"><div><span>Active departments</span><strong>{active.length} / 10</strong></div><div><span>Allocated headcount</span><strong>{totalHeadcount}</strong></div><div><span>Daily departmental cost</span><strong>{money(daily)}</strong></div><div><span>Resource requests</span><strong>{active.filter(x=>x.request).length}</strong></div></div>
-    <p className="hint">Departmental actions use one executive capacity. Budgets are daily operating allocations, plus {money(DAILY_WAGE)} per staff member. Departments become available over the opening working days.</p>
+    <p className="hint">Departmental actions use one executive capacity. Budgets are daily operating allocations, plus individual employee salaries. Departments become available over the opening working days.</p>
     <div className="department-workspace">
       <div className="department-list" aria-label="Department selection">{state.departments.map(x=><button key={x.id} aria-pressed={selected===x.id} onClick={()=>setSelected(x.id)} className={'department-tab'+(selected===x.id?' selected':'')}><span>{DEPARTMENTS[x.id].name}</span><small>{x.active?(x.request?'Resource request':'Active'):state.day>=DEPARTMENTS[x.id].unlockDay?'Available':'Day '+DEPARTMENTS[x.id].unlockDay}</small></button>)}</div>
       <article className="department-detail" aria-label={definition.name+' details'}>
