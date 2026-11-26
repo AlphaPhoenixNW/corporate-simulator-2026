@@ -205,3 +205,10 @@ Player reported the single scrolling dashboard is overwhelming and does not comm
 ## Increment 0.20.0 — Executive Autopilot
 
 - Owner accepted CV and recovered hosted navigation; 0.19.1 merged after CI 45763447661. Autopilot is the final planned gameplay increment. Share the regression driver's existing deterministic decision policy with the real engine, preserve manual play and all 74 manual awards. Separate profile, genuine cumulative target of 1 million attempts, bounded attempts recorded separately, pause/resume and live reading link. Inline worker supports portable distribution; cooperative fallback. CV grammar fix and separately labelled autonomous leadership supplement. CI, actual runtime performance and human playtest pending. No repository visibility or licence changes.
+
+
+## Autopilot acceptance and release literature candidate
+
+- v0.20.0 PR #26 passed CI 45767062340 and Cloudflare preview on c38301c; merged to main at 720c174. The cancelled prior run hit the 15-minute limit during E2E after lengthy browser setup; pinned Playwright container and npm cache restored a 2m47s full run. No gates removed. Main verification and human Autopilot assessment remain separate.
+- Owner agrees to retain the manuscript following a current-text privacy review; historical repository data, cover artwork and commit metadata still require separate review. No visibility change or software/book licence selected.
+- Release literature candidate: shorter public-facing README, preserved historical README, fictional Nora memoir with factual attribution, contribution procedures and selected changelog. No gameplay or manuscript changes. Verify exact documentation commit, review release checklist and resolve licence/publication scope before public release. P15 remains open.
