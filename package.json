@@ -8,6 +8,8 @@
     "typecheck": "tsc --noEmit",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
+    "build:playtest": "npm run build && node scripts/package-playtest.mjs",
+    "test:playtest": "node scripts/smoke-playtest.mjs",
     "test": "vitest run",
     "test:e2e": "playwright test"
   },
