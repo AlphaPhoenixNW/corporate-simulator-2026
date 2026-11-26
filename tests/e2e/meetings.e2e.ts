@@ -1,7 +1,8 @@
-import {enterGame} from '../support/enterGame';
+import {enterGame,goWorkspace,openSettings} from '../support/enterGame';
 import {test,expect} from '@playwright/test';
 test('book a meeting, hold it and preserve its follow-up on reload',async({page})=>{
   await enterGame(page);
+ await goWorkspace(page,'meetings');
   const section=page.getByRole('region',{name:'Meeting governance centre'});
   await section.getByLabel('Meeting type').selectOption('scheduling');
   await section.getByRole('button',{name:'Schedule meeting',exact:true}).click();

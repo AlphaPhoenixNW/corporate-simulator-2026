@@ -3,7 +3,7 @@
 
 You are CEO of NOTHING™, a corporation devoted to appearing productive while avoiding measurable value. Delivering tomorrow's nothing, today.
 
-**Status:** 0.16.0 one-click onboarding beta candidate; the full game is not yet complete.
+**Status:** 0.17.0 focused-workspace beta candidate; the full game is not yet complete.
 
 ## Run locally
 
@@ -98,3 +98,7 @@ Successful CI runs upload a self-contained HTML playtest with desktop/mobile scr
 ### One-click onboarding and web app
 
 A fresh session starts at the title screen with instant Play now, optional guided game, configurable new game and Continue for an existing save. Reloading an active session resumes directly. The title screen includes validated JSON backup export and confirmation-based import; lifetime achievement and scenario profiles merge. The production build generates an installable manifest, PNG icons and a versioned service worker that precaches the bundled static app. Offline operation requires the initial hosted cache to complete. Portable HTML remains supported without a service worker. Cloudflare Pages configuration and deployment steps are in docs/DEPLOYMENT.md; no public hosting is activated yet.
+
+### Focused executive office
+
+The first workspace shows the immediate goal, live campaign requirements, a rule-based suggested next action, cash, available executive capacity and the most important risk scores. Dedicated workspaces replace the previous giant scrolling page. Desktop navigation and mobile Office / Company / Finance / Campaign shortcuts plus the All workspaces selector open one active view at a time. Day control and pending decisions remain global. Hash routes support browser history, deep links and reload. Settings and saves are grouped in a collapsed panel. Existing engine commands and save schema are unchanged. Advanced systems are still reachable through the full navigation; progressive introduction is planned separately. The companion book is a private offline reader in the signed-in CI artifact, not publicly deployed.

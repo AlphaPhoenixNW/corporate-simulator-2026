@@ -22,3 +22,7 @@ Start with Corporate standard difficulty, seed 2026. You have two executive acti
 - Record seed, difficulty, working day, action, expected and actual behaviour, and screenshots for any issue.
 
 Screenshots included with the artifact are captured by automated Chromium desktop and mobile emulation; they do not substitute for a human visual or accessibility review. Audio is opt-in. This is a release candidate, not a final release.
+
+## Workspace beta (0.17.0)
+
+Start in the executive office. Read your mandate, inspect the next stage's remaining requirements and execute the suggested action if you agree with it. Choose any of the seven executive actions instead. Conclude the working day using the persistent day control; a pending incident blocks settlement until resolved. On a phone use Office, Company, Finance or Campaign shortcuts, or the All workspaces selector. On desktop use the sidebar. Settings and saves contains accessibility/audio preferences, the title screen, backups and reset. Review whether the first working day is understandable without scrolling through unrelated systems. Advanced workspaces remain available; progressive introduction is next. Private companion book included separately in the authenticated artifact only.

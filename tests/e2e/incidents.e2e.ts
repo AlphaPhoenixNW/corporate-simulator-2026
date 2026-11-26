@@ -1,7 +1,8 @@
-import {enterGame} from '../support/enterGame';
+import {enterGame,goWorkspace,openSettings} from '../support/enterGame';
 import {test,expect} from '@playwright/test';
 test('resolve an incident and preserve its decision history',async({page})=>{
   await enterGame(page);
+ await goWorkspace(page,'incidents');
   const archive=page.getByRole('region',{name:'Incident and decision archive'});
   await expect(archive.getByTestId('incident-catalogue-count')).toHaveText('150');
   await page.getByRole('button',{name:/Conclude working day/}).click();

@@ -151,3 +151,10 @@ Balance candidate B passed 139 unit/integration tests and 28 browser cases in ru
 ## First player feedback and Executive Library
 
 Player reported the single scrolling dashboard is overwhelming and does not communicate next actions. Prioritise v0.17 workspace navigation, focused executive office, context-aware objectives, and progressive disclosure. The original companion manuscript from AlphaPhoenixNW/nothing has been imported under private docs/companion-book with a private offline HTML reader preview and small original-cover thumbnail. No public publication before review. Integrate the library into the redesigned game, preserve full original prose, and verify navigation on mobile/desktop.
+
+## Increment 0.17.0 — focused workspace redesign
+
+- Companion manuscript PR #17 verified and merged at 7690e76; private preview artifact 15086070253. No public book publishing.
+- Player's first feedback: one enormous page, unclear next action. Replaced the visible page with one workspace at a time; mobile quick navigation, full workspace selector, desktop grouped links, URL hash/back/reload, global day settlement and pending incidents, compact cash/capacity, collapsed settings and saves.
+- Added an executive brief with current mandate, actual and perceived productivity, confidence, morale, stage-gate progress and actionable rule-based next move. Existing seven actions remain available with real costs. No simulation rules changed. Corrected the required Enterprise-Grade Nothing achievement title while preserving its ID.
+- Updated existing browser tests to navigate through the new interface, plus workspace smoke and guidance unit tests; portable and hosted offline smoke tests adapted. Progressive feature introductions, public companion library integration and manual mobile playtest remain future work. CI pending.

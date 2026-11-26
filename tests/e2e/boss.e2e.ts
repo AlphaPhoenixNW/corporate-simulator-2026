@@ -1,4 +1,4 @@
-import {enterGame} from '../support/enterGame';
+import {enterGame,goWorkspace,openSettings} from '../support/enterGame';
 import {test,expect} from '@playwright/test';
 import {newGame} from '../../src/engine/simulation';
 import {spawnBoss} from '../../src/engine/boss';
@@ -7,6 +7,7 @@ test('promote the competent employee and schedule their committee, retaining the
  const s=newGame();const ready=spawnBoss({...s,day:30,capacity:4,campaign:{...s.campaign,stage:7,enteredDay:30,history:Array.from({length:7},(_,i)=>({stage:i+1,day:i===6?30:i+1}))},metrics:{...s.metrics,actual:0,confidence:95,perceived:95}});
  await page.addInitScript(({key,raw})=>{if(!localStorage.getItem(key))localStorage.setItem(key,raw);},{key:SAVE_KEY,raw:JSON.stringify(ready)});
  await enterGame(page);
+ await goWorkspace(page,'containment');
  const section=page.getByRole('region',{name:'The competent employee'});
  await expect(section.getByTestId('boss-phase')).toHaveText('Promote out of delivery');
  await section.getByRole('button',{name:'Promote to management',exact:true}).click();
