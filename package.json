@@ -1,15 +1,16 @@
 {
   "name": "corporate-simulator-2026",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
     "typecheck": "tsc --noEmit",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc --noEmit && vite build && node scripts/build-webapp.mjs",
     "preview": "vite preview",
     "build:playtest": "npm run build && node scripts/package-playtest.mjs",
     "test:playtest": "node scripts/smoke-playtest.mjs",
+    "test:webapp": "node scripts/smoke-webapp.mjs",
     "test": "vitest run",
     "test:e2e": "playwright test"
   },

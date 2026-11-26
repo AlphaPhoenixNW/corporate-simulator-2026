@@ -76,3 +76,7 @@ Presentation-only helpers derive cash chart observations, organisational reporti
 ## Release validation (0.15.0)
 
 The test campaign driver starts from newGame and calls dispatch only, without modifying simulated state. It records command history and validates serialized saves after every accepted day close. Deterministic replay uses the same command sequence. Save validation additionally reconciles current-period cash and rejects unknown ledger categories; older migrations preserve existing balances. Dependency lock recovery is a temporary CI step, to be removed after the exact generated lock is committed.
+
+## Onboarding and web app (0.16.0)
+
+Title state is presentation-only; active sessions resume on reload using session storage. New games do not overwrite an existing save without explicit replacement; imports validate a versioned backup envelope or migrated raw save, then merge lifetime achievements and unlocked scenarios. The six-step induction observes accepted commands; it does not alter rules or state. The production builder generates PNG icons, manifest and content-hashed precache worker from dist files. A worker serves only known same-origin assets and the app root, preserving an offline shell while avoiding external requests. Portable packaging strips manifest/icon references and never registers a worker under file://. Save schema stays V13.

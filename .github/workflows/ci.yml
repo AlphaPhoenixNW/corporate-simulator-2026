@@ -23,6 +23,8 @@ jobs:
       - run: npm run test:e2e
       - name: Verify portable offline playtest
         run: npm run test:playtest
+      - name: Verify hosted web app offline
+        run: npm run test:webapp
       - name: Upload verified playable build
         uses: actions/upload-artifact@v4
         with:
@@ -31,5 +33,6 @@ jobs:
             playtest/Corporate Simulator 2026.html
             playtest/screenshots/
             docs/PLAYTEST_GUIDE.md
+            dist/
           if-no-files-found: error
           retention-days: 30

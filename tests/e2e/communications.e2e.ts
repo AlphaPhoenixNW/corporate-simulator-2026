@@ -1,6 +1,7 @@
+import {enterGame} from '../support/enterGame';
 import {test,expect} from '@playwright/test';
 test('publish a social post, congratulate and preserve the record',async({page})=>{
-  await page.goto('/');
+  await enterGame(page);
   const section=page.getByRole('region',{name:'Corporate communications'});
   await section.getByLabel('Communication format').selectOption('social');
   await section.getByRole('button',{name:'Publish communication',exact:true}).click();

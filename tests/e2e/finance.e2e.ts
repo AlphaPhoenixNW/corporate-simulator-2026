@@ -1,6 +1,7 @@
+import {enterGame} from '../support/enterGame';
 import {test,expect} from '@playwright/test';
 test('draw corporate credit and acquire subscribers; retain financial state',async({page})=>{
-  await page.goto('/');
+  await enterGame(page);
   const section=page.getByRole('region',{name:'Corporate finance'});
   await section.getByRole('button',{name:'Draw £10,000 credit'}).click();
   await expect(section.getByTestId('finance-debt')).toHaveText('£10,000');

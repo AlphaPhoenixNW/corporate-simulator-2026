@@ -4,6 +4,8 @@
 
 Download the corporate-simulator-playtest artifact from a successful GitHub Actions run while signed in to the repository. Extract the ZIP and open Corporate Simulator 2026.html in a desktop browser (Chrome or Edge recommended). The file contains the complete game; no Node.js installation, server, network or paid inference is required. Mobile local-file handling varies; a hosted deployment is not included in this private playtest. Browser storage is tied to its origin/file location and may be unavailable in some browsers. Keep the same extracted file path and browser profile to retain saves; test reload before a long session.
 
+At the title screen choose Play now for the default game, Play guided game for optional induction, or Continue simulation for an existing save. Backups and installation exposes JSON save transfers. The web-app build in dist is intended for a future hosted beta; open the portable HTML for the downloadable edition.
+
 ## Your mandate
 
 You are CEO of NOTHING™. Increase perceived productivity, confidence, prestige and compensation while preventing actual productivity from crossing the difficulty limit. Insolvency or a board confidence collapse also ends the campaign.

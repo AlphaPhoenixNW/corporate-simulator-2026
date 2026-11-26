@@ -1,10 +1,11 @@
+import {enterGame} from '../support/enterGame';
 import {test,expect} from '@playwright/test';
 import {newGame} from '../../src/engine/simulation';
 import {SAVE_KEY} from '../../src/storage';
 test('advance a qualified campaign stage, retain it and start a sandbox',async({page})=>{
  const s=newGame();const ready={...s,day:3,metrics:{...s.metrics,confidence:60,perceived:40,actual:0}};
  await page.addInitScript(({key,raw})=>{if(!localStorage.getItem(key))localStorage.setItem(key,raw);},{key:SAVE_KEY,raw:JSON.stringify(ready)});
- await page.goto('/');
+ await enterGame(page);
  const section=page.getByRole('region',{name:'Campaign progression'});
  await expect(section.getByTestId('campaign-current')).toHaveText('1/7');
  await section.getByRole('button',{name:'Authorise next campaign stage'}).click();

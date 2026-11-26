@@ -1,6 +1,7 @@
+import {enterGame} from '../support/enterGame';
 import { test,expect } from '@playwright/test';
 test('executive loop and local save',async({page})=>{
-  await page.goto('/');
+  await enterGame(page);
   await expect(page.getByRole('heading',{name:'Executive overview'})).toBeVisible();
   await page.getByRole('button',{name:/Schedule alignment workshop/}).click();
   await expect(page.getByTestId('cash')).toHaveText('£74,400');

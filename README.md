@@ -3,7 +3,7 @@
 
 You are CEO of NOTHING™, a corporation devoted to appearing productive while avoiding measurable value. Delivering tomorrow's nothing, today.
 
-**Status:** 0.15.0 release candidate development build; the full game is not yet complete.
+**Status:** 0.16.0 one-click onboarding beta candidate; the full game is not yet complete.
 
 ## Run locally
 
@@ -94,3 +94,7 @@ Balance candidate: subscriber servicing incurs a daily fictional operating expen
 ## Private playable build
 
 Successful CI runs upload a self-contained HTML playtest with desktop/mobile screenshots and the playtest guide. Download the corporate-simulator-playtest artifact from the Actions run, extract it and open the HTML file in a desktop browser. No Node installation is required for this portable build. Local generation: npm ci, npm run build:playtest, npx playwright install chromium, npm run test:playtest. See docs/PLAYTEST_GUIDE.md. The repository remains private; no public hosting has been configured.
+
+### One-click onboarding and web app
+
+A fresh session starts at the title screen with instant Play now, optional guided game, configurable new game and Continue for an existing save. Reloading an active session resumes directly. The title screen includes validated JSON backup export and confirmation-based import; lifetime achievement and scenario profiles merge. The production build generates an installable manifest, PNG icons and a versioned service worker that precaches the bundled static app. Offline operation requires the initial hosted cache to complete. Portable HTML remains supported without a service worker. Cloudflare Pages configuration and deployment steps are in docs/DEPLOYMENT.md; no public hosting is activated yet.

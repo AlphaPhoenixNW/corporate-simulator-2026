@@ -1,6 +1,7 @@
+import {enterGame} from '../support/enterGame';
 import { test,expect } from '@playwright/test';
 test('manage department and preserve allocation after reload',async({page})=>{
-  await page.goto('/');
+  await enterGame(page);
   const section=page.getByRole('region',{name:'Corporate departments'});
   await expect(section).toBeVisible();
   await expect(section.getByTestId('department-budget')).toHaveText('£100');
