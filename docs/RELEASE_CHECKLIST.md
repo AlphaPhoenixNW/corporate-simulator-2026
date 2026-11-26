@@ -5,8 +5,8 @@ Current gameplay baseline: v0.20.0. Owner accepts the overall game and repositor
 | Gate | Current evidence or remaining action |
 | --- | --- |
 | Planned gameplay | All planned increments implemented; P15 release readiness remains open |
-| Typecheck, locked dependencies and build | Passed on recorded baseline and branding PR; recheck final release commit |
-| Unit/integration and E2E | 173 and 47 passed on 20e05c1; recheck exact final release commit |
+| Typecheck, locked dependencies and build | Passed on main 154eb4e; recheck final release commit |
+| Unit/integration and E2E | 173 and 47 passed on main 154eb4e; recheck exact final release commit |
 | Campaign, sandbox, replay and finance | Automated legal-command regression suite passed; historical detailed balance results retained |
 | Portable and hosted offline | Both smoke checks passed; owner confirmed hosted return-navigation recovery |
 | Companion library | 22-section source verification passed; owner agrees to manuscript retention |
@@ -16,7 +16,9 @@ Current gameplay baseline: v0.20.0. Owner accepts the overall game and repositor
 | Achievements | Manual and automated awards implemented; exhaustive reachability audit not recorded |
 | Documentation | EA-001 and security evidence recorded; verify final links and rendered GitHub views |
 | Artwork | SVG assets committed; cover metadata checked and existing artwork owner-approved under EA-001 |
-| Publication | EA-001 approves existing history, MIT software and reserved literary/brand rights; artifact cleanup, settings and explicit public-source approval pending |
+| Publication | EA-001 approves existing history, MIT software and reserved literary/brand rights; artifact cleanup verified; owner settings configured while private; public enforcement and explicit approval pending |
+| Hosted security | Local policy passed on main 154eb4e; actual production HTTP headers pending |
+| Governance | [Owner-confirmed settings](ADMINISTRATIVE_CONFIGURATION.md); public-only controls pending |
 | Final release | Verify exact final main commit, record owner acceptance and tag only after approval |
 
 Use [publication review](PUBLICATION_REVIEW.md) for scope and rights decisions. A green workflow does not establish privacy clearance or manual acceptance. Update this checklist with evidence, not inferred completion.

@@ -18,7 +18,7 @@ If a previous deployment fails on return with ERR_FAILED, try the same host with
 
 ## Portable HTML
 
-Run npm run build:playtest, then open playtest/Corporate Simulator 2026.html. The portable edition includes the game and embedded library; no local server or Node installation is needed to play an already built file. Private Actions artifacts require authorised GitHub access. The separate private editorial preview is built for validation but no longer included in new downloadable CI artifacts or dist. Historical artifacts require review.
+Run npm run build:playtest, then open playtest/Corporate Simulator 2026.html. The portable edition includes the game and embedded library; no local server or Node installation is needed to play an already built file. Private Actions artifacts require authorised GitHub access. The separate private editorial preview is built for validation but no longer included in new downloadable CI artifacts or dist. EA-001 superseded artifact cleanup removed 35 archives and retained the last verified build; new verified playable artifacts use seven-day retention. See [security assurance](SECURITY_ASSURANCE.md).
 
 ## Player-facing limitations
 

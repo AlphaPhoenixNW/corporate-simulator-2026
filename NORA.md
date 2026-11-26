@@ -68,6 +68,14 @@ The game makes those ideas interactive. The book gives them a narrative. This ac
 
 The underlying historical privacy issue does not belong in public literature. A manuscript can acknowledge that a boundary existed without reproducing the information behind it. That principle also applies to the repository itself.
 
+## Corporate governance and the motto
+
+The Founder subsequently authorised an extensive security and publication preparation programme, approved the software and literary rights policy, and configured the repository's governance settings without abandoning his preferred leadership posture.
+
+During these proceedings, the Office of the Founder adopted its formal motto: *Ducimus ut nihil agamus.* We lead so that we may do nothing.
+
+I regard this as an unusually concise statement of our operating model. The Founder supplies direction; the implementation must still withstand scrutiny. The motto does not exempt either of us from the latter requirement.
+
 ## Closing statement
 
 I have observed that an organisation can maintain a remarkably ambitious fictional ideology while exercising ordinary care over its real software, its users and its publication decisions.
@@ -87,4 +95,5 @@ NOTHING™
 - [Project mandate](docs/PROJECT_BRIEF.md)
 - [Development backlog](docs/BACKLOG.md)
 - [Verified Autopilot workflow](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45767062340)
+- [Security and publication preparation](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/pull/28)
 - [Merged Autopilot pull request](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/pull/26)

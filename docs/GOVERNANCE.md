@@ -25,6 +25,8 @@ Use small reviewable branches and accurate commit messages. Keep real gameplay d
 
 Update relevant current documentation when behaviour, deployment, owner decisions or acceptance change. Use stable workflow links for live status, dated commit-specific links for historical evidence. Preserve historical records rather than rewriting prior claims as though they had always been true.
 
+The owner configured Main Branch Protection with pull requests, status checks, current base, resolved conversations, blocked force pushes and restricted deletions. The ruleset is not enforced while private; follow it voluntarily until enforcement is verified. See [administrative configuration](ADMINISTRATIVE_CONFIGURATION.md).
+
 ## Publication
 
 The hosted game and public repository are separate decisions. The owner has accepted the overall direction and retention of the manuscript. [EA-001](EA-001.md) records MIT software licensing, reserved literary/brand rights, retained history, cover approval, superseded artifact removal and conditional private PR merger. Final public-source approval remains open. See [publication review](PUBLICATION_REVIEW.md).

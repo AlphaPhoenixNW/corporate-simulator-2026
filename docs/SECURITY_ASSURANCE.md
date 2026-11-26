@@ -26,12 +26,13 @@ Committed candidate: Vite 7.3.8, Vitest 4.1.12 and Playwright 1.65.1. Vitest 4 r
 
 - [x] Implement read-only CI, non-persisted checkout credentials, immutable official action commits and verified Playwright image digest; scheduled weekly audit and Dependabot version updates configured. Raw editorial preview is no longer uploaded; playable artifact retention reduced to seven days. Historical artifacts remain a privacy-review task.
 - [x] New workflows passed on 5fd2c59: [simulation and policy checks](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45773824433), [both dependency audits](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45773824455), Cloudflare deployment passed. 173 unit/integration and 47 browser tests; no deprecated action runtime warnings in reviewed logs.
-- [ ] Confirm Dependabot and scheduled audit activation after merge; coordinate future Playwright package/image updates.
+- [x] Dependabot initial npm and Actions update scans completed on main; owner confirms alerts, security updates and malware alerts enabled. Scheduled audit configured on main; first scheduled execution not yet observed. Coordinate future Playwright package/image updates.
 - [x] Implement hosted CSP, no-referrer, anti-framing and unnecessary feature restrictions. Allow same-origin scripts/connections, inline styling for React, and blob workers for Autopilot. Include header configuration in service-worker cache version. Portable file build remains separate and does not receive HTTP headers.
 - [x] Hosted-policy smoke tests and both offline editions passed on desktop and mobile at 5fd2c59, including blocked inline script and working offline Autopilot worker.
 - [ ] Verify actual Cloudflare response headers on approved deployment; a deployment check alone is not HTTP header evidence.
 - [x] Add SECURITY.md with coordinated reporting and actual supported scope.
-- [ ] Owner must enable and verify private vulnerability reporting, dependency alerts and repository protections before publication. Connector cannot verify or change these settings.
+- [x] Owner confirms available private repository security and Actions settings configured; see [administrative configuration](ADMINISTRATIVE_CONFIGURATION.md).
+- [ ] Verify ruleset enforcement, private vulnerability reporting, secret scanning and push protection after public visibility if authorised.
 
 ## Stage 3: privacy
 
@@ -46,12 +47,14 @@ Preliminary review found noreply addresses for 118 reachable commits on the then
 - [x] EA-001 authorises retaining existing history including disclosed private provenance and the original manuscript publisher note. This does not authorise publication of unrelated private material.
 - [x] Revised classifier and synthetic probes passed: current/historical source and completed-run logs reported no unclassified username-shaped paths; earlier matches were classified as runner accounts or regex punctuation.
 - [x] EA-001 superseded artifact cleanup verified on 196059f ([cleanup run 45777988790](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45777988790)): 35 eligible artifacts deleted, zero eligible remaining, verified artifact 15096028968 retained. Temporary write-capable workflow removed in the follow-up commit; no Git history or workflow logs deleted.
-- [ ] Verify owner-controlled repository protections and security settings. History route selected under EA-001.
+- [x] History route selected under EA-001; owner-confirmed settings documented. Ruleset saved but not enforced while private.
 
 ## Stage 4: final acceptance
 
 - [x] All five checks on 20e05c1 passed: [simulation 45776938531](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45776938531), [audit 45776938674](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45776938674), privacy and Cloudflare. 173 unit/integration and 47 browser cases, 22 companion sections, both offline editions and hosted policy passed; zero reported vulnerabilities in both scopes.
-- [ ] Verify exact final PR and main commits after EA-001 changes. [Run 45777988578](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45777988578) passed typecheck, build, unit and browser cases but failed portable offline startup: the rights-notice insertion matched a closing body tag within bundled book-export JavaScript. Follow-up inserts into the original shell before bundling, requires anchored closing document tags, and asserts portable notice placement and hosted offline notice availability. Full re-verification required.
+- [x] Verify exact PR and main commits after EA-001 changes. [Run 45777988578](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45777988578) passed typecheck, build, unit and browser cases but failed portable offline startup: the rights-notice insertion matched a closing body tag within bundled book-export JavaScript. Follow-up inserts into the original shell before bundling, requires anchored closing document tags, and asserts portable notice placement and hosted offline notice availability. Follow-up verification passed on ba80e6e; see evidence below.
+- [x] Corrected PR ba80e6e: [simulation](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45779062087), [audits](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45779062063), [privacy](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45779062279) and Cloudflare passed. 131 commits, 669 reachable blobs, 99 completed-run archives and 570 log members reviewed; zero Gitleaks findings, unresolved paths or pre-hardening artifacts. Residual provenance approved under EA-001. Main merge 154eb4e has identical tree; [simulation](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45779632860), [audits](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45779632793) and Cloudflare passed. 220 tests, 22 sections, both offline editions, hosted policy and rights notices verified; zero reported vulnerabilities.
+- [ ] Verify subsequent final release candidate and repeat private inventory on final source when possible.
 - [x] EA-001 selects MIT for original software and reserves literary/artwork/brand rights. See [LICENCE](../LICENSE) and [rights](../RIGHTS.md).
 - [ ] Record remaining human acceptance and live headers.
 - [ ] Obtain explicit owner authorisation for publication.
