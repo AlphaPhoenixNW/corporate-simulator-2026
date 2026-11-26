@@ -92,3 +92,7 @@ Navigation uses a pure stage/day/previous-use projection from GameState. It chan
 ## Executive Library (0.17.2)
 
 Library state is separate from GameState. An explicit public manuscript allowlist contains 22 text sections, rendered with an escaped Markdown subset, and the existing cover thumbnail is inlined by Vite. A local section bookmark is independent of game saves. The reader is a separate view; game state and current route remain in App. The standalone HTML download uses the same escaped content and embeds the thumbnail. No external runtime dependency. Private source docs are not imported; the source verification script checks exact text except the two title-page edits. The private preview remains a separate CI artifact.
+
+## Audio activation (0.17.3)
+
+CorporateAudio exposes observable context/playback status and creates the context only from user interaction. Gesture-driven activation supports the WebKit constructor fallback and starts a silent unlock buffer in the same gesture. Context state changes restart music scheduling or stop it when interrupted. Pending cues are limited to one and cleared on mute. A direct master gain controls all locally synthesised notes; quick controls remain visible on title and workspace. Browser regression instrumentation attaches an analyser to the real master gain to observe RMS signal, avoiding mocked audio success. An additional targeted WebKit emulation test runs in CI. Native-device audibility remains a manual check.

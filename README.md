@@ -110,3 +110,7 @@ Campaign starts with Office, Campaign, Departments and Finance. People and recor
 ### Executive Library (0.17.2 candidate)
 
 The title screen and workspace rail open a separate companion-book reader containing all twelve chapters, six appendices and opening/closing sections. Reading does not start or advance a game. A section bookmark is stored locally, with contents navigation, larger type and a complete offline HTML download. The book is embedded in the game bundle, so both portable and installed web editions remain offline-capable. The public candidate preserves original prose with a revised publisher's note and navigation line; private source records are excluded. Publication review remains required before deployment.
+
+### Audio troubleshooting (0.17.3 candidate)
+
+Enable sound & music directly from the title or workspace rail. The status indicates whether the audio engine is running, awaiting a gesture or muted. Test sound plays a local fanfare. Existing settings retain music and master volume control. Browser tests inspect an actual generated signal, including targeted WebKit emulation; hardware audibility is a separate playtest check.

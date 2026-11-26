@@ -34,3 +34,7 @@ New campaign starts with only four recommended workspaces. Additional screens ar
 ## Companion library (0.17.2 candidate)
 
 Choose Executive Library from the title screen or game rail. Read any section using the selector or contents, navigate previous/next, increase text size, or download the full book as an offline HTML file. Reading consumes no executive capacity. Return to the same game workspace without advancing time. Section bookmarks persist across reload; panel-local selections may reset when returning. The cover is the original thumbnail, not full resolution. Verify the source note and historical story before public publication.
+
+## Audio hotfix (0.17.3)
+
+Use Enable sound & music on the title or in-game workspace rail. Hold music active means the browser audio context is running and music scheduling has started; it is not proof of physical speaker output. Test sound plays a short fanfare. If audio awaits a tap after reload, use Start audio. Mute audio stops the music and effects. Existing settings still control music and volume. Verify on your actual handset and check system media volume/audio output if the app reports active music but no sound. The soundtrack is still the original short synthesised motif with a louder layered mix; full reward experience and richer music are planned next.
