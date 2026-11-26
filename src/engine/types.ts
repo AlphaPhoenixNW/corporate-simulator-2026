@@ -26,16 +26,24 @@ export interface Employee {
 }
 export interface Relationship { a: number; b: number; affinity: number }
 export type EmployeeCommand = {type:'employee'; id:number; operation:'review'|'promote'|'discipline'|'redundancy'|'reassign'; target?:DepartmentId};
+export const MEETING_TYPES = ['standup','steering','alignment','prealignment','retro','emergency','scheduling','frequency-audit'] as const;
+export type MeetingType = typeof MEETING_TYPES[number];
+export interface Meeting {
+  id:number; type:MeetingType; day:number; attendees:number[]; duration:number;
+  status:'scheduled'|'held'|'cancelled'; parentId:number|null; depth:number;
+  actualAttendees:number[]; personMinutes:number; cost:number; outcome:string; document:string;
+}
+export type MeetingCommand = {type:'meeting'; operation:'schedule'; meetingType:MeetingType; attendees:number[]; day:number} | {type:'meeting'; operation:'cancel'; id:number};
 export interface Choice { id: string; label: string; detail: string; effect: Delta; delayed?: { days: number; effect: Delta; message: string } }
 export interface CorporateEvent { id: string; title: string; description: string; choices: Choice[]; department?: DepartmentId }
 export interface Action { id: string; label: string; detail: string; cost: number; effect: Delta }
 export interface LedgerEntry { day: number; label: string; amount: number }
 export interface ScheduledEffect { day: number; effect: Delta; message: string }
 export interface GameState {
-  version: 3; departments: DepartmentState[]; employees: Employee[]; relationships: Relationship[]; nextEmployeeId: number; seed: number; rng: number; day: number; cash: number;
+  version: 4; meetings: Meeting[]; nextMeetingId:number; departments: DepartmentState[]; employees: Employee[]; relationships: Relationship[]; nextEmployeeId: number; seed: number; rng: number; day: number; cash: number;
   metrics: Metrics; capacity: number; compensation: number;
   pendingEvent: string | null; resolvedEvents: string[];
   scheduled: ScheduledEffect[]; log: string[]; ledger: LedgerEntry[];
   ending: 'insolvent' | 'useful' | 'board' | null;
 }
-export type Command = EmployeeCommand | DepartmentCommand | { type: 'action'; id: string } | { type: 'choose'; id: string } | { type: 'endDay' };
+export type Command = MeetingCommand | EmployeeCommand | DepartmentCommand | { type: 'action'; id: string } | { type: 'choose'; id: string } | { type: 'endDay' };

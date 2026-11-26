@@ -84,7 +84,7 @@ export function reconcileStaffing(s:GameState,departments:DepartmentState[],id:D
   }
   return {employees,nextEmployeeId,cost};
 }
-export function runEmployees(employees:Employee[],relationships:Relationship[],departments:DepartmentState[],day:number,random:()=>number){
+export function runEmployees(employees:Employee[],relationships:Relationship[],departments:DepartmentState[],day:number,random:()=>number,minutes:Record<number,number>={}){
   const delta:Delta={},reports:string[]=[];
   const add=(effect:Delta)=>{for(const key of Object.keys(effect) as (keyof Delta)[])delta[key]=(delta[key]??0)+(effect[key]??0);};
   const counts=new Map<DepartmentId,number>();
@@ -92,11 +92,11 @@ export function runEmployees(employees:Employee[],relationships:Relationship[],d
   const next=employees.map(e=>{
     if(e.status!=='active')return e;
     const d=departments.find(d=>d.id===e.department)!;
-    const roll=random(),funded=d.budget>=d.headcount*50;
+    const roll=random(),availability=Math.max(0,1-(minutes[e.id]??0)/480),funded=d.budget>=d.headcount*50;
     const n={...e,morale:clamp(e.morale+(funded?1:-3)+(d.morale<40?-2:0)-(e.promotionRequested?1:0)),report:'Routine alignment completed.'};
-    if(e.skill>=70&&e.level===1&&roll<(d.focus==='operations'?.22:.04)){
+    if(e.skill>=70&&e.level===1&&roll<(d.focus==='operations'?.22:.04)*availability){
       n.usefulWork++;add({actual:2});n.report='Completed a useful task without authorisation.';reports.push(e.name+': '+n.report);
-    }else if(roll>.75){
+    }else if(roll>1-.25*availability){
       const effect={...EMPLOYEE_ARCHETYPES[e.archetype].effect};
       if(e.level>1||d.focus==='governance')delete effect.actual;
       add(effect);n.report='Archetype-specific operational activity recorded.';

@@ -1,4 +1,4 @@
-import { DEPARTMENT_IDS, type DepartmentId, type DepartmentState, type DepartmentCommand, type GameState, type Delta } from './types';
+import { DEPARTMENT_IDS, type DepartmentId, type DepartmentState, type DepartmentCommand, type GameState, type Delta, type Employee } from './types';
 
 interface Definition {
   name: string; objective: string; unlockDay: number; competence: number;
@@ -60,7 +60,7 @@ export function changeDepartment(s:GameState,command:DepartmentCommand):{departm
   return {departments,cost,message:DEPARTMENTS[command.id].name+': '+command.operation+' authorised.'};
 }
 export interface DepartmentDay { departments:DepartmentState[]; delta:Delta; costs:{label:string;amount:number}[]; reports:string[] }
-export function runDepartments(departments:DepartmentState[],random:()=>number,payroll?:Partial<Record<DepartmentId,number>>):DepartmentDay{
+export function runDepartments(departments:DepartmentState[],random:()=>number,payroll?:Partial<Record<DepartmentId,number>>,employees?:Employee[],minutes:Record<number,number>={}):DepartmentDay{
   const delta:Delta={},costs:DepartmentDay['costs']=[],reports:string[]=[];
   const active=departments.filter(d=>d.active);
   const leader=[...active].sort((a,b)=>b.influence-a.influence)[0];
@@ -74,13 +74,15 @@ export function runDepartments(departments:DepartmentState[],random:()=>number,p
     costs.push({label:def.name+' operating costs',amount:-spent});
     const funded=d.budget>=d.headcount*50;
     const scale=funded?Math.min(2,(.75+d.competence/200)+(d.headcount-1)*.25):.5;
-    add(d.focus==='operations'?def.routine:def.governance,scale);
+    const staff=employees?.filter(e=>e.status==='active'&&e.department===d.id)??[];
+    const available=staff.length?Math.max(0,1-staff.reduce((n,e)=>n+(minutes[e.id]??0),0)/(staff.length*480)):1;
+    add(d.focus==='operations'?def.routine:def.governance,scale*available);
     const legal=active.find(x=>x.id==='legal');
     const oversight=legal&&legal.budget>=legal.headcount*50&&legal.focus==='governance'?.03:0;
     const failureRisk=Math.max(.02,.06+(funded?0:.12)+(d.morale<40?.12:0)+(d.id==='engineering'&&d.focus==='operations'?d.competence/400:0)-oversight);
     const failure=roll<failureRisk;
     if(failure){add(def.incident);reports.push(def.failure);}
-    const progress=(d.progress+(funded?12:4))%100;
+    const progress=(d.progress+Math.round((funded?12:4)*available))%100;
     const completed=progress<d.progress;
     if(completed){add({perceived:2,prestige:1});reports.push(def.name+' completed an internal objective.');}
     const influence=clamp(d.influence+(d.id===leader?.id?1:-1)+(funded?1:-2)+(completed?5:0));

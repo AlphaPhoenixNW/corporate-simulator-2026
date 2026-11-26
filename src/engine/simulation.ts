@@ -2,6 +2,7 @@ import { ACTIONS, EVENTS } from './content';
 import { METRIC_KEYS, type GameState, type Command, type Delta } from './types';
 import { initialDepartments, changeDepartment, runDepartments } from './departments';
 import { seedEmployees, syncDepartments, payrollByDepartment, reconcileStaffing, changeEmployee, runEmployees } from './employees';
+import { changeMeeting, runMeetings } from './meetings';
 export const DAILY_CAPACITY = 2;
 const clamp = (n:number) => Math.max(0,Math.min(100,n));
 export function random(rng:number): [number,number] {
@@ -11,7 +12,7 @@ export function random(rng:number): [number,number] {
 export function newGame(seed=2026): GameState {
   const normalized = seed >>> 0;
   const staff=seedEmployees(normalized,initialDepartments(),1);
-  return {version:3,...staff,departments:syncDepartments(initialDepartments(),staff.employees),seed:normalized,rng:normalized,day:1,cash:75000,capacity:DAILY_CAPACITY,compensation:0,
+  return {version:4,meetings:[],nextMeetingId:1,...staff,departments:syncDepartments(initialDepartments(),staff.employees),seed:normalized,rng:normalized,day:1,cash:75000,capacity:DAILY_CAPACITY,compensation:0,
     metrics:{confidence:55,prestige:20,morale:70,bureaucracy:15,perceived:25,actual:12,buzzwords:20,meetings:10,regulation:10,incompetence:25},
     pendingEvent:null,resolvedEvents:[],scheduled:[],log:['Day 1: NOTHING™ incorporated. No product roadmap has been approved.'],ledger:[],ending:null};
 }
@@ -58,6 +59,11 @@ export function dispatch(state:GameState,command:Command):GameState {
     s.departments=syncDepartments(s.departments,s.employees);
     record(s,result.message,-result.cost);
     apply(s,result.delta,result.message);log(s,result.message);
+  } else if(command.type==='meeting'){
+    const result=changeMeeting(s,command);
+    if(!result)return state;
+    s.capacity--;s.meetings=result.meetings;s.nextMeetingId=result.nextMeetingId;
+    log(s,result.message);
   } else if(command.type==='choose'){
     const e=EVENTS.find(x=>x.id===s.pendingEvent);
     const c=e?.choices.find(x=>x.id===command.id);
@@ -75,12 +81,16 @@ export function dispatch(state:GameState,command:Command):GameState {
     record(s,'Operating expenditure',-Math.round(850+m.bureaucracy*4+m.meetings*3));
     apply(s,{actual:Math.max(-4,Math.round(4+roll*3+m.morale/30-m.meetings/12-m.bureaucracy/18)),
       morale:-1,meetings:-3,perceived:-2,confidence:m.perceived>=45?2:-2,regulation:m.buzzwords>=80?2:0},'Daily operations');
-    const daily=runDepartments(s.departments,()=>{const [next,value]=random(s.rng);s.rng=next;return value;},payrollByDepartment(s.employees));
+    const calendar=runMeetings(s.meetings,s.nextMeetingId,s.employees,s.day,()=>{const [next,value]=random(s.rng);s.rng=next;return value;});
+    s.meetings=calendar.meetings;s.nextMeetingId=calendar.nextMeetingId;s.employees=calendar.employees;
+    for(const cost of calendar.costs)record(s,cost.label,cost.amount);
+    apply(s,calendar.delta,'Meeting outcomes');for(const report of calendar.reports)log(s,report);
+    const daily=runDepartments(s.departments,()=>{const [next,value]=random(s.rng);s.rng=next;return value;},payrollByDepartment(s.employees),s.employees,calendar.minutes);
     s.departments=daily.departments;
     for(const entry of daily.costs)record(s,entry.label,entry.amount);
     apply(s,daily.delta,'Departmental operating results');
     for(const report of daily.reports)log(s,report);
-    const people=runEmployees(s.employees,s.relationships,s.departments,s.day,()=>{const [next,value]=random(s.rng);s.rng=next;return value;});
+    const people=runEmployees(s.employees,s.relationships,s.departments,s.day,()=>{const [next,value]=random(s.rng);s.rng=next;return value;},calendar.minutes);
     s.employees=people.employees;s.relationships=people.relationships;
     s.departments=syncDepartments(s.departments,s.employees);
     apply(s,people.delta,'Employee activity');for(const report of people.reports)log(s,report);
