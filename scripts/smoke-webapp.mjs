@@ -3,6 +3,11 @@ import {spawn} from 'node:child_process';
 import assert from 'node:assert/strict';
 const url='http://127.0.0.1:4174/';
 const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','preview','--host','127.0.0.1','--port','4174','--strictPort'],{stdio:'inherit'});
+async function navigate(page,id){
+ const select=page.locator('#workspace-jump');
+ if(await select.isVisible())await select.selectOption(id);
+ else await page.locator('a[data-route="'+id+'"]').click();
+}
 let browser;
 try{
  let ready=false;for(let i=0;i<80;i++){try{ready=(await fetch(url)).ok;if(ready)break;}catch{}await new Promise(r=>setTimeout(r,250));}
@@ -21,7 +26,9 @@ try{
    await page.getByRole('button',{name:'Play now',exact:true}).click();
    await page.getByRole('button',{name:/Practise bed-led leadership/}).click();
    await context.setOffline(true);await page.reload();
+   await navigate(page,'achievements');
    const award=page.getByTestId('achievement-current');await award.waitFor();assert.equal(await award.innerText(),'1/74');
+   await page.locator('details.workspace-settings > summary').click();
    await page.getByRole('button',{name:'Title screen and backups'}).click();
    await page.getByRole('button',{name:'Continue simulation'}).click();
    assert.equal(await award.innerText(),'1/74');
