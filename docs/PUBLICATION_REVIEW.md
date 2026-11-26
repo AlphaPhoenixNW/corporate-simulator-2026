@@ -4,6 +4,7 @@ This is the current publication decision checklist, not authorisation to change 
 
 - [x] Owner agrees to retain the companion manuscript; current-text screening found no obvious personal safety concern.
 - [x] Public in-game edition replaces the private incident link and preserves remaining prose through a source-boundary check.
+- [ ] Complete the [staged security assurance programme](SECURITY_ASSURANCE.md).
 - [ ] Review all tracked files, commit history, author metadata, assets and repository settings for private data.
 - [ ] Review cover artwork, including any identifiable likeness or embedded metadata.
 - [ ] Remove or neutralise private-source references in the approved public-facing material where appropriate, without changing the book's substantive prose.

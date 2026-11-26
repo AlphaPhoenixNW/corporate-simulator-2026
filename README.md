@@ -63,6 +63,8 @@ The game includes **The Art of Doing Nothing™**, the Founder's satirical manag
 | --- | --- |
 | [FOUNDER.md](FOUNDER.md) | The Founder's strategic vision and personal philosophy |
 | [Brand strategy](docs/brand/BRAND_STRATEGY.md) | Corporate identity, visual standards and editorial governance |
+| [Founder's security statement](docs/FOUNDER_SECURITY_STATEMENT.md) | Commitment to secure non-delivery (fictional stakeholder letter) |
+| [Security assurance](docs/SECURITY_ASSURANCE.md) | Real pre-publication checks and remediation evidence |
 | [NORA.md](NORA.md) | The executive assistant's first-person development retrospective |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Corporate onboarding and practical contribution procedures |
 | [CHANGELOG.md](CHANGELOG.md) | Selected verified release history |
