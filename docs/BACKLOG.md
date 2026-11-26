@@ -22,3 +22,16 @@ Status: staged implementation, not a complete game. Checkboxes represent accepte
 ## Working practice
 
 Implement in dependency order, update this file after each increment with evidence, and do not mark a milestone complete until its quality gates pass. All original requirements remain in PROJECT_BRIEF.md.
+
+## Increment 0.1.0 — 2026-11-26
+
+Implemented and committed:
+- Vite, React and TypeScript application configuration.
+- Seeded command-driven engine, two daily action slots, ten bounded scores plus cash, financial ledger, bonuses, three failure states.
+- Seven actions; four branching events, two with delayed effects; deterministic event selection.
+- Validated versioned local save, reset and custom seed.
+- Responsive navy/cream/gold executive dashboard, accessible labels, keyboard focus, reduced-motion control.
+- Seven Vitest cases and Playwright scenario configured for desktop and mobile Chromium.
+- GitHub Actions workflow for typecheck, unit tests, production build and E2E.
+
+**Verification:** source committed; full execution not yet confirmed. P1 stays open. First next tasks: generate package-lock.json, verify dependency installation and CI, correct failures, and run balancing/UX checks. Then implement P2 departments. Do not mark the full game complete.
