@@ -25,7 +25,7 @@ patterns = {
 }
 # Separate real username-shaped components from regex punctuation and known CI accounts.
 # No raw path, username, digest of a username, or matching text is emitted.
-def path_classes(data):
+def path_classes(data, verified_bot_run=False):
     result = collections.Counter()
     for match in patterns["local_user_path"].finditer(data):
         token = match.group()
@@ -34,15 +34,17 @@ def path_classes(data):
             result["non_username_punctuation"] += 1
         elif component.lower() in (b"runner", b"runneradmin"):
             result["standard_ci_account"] += 1
+        elif verified_bot_run and component.lower() == b"dependabot":
+            result["verified_dependabot_service_account"] += 1
         else:
             result["unclassified_username_shaped"] += 1
     return result
 
-def classify(data):
+def classify(data, verified_bot_run=False):
     found = set()
     for label, pattern in patterns.items():
         if label == "local_user_path":
-            if path_classes(data)["unclassified_username_shaped"]:
+            if path_classes(data, verified_bot_run)["unclassified_username_shaped"]:
                 found.add(label)
             continue
         matches = pattern.findall(data)
@@ -58,6 +60,10 @@ assert path_classes(b"/" + b"home/" + b"runner/work")["standard_ci_account"] == 
 assert "local_user_path" in classify(b"/" + b"home/" + b"synthetic-review-user/file")
 assert "local_user_path" in classify(b"C:" + b"\\" + b"Users" + b"\\" + b"synthetic-review-user")
 assert "local_user_path" not in classify(b"/" + b"home/" + b"runner")
+
+assert "local_user_path" in classify(b"/" + b"home/" + b"dependabot")
+assert "local_user_path" not in classify(b"/" + b"home/" + b"dependabot", True)
+assert "local_user_path" in classify(b"/" + b"home/" + b"synthetic-review-user", True)
 
 def update(counter, data):
     counter.update(classify(data))
@@ -125,6 +131,16 @@ messages = git("log", "--all", "--format=%B%x00").split(b"\0")
 message_counts = collections.Counter()
 for msg in messages:
     update(message_counts, msg)
+# Preserve the original inventory count. Separately classify only exact reviewed bot commits.
+verified_bot_commits = {"a40d01a46bc3e7c4fbdd71a994f1358600d9abf5", "94306c7fbb600661473af6e4c362d6d31c74c734", "f7839425816f7cc1601828317d4e248a4c55fef7"}
+verified_support_messages = 0
+for oid in verified_bot_commits:
+    if oid.encode() not in git("rev-list", "--all").splitlines():
+        continue
+    msg = git("show", "-s", "--format=%B", oid)
+    matches = [x for x in patterns["non_noreply_email"].findall(msg) if not re.search(rb"noreply|@example\.(?:com|org|net)$|@localhost$", x, re.I)]
+    if matches and all(x.lower() == b"support@github.com" for x in matches):
+        verified_support_messages += 1
 # WebP container metadata only; visual identity and rights still require owner review.
 cover = Path("docs/companion-book/cover-thumbnail.webp").read_bytes()
 if cover[:4] != b"RIFF" or cover[8:12] != b"WEBP":
@@ -154,6 +170,8 @@ result = {
     "current_path_match_classes": dict(current_path_classes),
     "current_flagged_blob_count": len(current_flagged_oids),
     "commit_message_pattern_counts": dict(message_counts),
+    "verified_bot_support_message_count": verified_support_messages,
+    "unresolved_commit_message_email_count": message_counts["non_noreply_email"] - verified_support_messages,
     "cover_bytes": len(cover),
     "cover_exif_chunks": chunks["EXIF"],
     "cover_xmp_chunks": chunks["XMP "],
@@ -253,7 +271,7 @@ if token and repo:
         else:
             members["binary_unclassified"] += 1
 
-    def review_zip(data):
+    def review_zip(data, verified_bot_run=False):
         counts = collections.Counter()
         members = collections.Counter()
         with zipfile.ZipFile(io.BytesIO(data)) as z:
@@ -280,17 +298,17 @@ if token and repo:
                     review_binary(body, item.filename, members)
                     continue
                 members["text"] += 1
-                for category, n in path_classes(body).items():
+                for category, n in path_classes(body, verified_bot_run).items():
                     members["path_matches_" + category] += n
-                counts.update(classify(body))
+                counts.update(classify(body, verified_bot_run))
         return members, counts
 
-    def review_archives(items, endpoint):
+    def review_archives(items, endpoint, verified_bot_runs=()):
         totals, findings = collections.Counter(), collections.Counter()
         failures = 0
         for item in items:
             try:
-                members, flags = review_zip(archive(endpoint(item)))
+                members, flags = review_zip(archive(endpoint(item)), item in verified_bot_runs if isinstance(item, int) else False)
                 totals.update(members)
                 findings.update(flags)
                 totals["archives_reviewed"] += 1
@@ -306,7 +324,7 @@ if token and repo:
     # Include completed runs even when no artifact was produced (e.g. failed audit jobs).
     all_runs = list(pages("actions/runs?status=completed", "workflow_runs"))
     run_ids = sorted({r["id"] for r in all_runs if str(r["id"]) != os.environ.get("GITHUB_RUN_ID")})
-    result["completed_run_log_review"] = review_archives(run_ids, lambda n: f"actions/runs/{n}/logs")
+    result["completed_run_log_review"] = review_archives(run_ids, lambda n: f"actions/runs/{n}/logs", (45779644356, 45779644271))
     result["completed_run_log_review"]["scope"] = "completed runs listed by API; latest log archives, not every historical attempt"
     result["artifact_inventory"]["contents_reviewed"] = (
         result["artifact_content_review"]["failed"] == 0 and

@@ -18,6 +18,6 @@ export function TitleScreen({game,highest,onStart,onContinue,onImport,onLibrary,
  <button className="launch-outline" onClick={onLibrary}>Executive Library · Read the book</button>
  {highest>=2?<button className="launch-outline" onClick={onAutopilot}>Executive Autopilot · Delegate everything</button>:<p className="launch-hint">Executive Autopilot becomes available after reaching campaign stage 2.</p>}
  <details className="launch-utilities"><summary>Backups and installation</summary><SaveTransfer game={game} onImport={onImport}/><InstallControl/></details>
- <p className="launch-hint">No account required · Browser-local saves · No external AI services</p><small className="launch-version">BUILD 0.20.0 / EXECUTIVE AUTOPILOT</small>
+ <p className="launch-hint">No account required · Browser-local saves · No external AI services</p><small className="launch-version">BUILD 1.0.0 / EXECUTIVE EDITION</small>
  </section></main>;
 }

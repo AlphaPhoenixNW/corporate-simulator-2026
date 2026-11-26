@@ -13,7 +13,7 @@ permissions:
   issues: read
 jobs:
   privacy:
-    if: github.event.repository.private == true && (github.event_name == 'workflow_dispatch' || (github.head_ref == 'security/publication-hardening' && github.event.pull_request.head.repo.full_name == github.repository))
+    if: github.event.repository.private == true && (github.event_name == 'workflow_dispatch' || ((github.head_ref == 'security/publication-hardening' || github.head_ref == 'release/v1.0.0-preparation') && github.event.pull_request.head.repo.full_name == github.repository))
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
