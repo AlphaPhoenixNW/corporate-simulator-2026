@@ -38,3 +38,7 @@ Choose Executive Library from the title screen or game rail. Read any section us
 ## Audio hotfix (0.17.3)
 
 Use Enable sound & music on the title or in-game workspace rail. Hold music active means the browser audio context is running and music scheduling has started; it is not proof of physical speaker output. Test sound plays a short fanfare. If audio awaits a tap after reload, use Start audio. Mute audio stops the music and effects. Existing settings still control music and volume. Verify on your actual handset and check system media volume/audio output if the app reports active music but no sound. The soundtrack is still the original short synthesised motif with a louder layered mix; full reward experience and richer music are planned next.
+
+## Ambient audio (0.17.4 candidate)
+
+The short repeating tune is replaced by slow, overlapping synthesised harmonies (128-second harmonic cycle). Play for several minutes and assess comfort; adjust existing master volume or switch off hold music while retaining reward cues. Test sound, reload and mute remain available. No downloaded audio assets or extra setup.

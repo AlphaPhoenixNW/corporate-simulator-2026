@@ -1,5 +1,5 @@
 // Original local synthesis. The audio graph is created only from a player gesture.
-export const HOLD_MOTIF=[60,64,67,71,62,65,69,72,59,62,67,69,60,64,67,0] as const;
+import {AMBIENT_STEP,AMBIENT_DURATION,ambientFrame,type AmbientVoice} from './ambience';
 export const CUES={action:[72,76],day:[60,64,67],incident:[65,61,65],award:[67,72,76,79],shutdown:[72,67,60],ending:[60,55,48]} as const;
 export type Cue=keyof typeof CUES;
 export type AudioStatus='muted'|'zero-volume'|'waiting'|'ready'|'playing'|'unavailable';
@@ -12,6 +12,7 @@ export class CorporateAudio {
  private gain:GainNode|null=null;
  private timer:ReturnType<typeof setInterval>|null=null;
  private position=0;
+ private pads=new Map<OscillatorNode,GainNode>();
  private music=false;
  private enabled=false;
  private volume=.35;
@@ -72,20 +73,44 @@ export class CorporateAudio {
   if(this.context?.state!=='running'){this.pending=cue;return;}
   CUES[cue].forEach((n,i)=>this.note(n,i*.12,.30,.20,'triangle'));
  }
+ private pad(voice:AmbientVoice){
+  const c=this.context,g=this.gain;if(!c||!g||c.state!=='running')return;
+  const start=c.currentTime+voice.delay,stop=start+AMBIENT_DURATION;
+  const osc=c.createOscillator(),env=c.createGain();
+  osc.type=voice.type;osc.frequency.value=frequency(voice.midi);
+  env.gain.setValueAtTime(.0001,start);
+  env.gain.linearRampToValueAtTime(voice.level,start+voice.attack);
+  env.gain.setValueAtTime(voice.level,stop-voice.release);
+  env.gain.linearRampToValueAtTime(.0001,stop);
+  osc.connect(env);env.connect(g);this.pads.set(osc,env);
+  osc.onended=()=>{this.pads.delete(osc);osc.disconnect();env.disconnect();};
+  osc.start(start);osc.stop(stop+.02);
+ }
+ private stopPads(){
+  const c=this.context;if(!c||c.state==='closed')return;
+  const now=c.currentTime;
+  for(const [osc,env] of this.pads){
+   // Cancel scheduled harmony immediately on mute, music-off or interruption.
+   env.gain.cancelScheduledValues(now);env.gain.setTargetAtTime(0,now,.035);
+   osc.stop(now+.16);
+  }
+  this.pads.clear();
+ }
  private tick(){
   if(typeof document!=='undefined'&&document.hidden)return;
-  const i=this.position++%HOLD_MOTIF.length;
-  this.note(HOLD_MOTIF[i],0,.54,.14,'triangle');
-  if(i%4===0){this.note(HOLD_MOTIF[i]-12,0,1.55,.065);this.note(HOLD_MOTIF[i]+7,.02,1.2,.025);}
+  ambientFrame(this.position++).forEach(voice=>this.pad(voice));
  }
  private syncMusic(){
   const shouldPlay=this.enabled&&this.volume>0&&this.music&&this.context?.state==='running';
-  if(!shouldPlay){if(this.timer!==null){clearInterval(this.timer);this.timer=null;}return;}
+  if(!shouldPlay){
+   if(this.timer!==null){clearInterval(this.timer);this.timer=null;}
+   this.stopPads();return;
+  }
   if(this.timer!==null)return;
-  this.tick();this.timer=setInterval(()=>this.tick(),480);
+  this.tick();this.timer=setInterval(()=>this.tick(),AMBIENT_STEP*1000);
  }
  dispose(){
-  if(this.timer!==null)clearInterval(this.timer);this.timer=null;this.pending=null;
+  if(this.timer!==null)clearInterval(this.timer);this.timer=null;this.pending=null;this.stopPads();
   const c=this.context;this.context=null;this.gain=null;
   if(c){c.onstatechange=null;if(c.state!=='closed')void c.close().catch(()=>{});}
  }

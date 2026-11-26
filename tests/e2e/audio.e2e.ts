@@ -33,7 +33,7 @@ test('starts real audio from a player gesture, produces a signal, mutes and resu
  await page.getByText('Audio settings',{exact:true}).click();
  await page.getByLabel('Corporate hold music',{exact:true}).uncheck();
  await expect(status).toHaveText('Sound effects active');
- // Wait for the last scheduled backing note to decay, then test the cue alone.
+ // Sustained pads must fade promptly on music-off, then the reward cue plays alone.
  await expect.poll(signal,{timeout:5000}).toBeLessThan(.001);
  await page.getByRole('button',{name:'Test sound',exact:true}).click();
  await expect.poll(signal,{timeout:3000,intervals:[10,20,40,60]}).toBeGreaterThan(.002);

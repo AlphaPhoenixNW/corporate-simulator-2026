@@ -3,7 +3,7 @@
 
 You are CEO of NOTHING™, a corporation devoted to appearing productive while avoiding measurable value. Delivering tomorrow's nothing, today.
 
-**Status:** 0.17.1 progressive-workspace beta candidate; the full game is not yet complete.
+**Status:** playable 0.17.4 candidate. The intended release is a basic, functional public-source project, not a fully polished commercial game. The hosted edition is an optional convenience; local and portable builds remain first-class.
 
 ## Run locally
 
@@ -28,7 +28,7 @@ The current foundation contains seven executive actions, 150 branching events, t
 npm run typecheck
 npm test
 npm run build
-npx playwright install chromium
+npx playwright install chromium webkit
 npm run test:e2e
 ```
 
@@ -93,15 +93,15 @@ Balance candidate: subscriber servicing incurs a daily fictional operating expen
 
 ## Private playable build
 
-Successful CI runs upload a self-contained HTML playtest with desktop/mobile screenshots and the playtest guide. Download the corporate-simulator-playtest artifact from the Actions run, extract it and open the HTML file in a desktop browser. No Node installation is required for this portable build. Local generation: npm ci, npm run build:playtest, npx playwright install chromium, npm run test:playtest. See docs/PLAYTEST_GUIDE.md. The repository remains private; no public hosting has been configured.
+Successful CI runs upload a self-contained HTML playtest with desktop/mobile screenshots and the playtest guide. Download the corporate-simulator-playtest artifact from the Actions run, extract it and open the HTML file in a desktop browser. No Node installation is required for this portable build. Local generation: npm ci, npm run build:playtest, npx playwright install chromium, npm run test:playtest. See docs/PLAYTEST_GUIDE.md. The repository is currently private; public visibility is planned after a release review. A hosted playable edition is available at https://corporate-simulator-2026.pages.dev.
 
 ### One-click onboarding and web app
 
-A fresh session starts at the title screen with instant Play now, optional guided game, configurable new game and Continue for an existing save. Reloading an active session resumes directly. The title screen includes validated JSON backup export and confirmation-based import; lifetime achievement and scenario profiles merge. The production build generates an installable manifest, PNG icons and a versioned service worker that precaches the bundled static app. Offline operation requires the initial hosted cache to complete. Portable HTML remains supported without a service worker. Cloudflare Pages configuration and deployment steps are in docs/DEPLOYMENT.md; no public hosting is activated yet.
+A fresh session starts at the title screen with instant Play now, optional guided game, configurable new game and Continue for an existing save. Reloading an active session resumes directly. The title screen includes validated JSON backup export and confirmation-based import; lifetime achievement and scenario profiles merge. The production build generates an installable manifest, PNG icons and a versioned service worker that precaches the bundled static app. Offline operation requires the initial hosted cache to complete. Portable HTML remains supported without a service worker. Cloudflare Pages configuration and deployment steps are in docs/DEPLOYMENT.md; the current hosted edition is available on Cloudflare Pages.
 
 ### Focused executive office
 
-The first workspace shows the immediate goal, live campaign requirements, a rule-based suggested next action, cash, available executive capacity and the most important risk scores. Dedicated workspaces replace the previous giant scrolling page. Desktop navigation and mobile Office / Company / Finance / Campaign shortcuts plus the All workspaces selector open one active view at a time. Day control and pending decisions remain global. Hash routes support browser history, deep links and reload. Settings and saves are grouped in a collapsed panel. Existing engine commands and save schema are unchanged. Advanced systems are still reachable through the full navigation; progressive introduction is planned separately. The companion book is a private offline reader in the signed-in CI artifact, not publicly deployed.
+The first workspace shows the immediate goal, live campaign requirements, a rule-based suggested next action, cash, available executive capacity and the most important risk scores. Dedicated workspaces replace the previous giant scrolling page. Desktop navigation and mobile Office / Company / Finance / Campaign shortcuts plus the All workspaces selector open one active view at a time. Day control and pending decisions remain global. Hash routes support browser history, deep links and reload. Settings and saves are grouped in a collapsed panel. Existing engine commands and save schema are unchanged. Advanced systems are still reachable through the full navigation; progressive introduction is planned separately. The companion book is accessible from the game; the original editorial files remain separate from the public bundle.
 
 ### Progressive workspace discovery
 
@@ -109,8 +109,12 @@ Campaign starts with Office, Campaign, Departments and Finance. People and recor
 
 ### Executive Library (0.17.2 candidate)
 
-The title screen and workspace rail open a separate companion-book reader containing all twelve chapters, six appendices and opening/closing sections. Reading does not start or advance a game. A section bookmark is stored locally, with contents navigation, larger type and a complete offline HTML download. The book is embedded in the game bundle, so both portable and installed web editions remain offline-capable. The public candidate preserves original prose with a revised publisher's note and navigation line; private source records are excluded. Publication review remains required before deployment.
+The title screen and workspace rail open a separate companion-book reader containing all twelve chapters, six appendices and opening/closing sections. Reading does not start or advance a game. A section bookmark is stored locally, with contents navigation, larger type and a complete offline HTML download. The book is embedded in the game bundle, so both portable and installed web editions remain offline-capable. The public candidate preserves original prose with a revised publisher's note and navigation line; private source records are excluded. The owner approved publication and v0.17.2 was merged and deployed. Repository-wide publication review is a separate task.
 
 ### Audio troubleshooting (0.17.3 candidate)
 
 Enable sound & music directly from the title or workspace rail. The status indicates whether the audio engine is running, awaiting a gesture or muted. Test sound plays a local fanfare. Existing settings retain music and master volume control. Browser tests inspect an actual generated signal, including targeted WebKit emulation; hardware audibility is a separate playtest check.
+
+### Low-fatigue ambience (0.17.4 candidate)
+
+The short hold-music motif is replaced with original, locally synthesised sustained harmonies. Sixteen slowly crossfading chords span 128 seconds; no repeating lead melody or external media. The existing reward cues and audio preferences are retained. Audio remains opt-in; music can be disabled independently of effects. Listening fatigue requires human assessment. The eventual public repository will support source, portable HTML and hosted play; public visibility is not changed by this increment.

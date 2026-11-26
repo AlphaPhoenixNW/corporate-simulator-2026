@@ -1,7 +1,8 @@
 import {describe,it,expect} from 'vitest';
 import {newGame,dispatch} from '../../src/engine/simulation';
 import {collectNotices,cashHistory,chartPoints,organisation,decodePreferences,DEFAULT_PREFERENCES} from '../../src/ui/experience';
-import {frequency,HOLD_MOTIF,CUES,CorporateAudio} from '../../src/ui/audio';
+import {frequency,CUES,CorporateAudio} from '../../src/ui/audio';
+import {AMBIENT_STEP,AMBIENT_DURATION,AMBIENT_CHORDS,ambientFrame} from '../../src/ui/ambience';
 describe('enterprise experience',()=>{
  it('reports new achievements without repeating existing recognition',()=>{
   const s=newGame(),n=dispatch(s,{type:'action',id:'rest'});
@@ -34,8 +35,8 @@ describe('enterprise experience',()=>{
   expect(decodePreferences(JSON.stringify({audio:true,music:true,reduced:true,volume:150}))).toEqual({audio:true,music:true,reduced:true,volume:100});
   expect(decodePreferences(JSON.stringify({audio:'yes',volume:-5}))).toMatchObject({audio:false,volume:0});
  });
- it('defines an original local motif and six contextual cues, with safe inactive lifecycle',()=>{
-  expect(frequency(69)).toBe(440);expect(HOLD_MOTIF).toHaveLength(16);expect(Object.keys(CUES)).toHaveLength(6);
+ it('defines six contextual cues, with safe inactive lifecycle',()=>{
+  expect(frequency(69)).toBe(440);expect(Object.keys(CUES)).toHaveLength(6);
   const audio=new CorporateAudio();audio.configure(false,false,35);audio.play('award');audio.dispose();
  });
 });
