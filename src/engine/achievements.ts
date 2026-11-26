@@ -19,7 +19,7 @@ export const ACHIEVEMENTS:Achievement[]=[
   {id:"incompetence",name:"Institutional Excellence in Incompetence",description:"Reach 100 organisational incompetence.",category:'leadership',test:s=>s.metrics.incompetence===100},
   {id:"first-promotion",name:"A Promotion Away from Productivity",description:"Promote an employee into management.",category:'people',test:s=>s.employees.some(e=>e.level>=2)},
   {id:"director",name:"Director of Nothing",description:"Promote an employee to director or executive grade.",category:'people',test:s=>s.employees.some(e=>e.level>=3)},
-  {id:"executive-grade",name:"Executive-Grade Nothing",description:"Promote an employee to the highest grade.",category:'people',test:s=>s.employees.some(e=>e.level===4)},
+  {id:"executive-grade",name:"Enterprise-Grade Nothing",description:"Promote an employee to the highest grade.",category:'people',test:s=>s.employees.some(e=>e.level===4)},
   {id:"talent-acquisition",name:"Talent Acquisition Framework",description:"Have at least ten active employees.",category:'people',test:s=>s.employees.filter(e=>e.status==='active').length>=10},
   {id:"org-chart",name:"Organisation Without a Purpose",description:"Activate all ten departments.",category:'people',test:s=>s.departments.every(d=>d.active)},
   {id:"review-board",name:"Review the Review",description:"Conduct five employee performance reviews.",category:'people',test:s=>s.employees.reduce((n,e)=>n+e.reviews,0)>=5},
