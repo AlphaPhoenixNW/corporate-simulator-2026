@@ -82,7 +82,7 @@ Each completed attempt is recorded separately from manual state. Pause or close 
 
 ## 7. Book and audio
 
-The Executive Library includes 22 explicitly allowlisted sections; the source-boundary script checks the approved text and excludes private links. The source manuscript is not wholesale served. The reader escapes markup, preserves the original cover thumbnail and supports local bookmarks and standalone HTML export. The private editorial preview is generated separately under playtest/ and is not published in dist.
+The Executive Library includes 22 explicitly allowlisted sections; the source-boundary script checks the approved text and excludes private links. The source manuscript is not wholesale served. The reader escapes markup, preserves the original cover thumbnail and supports local bookmarks and standalone HTML export. The private editorial preview is generated separately under playtest/ for validation, not uploaded in new CI artifacts or published in dist.
 
 The Web Audio implementation generates original sound cues and ambient harmonies locally. It requires user activation, supports independent music/effects volume and mute, and is independent of the deterministic engine. Reduced motion and keyboard navigation are part of the UI contract.
 
@@ -99,7 +99,7 @@ flowchart LR
   PWA --> Web
 ```
 
-The production builder generates the manifest, icons and content-versioned service worker in dist. Hosted navigation uses a canonical root and normalises redirected cached shell responses. A first successful online visit is needed for offline hosted use. The portable packager inlines assets and avoids service-worker registration under file URLs. Deploy dist, never the repository root or private editorial preview. See [deployment](DEPLOYMENT.md).
+The production builder generates the manifest, icons and content-versioned service worker in dist. Hosted navigation uses a canonical root and normalises redirected cached shell responses. A first successful online visit is needed for offline hosted use. Hosted security headers restrict script and connection origins, framing and unnecessary browser permissions; blob workers and inline styles are required by current features. Header changes are included in the cache version. The portable packager inlines assets and avoids service-worker registration under file URLs. Deploy dist, never the repository root or private editorial preview. See [deployment](DEPLOYMENT.md).
 
 ## 9. Verification and extension
 

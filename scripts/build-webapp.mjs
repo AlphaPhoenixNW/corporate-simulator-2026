@@ -26,6 +26,8 @@ await writeFile(join(dist,'manifest.webmanifest'),JSON.stringify(manifest,null,2
 const assets=(await readdir(join(dist,'assets'))).sort().map(x=>'assets/'+x);
 const files=['index.html','manifest.webmanifest','icons/icon-192.png','icons/icon-512.png',...assets];
 const hash=createHash('sha256');for(const f of files)hash.update(await readFile(join(dist,f)));
+// Header changes must invalidate the cached application shell as well as asset changes.
+hash.update(await readFile(join(dist,'_headers')));
 const cache='nothing-sim-app-v2-'+hash.digest('hex').slice(0,16);
 const sw=`const CACHE=${JSON.stringify(cache)};
 const FILES=${JSON.stringify(files.map(f=>f==='index.html'?'':f))};

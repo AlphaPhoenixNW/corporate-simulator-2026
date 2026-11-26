@@ -11,12 +11,14 @@ jobs:
     # Keep this image in sync with @playwright/test in package.json.
     # Preinstalled browsers and OS dependencies avoid repeated apt/CDN setup.
     container:
-      image: mcr.microsoft.com/playwright:v1.65.1-noble
+      image: mcr.microsoft.com/playwright:v1.65.1-noble@sha256:1507cbfc550a63a6b7396791ca4f00df17beb56342d2447b3f106c306f525579
       options: --ipc=host
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: '22'
           cache: npm
@@ -35,14 +37,13 @@ jobs:
       - name: Build private companion book preview
         run: node scripts/build-companion-preview.mjs
       - name: Upload verified playable build
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: corporate-simulator-playtest
           path: |
             playtest/Corporate Simulator 2026.html
-            playtest/Executive Library.html
             playtest/screenshots/
             docs/PLAYTEST_GUIDE.md
             dist/
           if-no-files-found: error
-          retention-days: 30
+          retention-days: 7

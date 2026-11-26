@@ -12,13 +12,13 @@ For an existing or replacement deployment, configure production branch main, bui
 
 Merge verified PRs into main and check the resulting main workflow and deployment. Branch preview URLs may be accessible outside the private repository depending on host access controls. Never assume repository privacy protects a deployed asset.
 
-The production build serves only dist. The versioned service worker precaches the app shell, manifest and assets, normalises redirected navigation responses and clears old app caches. public/_headers configures revalidation and immutable hashed assets. A first online visit is necessary for hosted offline access.
+The production build serves only dist. The versioned service worker precaches the app shell, manifest and assets, normalises redirected navigation responses and clears old app caches. public/_headers configures revalidation, immutable hashed assets and hosted security policy (CSP, no-referrer, anti-framing and restricted permissions). Header changes also invalidate the shell cache. The CSP permits local scripts and blob workers, but rejects arbitrary inline scripts and third-party connections. The portable HTML is not served with HTTP headers. A first online visit is necessary for hosted offline access.
 
 If a previous deployment fails on return with ERR_FAILED, try the same host with /recover (no trailing slash) while online, close other game tabs and then return to the root. Do not clear site storage as a first troubleshooting step.
 
 ## Portable HTML
 
-Run npm run build:playtest, then open playtest/Corporate Simulator 2026.html. The portable edition includes the game and embedded library; no local server or Node installation is needed to play an already built file. Private Actions artifacts require authorised GitHub access. The separate private editorial preview is not part of dist.
+Run npm run build:playtest, then open playtest/Corporate Simulator 2026.html. The portable edition includes the game and embedded library; no local server or Node installation is needed to play an already built file. Private Actions artifacts require authorised GitHub access. The separate private editorial preview is built for validation but no longer included in new downloadable CI artifacts or dist. Historical artifacts require review.
 
 ## Player-facing limitations
 
