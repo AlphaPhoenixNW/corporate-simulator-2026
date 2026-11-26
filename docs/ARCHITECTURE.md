@@ -20,3 +20,7 @@ CI: install dependencies, typecheck, test, build and run browser tests. Balance 
 ## Release gate
 
 All 15 brief sections implemented, 150 authored branching events and 60 functional achievements, campaign and boss playable, sandbox available, verified local build and tests, accessibility and balancing pass, player documentation. A foundation is not the release.
+
+## Department module (0.2.0)
+
+DepartmentState stores aggregate staffing until the individual employee module replaces this with derived headcount. Daily operating allocation and payroll are expenses, not prepaid reserves. Executive department commands consume the same daily capacity as global actions. The engine settles departmental operations after base daily revenue and overhead, before scheduled effects and event selection. Department events are eligible only when the corresponding unit is active. V1 saves migrate deterministically to V2 by introducing default departments; preserve all other saved fields. The existing local storage key is retained deliberately to discover legacy saves.

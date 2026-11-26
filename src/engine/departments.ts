@@ -69,9 +69,11 @@ export function runDepartments(departments:DepartmentState[],random:()=>number):
     const spent=d.budget+d.headcount*DAILY_WAGE;
     costs.push({label:def.name+' operating costs',amount:-spent});
     const funded=d.budget>=d.headcount*50;
-    const scale=funded?Math.min(2,1+(d.headcount-1)*.25):.5;
+    const scale=funded?Math.min(2,(.75+d.competence/200)+(d.headcount-1)*.25):.5;
     add(d.focus==='operations'?def.routine:def.governance,scale);
-    const failureRisk=.06+(funded?0:.12)+(d.morale<40?.12:0)+(d.id==='engineering'&&d.focus==='operations'?.18:0);
+    const legal=active.find(x=>x.id==='legal');
+    const oversight=legal&&legal.budget>=legal.headcount*50&&legal.focus==='governance'?.03:0;
+    const failureRisk=Math.max(.02,.06+(funded?0:.12)+(d.morale<40?.12:0)+(d.id==='engineering'&&d.focus==='operations'?d.competence/400:0)-oversight);
     const failure=roll<failureRisk;
     if(failure){add(def.incident);reports.push(def.failure);}
     const progress=(d.progress+(funded?12:4))%100;

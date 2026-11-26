@@ -3,7 +3,7 @@
 
 You are CEO of NOTHING™, a corporation devoted to appearing productive while avoiding measurable value. Delivering tomorrow's nothing, today.
 
-**Status:** 0.1.0 development foundation; the full game is not yet complete.
+**Status:** 0.2.0 departmental development build; the full game is not yet complete.
 
 ## Run locally
 
@@ -20,7 +20,7 @@ Open the local URL printed by Vite. No paid APIs, accounts or model inference ar
 
 Each turn is a working day. Use two executive actions per day, resolve corporate events, manage cash and keep actual productivity below 70. Liquidity at zero or board confidence at zero also ends the simulation. Daily revenue and expenses are reconciled automatically. Start a new simulation with a chosen seed for reproducibility.
 
-The current foundation contains seven actions, four branching events, ten bounded scores plus liquidity, executive bonuses, a transaction ledger, delayed consequences and local saves. It is limited to the Bedroom Startup stage; subsequent systems are tracked in the backlog.
+The current foundation contains seven executive actions, fourteen branching events, ten bounded scores plus liquidity, executive bonuses, a transaction ledger, delayed consequences and local saves. The department dashboard includes all ten departments, progressive day-based establishment, daily budgets and payroll, headcount, influence, competence, morale, resource requests, governance/operations focus, incidents and objective progress. Version 1 saves migrate automatically to version 2. It is limited to the Bedroom Startup stage; subsequent systems are tracked in the backlog.
 
 ## Quality gates
 
@@ -32,7 +32,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-GitHub Actions runs these quality gates on Ubuntu 24.04. The [first successful foundation run](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45738801621) passed TypeScript, seven unit/integration cases, production build and both desktop/mobile browser cases. A dependency lockfile still needs to be generated and committed.
+GitHub Actions runs these quality gates on Ubuntu 24.04. The [first successful foundation run](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45738801621) passed TypeScript, seven unit/integration cases, production build and both desktop/mobile browser cases. A dependency lockfile still needs to be generated and committed. The 0.2.0 department increment adds nine unit tests and desktop/mobile departmental E2E coverage; new CI results are pending.
 
 ## Development reference
 
