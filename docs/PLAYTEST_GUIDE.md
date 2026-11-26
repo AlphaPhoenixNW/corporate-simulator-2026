@@ -2,7 +2,7 @@
 
 ## Start playing
 
-Use the configured hosted game, run locally with Node 22.12+ and npm (npm ci, npm run dev), or open the prebuilt portable HTML from an authorised successful Actions artifact. The portable file contains the game and works offline without a server or paid inference. Mobile local-file handling varies; hosted play is generally easier on phones. See [deployment](DEPLOYMENT.md).
+[Play online](https://corporate-simulator-2026.pages.dev), [download the official portable HTML](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/releases/download/v1.0.0/Corporate-Simulator-2026-v1.0.0.html), or run locally with Node 22.12+ and npm (npm ci, npm run dev). The portable file contains the game and works offline without a server or paid inference. Mobile local-file handling varies; hosted play is generally easier on phones. See [deployment](DEPLOYMENT.md).
 
 At the title choose Play now, Play guided game or Continue simulation. Backups and installation exposes manual save transfers. Keep the same browser profile and origin/file location to retain saves. Export a backup before replacing your game or clearing storage.
 
@@ -40,4 +40,4 @@ Reach campaign stage two, then open Autopilot from the title or rail. Try one at
 - Run and pause Autopilot, read the library, resume and check manual cash/day/awards remain unchanged.
 - Report version, browser/device, seed, difficulty, working day, action, expected/actual outcome and sanitised screenshots or saves.
 
-Automated screenshots and browser emulation supplement, not replace, manual review. See [status](STATUS.md) for current evidence and [release checklist](RELEASE_CHECKLIST.md) for remaining acceptance.
+Automated screenshots and browser emulation supplement, not replace, manual review. See [status](STATUS.md) for current evidence and [release checklist](RELEASE_CHECKLIST.md) for completed acceptance and post-launch objectives.

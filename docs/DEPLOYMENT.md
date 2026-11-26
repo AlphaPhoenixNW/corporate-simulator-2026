@@ -1,6 +1,6 @@
 # Deployment and distribution
 
-The current game is a static Vite application. Cloudflare Pages is already configured for the project and the owner has used the hosted edition. Hosting and source-repository visibility are separate.
+The current game is a static Vite application. The canonical [production game](https://corporate-simulator-2026.pages.dev) is live; v1.0.0 deployment 9118f9d and canonical headers verified. Hosting and source-repository visibility are separate.
 
 ## Run locally
 
@@ -18,7 +18,7 @@ If a previous deployment fails on return with ERR_FAILED, try the same host with
 
 ## Portable HTML
 
-Run npm run build:playtest, then open playtest/Corporate Simulator 2026.html. The portable edition includes the game and embedded library; no local server or Node installation is needed to play an already built file. Private Actions artifacts require authorised GitHub access. The separate private editorial preview is built for validation but no longer included in new downloadable CI artifacts or dist. EA-001 superseded artifact cleanup removed 35 archives and retained the last verified build; new verified playable artifacts use seven-day retention. See [security assurance](SECURITY_ASSURANCE.md).
+Run npm run build:playtest, then open playtest/Corporate Simulator 2026.html. The portable edition includes the game and embedded library; no local server or Node installation is needed to play an already built file. The [official release](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/releases/tag/v1.0.0) provides the [standalone HTML](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/releases/download/v1.0.0/Corporate-Simulator-2026-v1.0.0.html). Actions artifacts are temporary and subject to GitHub access and retention. The separate private editorial preview is built for validation but no longer included in new downloadable CI artifacts or dist. EA-001 superseded artifact cleanup removed 35 archives and retained the last verified build; new verified playable artifacts use seven-day retention. See [security assurance](SECURITY_ASSURANCE.md).
 
 ## Player-facing limitations
 
@@ -26,4 +26,4 @@ Browser support for installation, local-file storage, downloads and offline cach
 
 ## Release verification
 
-Check the exact main commit in [Actions](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/workflows/ci.yml), deployment result and actual URL. Test title, Continue, backup transfer, mobile layout, audio, return navigation and offline reload. See [release checklist](RELEASE_CHECKLIST.md) and [publication review](PUBLICATION_REVIEW.md) for outstanding gates.
+Check the exact main commit in [Actions](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/workflows/ci.yml), deployment result and actual URL. Test title, Continue, backup transfer, mobile layout, audio, return navigation and offline reload. See [release checklist](RELEASE_CHECKLIST.md) and [publication review](PUBLICATION_REVIEW.md) for launch evidence and follow-up objectives.

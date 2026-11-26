@@ -1,6 +1,6 @@
 # Development backlog
 
-Current baseline: all planned gameplay increments implemented; P15 release readiness remains open. See [current status](STATUS.md) and [release checklist](RELEASE_CHECKLIST.md). The chronological entries below preserve their original context; pending statements in older entries are historical, not active governance. Checkboxes represent accepted work, not merely planned code.
+Current baseline: all planned gameplay increments implemented; P15 accepted for v1.0.0 public release; three extended testing objectives deferred with explicit owner approval. See [current status](STATUS.md) and [release checklist](RELEASE_CHECKLIST.md). The chronological entries below preserve their original context; pending statements in older entries are historical, not active governance. Checkboxes represent accepted work, not merely planned code.
 
 - [x] P0 Preserve complete project brief; establish working agreement and architecture.
 - [x] P1 Foundation: Vite/React/TS, deterministic turn engine, 11 metrics, action capacity, initial economy, decisions, local persistence, responsive dashboard, automated tests and verification.
@@ -17,7 +17,7 @@ Current baseline: all planned gameplay increments implemented; P15 release readi
 - [x] P12 Competent employee boss: multi-stage legitimate corporate interventions.
 - [x] P13 At least 60 functional achievements and animations.
 - [x] P14 Visual/audio polish, charts, accessibility, reduced motion, keyboard, mobile.
-- [ ] P15 Balance, regression, E2E, documentation, release readiness.
+- [x] P15 Balance, regression, E2E, documentation, release readiness (initial release accepted; post-launch objectives below).
 
 ## Working practice
 
@@ -220,3 +220,9 @@ Player reported the single scrolling dashboard is overwhelming and does not comm
 
 - Owner accepts the overall game and repository direction. Main Autopilot verification 45767711773 passed; branding PR head 406bf05 passed 45769589472 (173 unit/integration, 47 browser cases, offline and companion gates); Cloudflare preview passed.
 - Consolidated current status and governance; rewrote architecture, playtest, deployment, release acceptance and companion boundary from current code and evidence. Preserved architecture/release/import histories and manuscript. Historical entries do not act as current instructions. No gameplay, licensing or visibility changes. New documentation commit verification and final publication gates remain open.
+
+
+## Global Non-Delivery Day™ | 26 November 2026
+
+- PR #33 merged at 9118f9d with exact-head evidence and owner-approved functional acceptance and limitations. [Official v1.0.0 release](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/releases/tag/v1.0.0) published 09:48:40 UTC; canonical hosted edition and uploaded standalone HTML verified as recorded in [status](STATUS.md).
+- Post-launch objectives: comprehensive accessibility, extended physical-device Autopilot performance/battery testing and exhaustive achievement reachability. These are not completed test claims. Optional dependency upgrades remain separate maintenance work.
