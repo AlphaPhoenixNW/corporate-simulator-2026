@@ -32,7 +32,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-GitHub Actions is configured to run the quality gates. A dependency lockfile has not yet been generated, and the initial test results are not yet confirmed.
+GitHub Actions runs these quality gates on Ubuntu 24.04. The [first successful foundation run](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45738801621) passed TypeScript, seven unit/integration cases, production build and both desktop/mobile browser cases. A dependency lockfile still needs to be generated and committed.
 
 ## Development reference
 
