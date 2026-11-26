@@ -16,6 +16,10 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '22'
+      - name: Use pinned npm 11 resolver
+        run: |
+          npm install --global npm@11.19.0 --ignore-scripts --no-audit --no-fund
+          npm --version
       - name: Resolve selected versions without executing package scripts
         run: |
           npm pkg set 'devDependencies.vite=7.3.8' 'devDependencies.vitest=4.1.12' 'devDependencies.@playwright/test=1.65.1'
