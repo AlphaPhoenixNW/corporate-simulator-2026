@@ -11,6 +11,7 @@ import { initialAgents, changeAgents, runAgents } from './agents';
 import { selectIncident } from './incidents';
 import {initialCampaign,DIFFICULTIES,SCENARIOS,dailyCapacity,actualLimit,campaignOverhead,campaignEligibility,advanceCampaign,STAGES} from './campaign';
 import {initialBoss,spawnBoss,changeBoss,runBoss,protectedBoss} from './boss';
+import {initialAchievements,updateAchievements} from './achievements';
 export const DAILY_CAPACITY = 2;
 const clamp = (n:number) => Math.max(0,Math.min(100,n));
 export function random(rng:number): [number,number] {
@@ -21,7 +22,7 @@ export function newGame(seed=2026,options:GameOptions={}): GameState {
   const normalized = seed >>> 0;
   const staff=seedEmployees(normalized,initialDepartments(),1);
   const campaign=initialCampaign(options),scenario=SCENARIOS[campaign.scenario],cash=Math.round(scenario.cash*DIFFICULTIES[campaign.difficulty].cashMultiplier);
-  return {version:12,boss:initialBoss(),campaign,incidentHistory:[],agents:initialAgents(),os:initialOS(),finance:initialFinance(1,cash,scenario.metrics.confidence??55),programmes:[],communications:[],nextCommunicationId:1,meetings:[],nextMeetingId:1,...staff,departments:syncDepartments(initialDepartments(),staff.employees),seed:normalized,rng:normalized,day:1,cash,capacity:DAILY_CAPACITY,compensation:0,
+  return {version:13,achievements:initialAchievements(),boss:initialBoss(),campaign,incidentHistory:[],agents:initialAgents(),os:initialOS(),finance:initialFinance(1,cash,scenario.metrics.confidence??55),programmes:[],communications:[],nextCommunicationId:1,meetings:[],nextMeetingId:1,...staff,departments:syncDepartments(initialDepartments(),staff.employees),seed:normalized,rng:normalized,day:1,cash,capacity:DAILY_CAPACITY,compensation:0,
     metrics:{confidence:55,prestige:20,morale:70,bureaucracy:15,perceived:25,actual:12,buzzwords:20,meetings:10,regulation:10,incompetence:25,...scenario.metrics},
     pendingEvent:null,resolvedEvents:[],scheduled:[],log:['Day 1: NOTHING™ incorporated. No product roadmap has been approved.'],ledger:[],ending:null};
 }
@@ -196,5 +197,6 @@ export function dispatch(state:GameState,command:Command):GameState {
     }
   }
   checkEnding(s);
+  s.achievements=updateAchievements(state,s,command);
   return s;
 }

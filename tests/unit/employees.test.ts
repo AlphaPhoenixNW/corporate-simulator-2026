@@ -74,7 +74,7 @@ describe('employee simulation',()=>{
     const s=dispatch(newGame(),{type:'department',id:'finance',operation:'hire'});
     const legacy={...s,version:2,employees:undefined,relationships:undefined,nextEmployeeId:undefined};
     const migrated=decodeSave(JSON.stringify(legacy))!;
-    expect(migrated).toMatchObject({version:12,cash:s.cash,rng:s.rng});
+    expect(migrated).toMatchObject({version:13,cash:s.cash,rng:s.rng});
     expect(migrated.employees).toHaveLength(4);
     expect(decodeSave(JSON.stringify(migrated))).toEqual(migrated);
     expect(decodeSave(JSON.stringify({...migrated,employees:[...migrated.employees,migrated.employees[0]]}))).toBeNull();

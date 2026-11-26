@@ -84,7 +84,7 @@ describe('competent employee confrontation',()=>{
  });
  it('blocks final certification until containment and migrates v11 saves',()=>{
   const s=finale(),legacy={...s,version:11,boss:undefined};
-  expect(decodeSave(JSON.stringify(legacy))).toMatchObject({version:12,boss:initialBoss()});
+  expect(decodeSave(JSON.stringify(legacy))).toMatchObject({version:13,boss:initialBoss()});
   expect(dispatch(s,{type:'campaign',operation:'certify'})).toBe(s);
   const active=spawnBoss(s);expect(decodeSave(JSON.stringify(active))).toEqual(active);
   expect(decodeSave(JSON.stringify({...active,boss:{...active.boss,employeeId:999}}))).toBeNull();
