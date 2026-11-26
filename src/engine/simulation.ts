@@ -1,10 +1,11 @@
 import { ACTIONS, EVENTS } from './content';
-import { METRIC_KEYS, type GameState, type Command, type Delta } from './types';
+import { METRIC_KEYS, type GameState, type Command, type Delta, type CashCategory } from './types';
 import { initialDepartments, changeDepartment, runDepartments } from './departments';
 import { seedEmployees, syncDepartments, payrollByDepartment, reconcileStaffing, changeEmployee, runEmployees } from './employees';
 import { changeMeeting, runMeetings } from './meetings';
 import { changeCommunication, runCommunications, generateCommunication } from './communications';
 import { changeProgramme, runProgrammes } from './programmes';
+import { initialFinance, trackCash, changeFinance, runFinance, closeFinanceDay } from './finance';
 export const DAILY_CAPACITY = 2;
 const clamp = (n:number) => Math.max(0,Math.min(100,n));
 export function random(rng:number): [number,number] {
@@ -14,14 +15,15 @@ export function random(rng:number): [number,number] {
 export function newGame(seed=2026): GameState {
   const normalized = seed >>> 0;
   const staff=seedEmployees(normalized,initialDepartments(),1);
-  return {version:6,programmes:[],communications:[],nextCommunicationId:1,meetings:[],nextMeetingId:1,...staff,departments:syncDepartments(initialDepartments(),staff.employees),seed:normalized,rng:normalized,day:1,cash:75000,capacity:DAILY_CAPACITY,compensation:0,
+  return {version:7,finance:initialFinance(),programmes:[],communications:[],nextCommunicationId:1,meetings:[],nextMeetingId:1,...staff,departments:syncDepartments(initialDepartments(),staff.employees),seed:normalized,rng:normalized,day:1,cash:75000,capacity:DAILY_CAPACITY,compensation:0,
     metrics:{confidence:55,prestige:20,morale:70,bureaucracy:15,perceived:25,actual:12,buzzwords:20,meetings:10,regulation:10,incompetence:25},
     pendingEvent:null,resolvedEvents:[],scheduled:[],log:['Day 1: NOTHING™ incorporated. No product roadmap has been approved.'],ledger:[],ending:null};
 }
-function record(s:GameState,label:string,amount:number) {
+function record(s:GameState,label:string,amount:number,category:CashCategory=amount>0?'revenue':'expense') {
   if (!amount) return;
   s.cash += amount;
-  s.ledger = [...s.ledger,{day:s.day,label,amount}].slice(-200);
+  s.finance=trackCash(s.finance,amount,category);
+  s.ledger = [...s.ledger,{day:s.day,label,amount,category}].slice(-200);
 }
 function apply(s:GameState,delta:Delta,label:string) {
   for(const key of METRIC_KEYS) s.metrics[key] = clamp(s.metrics[key] + (delta[key] ?? 0));
@@ -85,6 +87,12 @@ export function dispatch(state:GameState,command:Command):GameState {
     s.capacity--;s.programmes=result.programmes;s.meetings=result.meetings;s.nextMeetingId=result.nextMeetingId;
     record(s,result.message,-result.cost);apply(s,result.delta,result.message);log(s,result.message);
     if(command.operation==='commission')s.communications=[...s.communications,{...generateCommunication(s,'transformation',s.nextCommunicationId++,nextRandom),subject:result.message}];
+  } else if(command.type==='finance'){
+    const result=changeFinance(s,command);
+    if(!result)return state;
+    s.capacity--;s.finance=result.finance;
+    for(const entry of result.entries)record(s,entry.label,entry.amount,entry.category);
+    apply(s,result.delta,result.message);log(s,result.message);
   } else if(command.type==='choose'){
     const e=EVENTS.find(x=>x.id===s.pendingEvent);
     const c=e?.choices.find(x=>x.id===command.id);
@@ -121,6 +129,16 @@ export function dispatch(state:GameState,command:Command):GameState {
     const comms=runCommunications(s,nextRandom);
     s.communications=comms.communications;s.nextCommunicationId=comms.nextCommunicationId;
     apply(s,comms.delta,'Corporate communications');for(const report of comms.reports)log(s,report);
+    const trading=runFinance(s,nextRandom);
+    s.finance=trading.finance;
+    for(const entry of trading.entries)record(s,entry.label,entry.amount,entry.category);
+    apply(s,trading.delta,'Financial operations');for(const report of trading.reports)log(s,report);
+    s.finance=closeFinanceDay(s);
+    if(s.finance.reports.at(-1)?.endDay===s.day){
+      const report=s.finance.reports.at(-1)!;
+      s.communications=[...s.communications,{...generateCommunication(s,'shareholder',s.nextCommunicationId++,nextRandom),subject:'Quarterly earnings | Working day '+s.day,body:'Revenue £'+report.revenue+'; expenses £'+report.expenses+'; operating result £'+report.profit+'. Financing and investment cash flows are reported separately.'}];
+      log(s,'Quarterly earnings report published.');
+    }
     log(s,'Daily operations reconciled. No further alignment required until tomorrow.');
     s.day++; s.capacity=DAILY_CAPACITY;
     const due=s.scheduled.filter(x=>x.day<=s.day);

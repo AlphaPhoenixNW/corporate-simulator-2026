@@ -52,16 +52,34 @@ export interface Programme {
 }
 export type ProgrammeCommand={type:'programme';operation:'commission'|'replace-lead';programme:ProgrammeType;leadId:number}|
   {type:'programme';operation:'topup'|'committee'|'approve'|'pause'|'resume'|'cancel';programme:ProgrammeType};
+export const ACQUISITION_IDS=['deckworks','nullcloud','synergy-labs'] as const;
+export type AcquisitionId=typeof ACQUISITION_IDS[number];
+export type SavingsPlan='conservative'|'standard'|'aggressive';
+export type CashCategory='revenue'|'expense'|'financing'|'investing';
+export interface CashTotals {revenue:number;expenses:number;financing:number;investing:number}
+export interface FinancialPeriod extends CashTotals {
+  startDay:number;endDay:number;openingCash:number;closingCash:number;profit:number;debt:number;sharePrice:number;subscribers:number;
+}
+export interface MarketPoint {day:number;price:number;sentiment:number;cash:number}
+export interface FinanceState {
+  debt:number;subscribers:number;plan:SavingsPlan;acquisitions:AcquisitionId[];
+  sentiment:number;sharePrice:number;market:MarketPoint[];
+  trackedFromDay:number;periodStart:number;openingCash:number;period:CashTotals;lifetime:CashTotals;
+  reports:FinancialPeriod[];lastInvoice:number;lastSubscription:number;lastInterest:number;lastChurn:number;
+}
+export type FinanceCommand={type:'finance';operation:'borrow'|'repay'|'acquire-customers'}|
+  {type:'finance';operation:'pricing';plan:SavingsPlan}|
+  {type:'finance';operation:'acquire';target:AcquisitionId};
 export interface Choice { id: string; label: string; detail: string; effect: Delta; delayed?: { days: number; effect: Delta; message: string } }
 export interface CorporateEvent { id: string; title: string; description: string; choices: Choice[]; department?: DepartmentId }
 export interface Action { id: string; label: string; detail: string; cost: number; effect: Delta }
-export interface LedgerEntry { day: number; label: string; amount: number }
+export interface LedgerEntry { day: number; label: string; amount: number; category?:CashCategory }
 export interface ScheduledEffect { day: number; effect: Delta; message: string }
 export interface GameState {
-  version: 6; programmes: Programme[]; communications: Communication[]; nextCommunicationId:number; meetings: Meeting[]; nextMeetingId:number; departments: DepartmentState[]; employees: Employee[]; relationships: Relationship[]; nextEmployeeId: number; seed: number; rng: number; day: number; cash: number;
+  version: 7; finance:FinanceState; programmes: Programme[]; communications: Communication[]; nextCommunicationId:number; meetings: Meeting[]; nextMeetingId:number; departments: DepartmentState[]; employees: Employee[]; relationships: Relationship[]; nextEmployeeId: number; seed: number; rng: number; day: number; cash: number;
   metrics: Metrics; capacity: number; compensation: number;
   pendingEvent: string | null; resolvedEvents: string[];
   scheduled: ScheduledEffect[]; log: string[]; ledger: LedgerEntry[];
   ending: 'insolvent' | 'useful' | 'board' | null;
 }
-export type Command = ProgrammeCommand | CommunicationCommand | MeetingCommand | EmployeeCommand | DepartmentCommand | { type: 'action'; id: string } | { type: 'choose'; id: string } | { type: 'endDay' };
+export type Command = FinanceCommand | ProgrammeCommand | CommunicationCommand | MeetingCommand | EmployeeCommand | DepartmentCommand | { type: 'action'; id: string } | { type: 'choose'; id: string } | { type: 'endDay' };
