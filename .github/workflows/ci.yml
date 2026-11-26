@@ -21,7 +21,7 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build:playtest
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium webkit
       - run: npm run test:e2e
       - name: Verify portable offline playtest
         run: npm run test:playtest

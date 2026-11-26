@@ -29,7 +29,8 @@ import {FeatureIntroduction} from './ui/FeatureIntroduction';
 import {ExecutiveLibrary} from './ui/ExecutiveLibrary';
 import {GlobalNotices} from './ui/GlobalNotices';
 import {collectNotices,loadPreferences,savePreferences,type Notice} from './ui/experience';
-import {CorporateAudio} from './ui/audio';
+import {CorporateAudio,type AudioStatus} from './ui/audio';
+import {AudioQuickControl} from './ui/AudioQuickControl';
 import {TitleScreen} from './ui/TitleScreen';
 import {TutorialPanel} from './ui/TutorialPanel';
 import {sessionPlaying,setSessionPlaying,tutorialAdvance,type Backup} from './ui/onboarding';
@@ -69,12 +70,18 @@ function App(){
   const [reset,setReset]=useState(false);
   const [seed,setSeed]=useState(String(state.seed));
   const [preferences,setPreferences]=useState(loadPreferences);
+  const [audioStatus,setAudioStatus]=useState<AudioStatus>('muted');
   const reduced=preferences.reduced;
   const [notices,setNotices]=useState<Notice[]>([]);
   const audio=useRef<CorporateAudio|null>(null);
   const previous=useRef(state);
   const replacing=useRef(false);
-  useEffect(()=>{const player=new CorporateAudio();audio.current=player;return ()=>{player.dispose();audio.current=null;};},[]);
+  useEffect(()=>{const player=new CorporateAudio(setAudioStatus);audio.current=player;const unlock=(event:MouseEvent)=>{
+    // Explicit audio controls own their gesture. Recovering in capture phase could
+    // change Start audio into Mute audio before the same click reaches React.
+    if(event.target instanceof Element&&event.target.closest('.quick-audio,.audio-settings'))return;
+    if(player.status==='waiting')void player.activate();
+  };document.addEventListener('click',unlock,true);return ()=>{document.removeEventListener('click',unlock,true);player.dispose();audio.current=null;};},[]);
   useEffect(()=>{savePreferences(preferences);audio.current?.configure(preferences.audio,preferences.music,preferences.volume);},[preferences]);
   useEffect(()=>{
     const before=previous.current;previous.current=state;
@@ -96,7 +103,7 @@ function App(){
   const enter=()=>{setSessionPlaying(true);setPlaying(true);window.scrollTo(0,0);audio.current?.configure(preferences.audio,preferences.music,preferences.volume);if(preferences.audio)void audio.current?.activate();};
   const start=(newSeed:number,options:GameOptions,guided:boolean)=>{replacing.current=true;setState(newGame(newSeed,options));setHasGame(true);setSeed(String(newSeed));setMode(options.mode??'campaign');setDifficulty(options.difficulty??'standard');setScenario(options.scenario??'founder');setTutorial(guided?0:-1);setReset(false);navigate('office');enter();};
   const importGame=(backup:Backup)=>{replacing.current=true;setState(backup.game);setHasGame(true);setSeed(String(backup.game.seed));setMode(backup.game.campaign.mode);setDifficulty(backup.game.campaign.difficulty);setScenario(backup.game.campaign.scenario);setTutorial(-1);saveHighestStage(backup.highestStage);setHighest(n=>Math.max(n,backup.highestStage));saveAchievementProfile(backup.achievements);};
-  const menu=()=>{setSessionPlaying(false);setPlaying(false);setTutorial(-1);audio.current?.configure(false,false,preferences.volume);window.scrollTo(0,0);};
+  const menu=()=>{setSessionPlaying(false);setPlaying(false);setTutorial(-1);window.scrollTo(0,0);};
   const e=EVENTS.find(x=>x.id===state.pendingEvent);
   const validSeed=/^\d+$/.test(seed)&&Number(seed)<=4294967295;
   const current=workspaceAvailable(state,workspace)?workspace:'office';
@@ -104,13 +111,22 @@ function App(){
   const view=(id:Workspace,content:React.ReactNode)=><div className="workspace-view" hidden={current!==id}>{content}</div>;
   const openLibrary=()=>{setLibraryOpen(true);window.scrollTo(0,0);};
   const closeLibrary=()=>{setLibraryOpen(false);requestAnimationFrame(()=>{window.scrollTo(0,0);document.getElementById(playing?'workspace':'launch-title')?.focus({preventScroll:true});});};
+  const toggleAudio=(intent:'enable'|'resume'|'mute')=>{
+    const player=audio.current;
+    if(intent==='resume'){void player?.activate();return;}
+    const enabled=intent==='enable',music=enabled?true:preferences.music;
+    player?.configure(enabled,music,preferences.volume);if(enabled)void player?.activate();
+    setPreferences(p=>({...p,audio:enabled,music}));
+  };
+  const testAudio=()=>{if(preferences.audio){void audio.current?.activate();audio.current?.play('award');}};
+  const quickAudio=<AudioQuickControl enabled={preferences.audio} status={audioStatus} onToggle={toggleAudio} onTest={testAudio}/>;
   if(libraryOpen)return <ExecutiveLibrary onBack={closeLibrary} returnLabel={playing?'Return to simulation':'Return to title screen'}/>;
-  if(!playing)return <TitleScreen game={hasGame?state:null} highest={highest} onStart={start} onContinue={enter} onImport={importGame} onLibrary={openLibrary}/>;
+  if(!playing)return <TitleScreen game={hasGame?state:null} highest={highest} onStart={start} onContinue={enter} onImport={importGame} onLibrary={openLibrary} audioControl={quickAudio}/>;
   return <div className={'suite'+(reduced?' reduce-motion':'')}>
     <a className="skip" href="#workspace">Skip to workspace</a>
     <header className="topbar"><div className="brand"><span className="logo" aria-hidden="true">N.</span><div><strong>NOTHING™</strong><span>Executive management suite</span></div></div><div className="top-meta"><span className="stage" data-testid="campaign-stage">{state.campaign.mode==="sandbox"?"Endless sandbox":String(state.campaign.stage).padStart(2,"0")+" / "+STAGES[state.campaign.stage-1].name}</span><span className="save" role="status">{saved?'● Local save active':'Local save unavailable'}</span></div></header>
-    <aside className="rail"><div className="rail-caption">WORKSPACE</div><WorkspaceNavigation state={state} current={current} onNavigate={navigate} showAll={showAll} setShowAll={setShowAll}/><button className="secondary library-entry" onClick={openLibrary}>Executive Library</button><details className="workspace-settings"><summary>Settings and saves</summary><div className="rail-bottom"><label><input type="checkbox" checked={reduced} onChange={e=>setPreferences(p=>({...p,reduced:e.target.checked}))}/> Reduce motion</label>
-    <details className="audio-settings"><summary>Audio settings</summary><label><input type="checkbox" checked={preferences.audio} onChange={e=>{const enabled=e.target.checked;audio.current?.configure(enabled,preferences.music,preferences.volume);if(enabled)void audio.current?.activate();setPreferences(p=>({...p,audio:enabled}));}}/> Sound enabled</label><label><input type="checkbox" checked={preferences.music} disabled={!preferences.audio} onChange={e=>{const music=e.target.checked;audio.current?.configure(preferences.audio,music,preferences.volume);if(music)void audio.current?.activate();setPreferences(p=>({...p,music}));}}/> Corporate hold music</label><label htmlFor="sound-volume">Volume · {preferences.volume}%</label><input id="sound-volume" type="range" min={0} max={100} value={preferences.volume} onChange={e=>setPreferences(p=>({...p,volume:Number(e.target.value)}))}/></details><button className="link-button" onClick={()=>setReset(!reset)} aria-expanded={reset}>New simulation</button><button className="link-button" onClick={menu}>Title screen and backups</button><button className="link-button" onClick={()=>{setTutorial(0);navigate('office');}}>Show executive induction</button><small>BUILD 0.17.2 · LIBRARY BETA</small></div></details></aside>
+    <aside className="rail"><div className="rail-caption">WORKSPACE</div><WorkspaceNavigation state={state} current={current} onNavigate={navigate} showAll={showAll} setShowAll={setShowAll}/>{quickAudio}<button className="secondary library-entry" onClick={openLibrary}>Executive Library</button><details className="workspace-settings"><summary>Settings and saves</summary><div className="rail-bottom"><label><input type="checkbox" checked={reduced} onChange={e=>setPreferences(p=>({...p,reduced:e.target.checked}))}/> Reduce motion</label>
+    <details className="audio-settings"><summary>Audio settings</summary><label><input type="checkbox" checked={preferences.audio} onChange={e=>{const enabled=e.target.checked;audio.current?.configure(enabled,preferences.music,preferences.volume);if(enabled)void audio.current?.activate();setPreferences(p=>({...p,audio:enabled}));}}/> Sound enabled</label><label><input type="checkbox" checked={preferences.music} disabled={!preferences.audio} onChange={e=>{const music=e.target.checked;audio.current?.configure(preferences.audio,music,preferences.volume);if(music)void audio.current?.activate();setPreferences(p=>({...p,music}));}}/> Corporate hold music</label><label htmlFor="sound-volume">Volume · {preferences.volume}%</label><input id="sound-volume" type="range" min={0} max={100} value={preferences.volume} onChange={e=>setPreferences(p=>({...p,volume:Number(e.target.value)}))}/></details><button className="link-button" onClick={()=>setReset(!reset)} aria-expanded={reset}>New simulation</button><button className="link-button" onClick={menu}>Title screen and backups</button><button className="link-button" onClick={()=>{setTutorial(0);navigate('office');}}>Show executive induction</button><small>BUILD 0.17.3 · AUDIO FIX</small></div></details></aside>
     <main id="workspace" tabIndex={-1}>
       <div className="intro"><div><p className="eyebrow">OFFICE OF THE CHIEF EXECUTIVE</p><h1>{current==='office'?'Executive overview':info.label}</h1><p>{info.description}</p></div><div className="day"><span>WORKING DAY</span><strong data-testid="day">{state.day.toString().padStart(3,'0')}</strong></div></div>
       {reset&&<section className="panel reset" aria-label="New simulation"><h2>Start a new simulation</h2><p>This replaces the current local save.</p><label htmlFor="seed">World seed (0–4294967295)</label><input id="seed" value={seed} onChange={e=>setSeed(e.target.value)} inputMode="numeric"/><div className="people-filter"><label htmlFor="game-mode">Mode</label><select id="game-mode" value={mode} onChange={e=>setMode(e.target.value as GameMode)}><option value="campaign">Campaign</option><option value="sandbox">Endless sandbox</option></select></div>
