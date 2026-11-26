@@ -1,4 +1,5 @@
-import type { Action, CorporateEvent } from './types';
+import type { Action, CorporateEvent, IncidentCategory, IncidentSystem } from './types';
+import { INCIDENT_CATALOGUE } from './incidentCatalogue';
 export const ACTIONS: Action[] = [
   {id:'alignment',label:'Schedule alignment workshop',detail:'Replace productive hours with consensus.',cost:600,effect:{perceived:9,actual:-7,meetings:9,bureaucracy:4,morale:-3}},
   {id:'statement',label:'Issue strategic announcement',detail:'Deliver a confident narrative without a deliverable.',cost:250,effect:{confidence:7,prestige:4,perceived:5,buzzwords:8,regulation:2}},
@@ -8,7 +9,7 @@ export const ACTIONS: Action[] = [
   {id:'audit',label:'Initiate governance review',detail:'Reduce regulatory exposure through additional process.',cost:900,effect:{regulation:-12,bureaucracy:5,actual:-4,perceived:3,meetings:3}},
   {id:'wellbeing',label:'Fund employee wellbeing',detail:'Improve morale at the dangerous risk of renewed competence.',cost:800,effect:{morale:12,actual:4,confidence:2}}
 ];
-export const EVENTS: CorporateEvent[] = [
+const LEGACY_EVENTS: CorporateEvent[] = [
   {id:'functional-product',title:'An engineer has shipped something',description:'A customer reports that an internal prototype actually works. This was not in the strategic plan.',choices:[
     {id:'committee',label:'Establish a product readiness committee',detail:'Delay launch; increase governance.',effect:{cash:-900,actual:-10,bureaucracy:9,perceived:5}},
     {id:'launch',label:'Accept the revenue',detail:'Gain £4,000, at the risk of measurable usefulness.',effect:{cash:4000,actual:14,confidence:5},delayed:{days:2,effect:{actual:9},message:'Customers have started using the product.'}}
@@ -63,4 +64,30 @@ export const EVENTS: CorporateEvent[] = [
   {id:'agent-supervisor-board',title:'The Supervisor Agent requests a supervisor',description:'Its recommendation is to establish an executive oversight layer.',choices:[{id:'approve',label:'Approve supervisory supervision',detail:'Fund more hierarchy.',effect:{cash:-600,prestige:5,bureaucracy:4}},{id:'reject',label:'Decline the escalation',detail:'Reduce governance.',effect:{bureaucracy:-3,prestige:-2}}]},
   {id:'agent-useful-recommendation',title:'The agent workflow recommends a measurable improvement',description:'The proposal includes a genuine efficiency saving.',choices:[{id:'block',label:'Require non-intervention certification',detail:'Prevent value creation.',effect:{actual:-5,bureaucracy:5}},{id:'deploy',label:'Deploy the recommendation',detail:'Risk strategic failure.',effect:{actual:12,cash:500}}]},
   {id:'agent-adoption-award',title:'The board celebrates unprecedented AI adoption',description:'Nobody has yet defined the operational outcome being adopted.',choices:[{id:'celebrate',label:'Launch an adoption award campaign',detail:'Spend on visibility.',effect:{cash:-700,prestige:6,perceived:5}},{id:'measure',label:'Measure adoption outcomes',detail:'Risk exposing actual value.',effect:{actual:5,confidence:-3}}]}
+];
+
+const legacyCategory:Record<string,IncidentCategory>={
+  'functional-product':'engineering','consultant':'transformation','viral':'marketing','shareholder':'finance',
+  'hr-policy':'people','finance-variance':'finance','engineering-demo':'engineering','marketing-award':'marketing',
+  'sales-dispute':'sales','legal-conflict':'compliance','strategy-roadmap':'strategy','digital-migration':'transformation',
+  'ai-value':'agents','executive-calendar':'executive','all-hands-leak':'marketing','influencer-award':'marketing',
+  'newsletter-proof':'marketing','apology-review':'compliance','press-embargo':'marketing','shareholder-language':'finance',
+  'scope-creep-review':'transformation','transformation-award':'transformation','cloud-empty':'transformation',
+  'quantum-deck':'transformation','agile-ceremony':'meetings','executive-duvet':'executive','savings-receipt':'sales',
+  'debt-presentation':'finance','earnings-adjustment':'finance','subscription-cancel':'sales','acquisition-rumour':'finance',
+  'share-price-deck':'finance','os-boot-committee':'os','os-licence-renewal':'os','os-shutdown-report':'os',
+  'os-idle-optimisation':'os','agent-planning-loop':'agents','agent-invented-integrations':'agents','agent-critic-review':'agents',
+  'agent-supervisor-board':'agents','agent-useful-recommendation':'agents','agent-adoption-award':'agents'
+};
+const legacySystems:Partial<Record<string,IncidentSystem>>={
+  'cloud-empty':'programmes','quantum-deck':'programmes','scope-creep-review':'programmes','transformation-award':'programmes',
+  'savings-receipt':'customers','subscription-cancel':'customers','agile-ceremony':'meetings'
+};
+export const EVENTS:CorporateEvent[]=[
+  ...LEGACY_EVENTS.map(e=>{
+    const category=legacyCategory[e.id]??'general';
+    const system=legacySystems[e.id]??(category==='os'?'os':category==='agents'&&e.id!=='ai-value'?'agents':undefined);
+    return {...e,category,...(system?{trigger:{system}}:{})};
+  }),
+  ...INCIDENT_CATALOGUE
 ];
