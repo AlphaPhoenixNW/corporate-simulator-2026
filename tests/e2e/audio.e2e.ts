@@ -46,7 +46,15 @@ test('starts real audio from a player gesture, produces a signal, mutes and resu
  await expect(status).toHaveText('Audio awaiting a tap to start');
  await page.getByRole('button',{name:'Start audio',exact:true}).click();
  await expect(status).toHaveText('Hold music active');
+ await expect(page.getByRole('button',{name:'Mute audio',exact:true})).toBeVisible();
+ await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem('nothing-sim:experience')??'{}').audio)).toBe(true);
  await expect.poll(signal,{timeout:8000}).toBeGreaterThan(.002);
  await expect(page.getByTestId('day')).toHaveText('001');
+ // An interrupted or newly loaded player can explicitly mute without unlocking audio.
+ await page.reload();
+ await expect(status).toHaveText('Audio awaiting a tap to start');
+ await page.getByRole('button',{name:'Mute audio',exact:true}).click();
+ await expect(status).toHaveText('Audio muted');
+ await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem('nothing-sim:experience')??'{}').audio)).toBe(false);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth)).toBe(false);
 });

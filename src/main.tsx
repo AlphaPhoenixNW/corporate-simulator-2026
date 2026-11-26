@@ -76,7 +76,12 @@ function App(){
   const audio=useRef<CorporateAudio|null>(null);
   const previous=useRef(state);
   const replacing=useRef(false);
-  useEffect(()=>{const player=new CorporateAudio(setAudioStatus);audio.current=player;const unlock=()=>{if(player.status==='waiting')void player.activate();};document.addEventListener('click',unlock,true);return ()=>{document.removeEventListener('click',unlock,true);player.dispose();audio.current=null;};},[]);
+  useEffect(()=>{const player=new CorporateAudio(setAudioStatus);audio.current=player;const unlock=(event:MouseEvent)=>{
+    // Explicit audio controls own their gesture. Recovering in capture phase could
+    // change Start audio into Mute audio before the same click reaches React.
+    if(event.target instanceof Element&&event.target.closest('.quick-audio,.audio-settings'))return;
+    if(player.status==='waiting')void player.activate();
+  };document.addEventListener('click',unlock,true);return ()=>{document.removeEventListener('click',unlock,true);player.dispose();audio.current=null;};},[]);
   useEffect(()=>{savePreferences(preferences);audio.current?.configure(preferences.audio,preferences.music,preferences.volume);},[preferences]);
   useEffect(()=>{
     const before=previous.current;previous.current=state;
@@ -106,10 +111,10 @@ function App(){
   const view=(id:Workspace,content:React.ReactNode)=><div className="workspace-view" hidden={current!==id}>{content}</div>;
   const openLibrary=()=>{setLibraryOpen(true);window.scrollTo(0,0);};
   const closeLibrary=()=>{setLibraryOpen(false);requestAnimationFrame(()=>{window.scrollTo(0,0);document.getElementById(playing?'workspace':'launch-title')?.focus({preventScroll:true});});};
-  const toggleAudio=()=>{
+  const toggleAudio=(intent:'enable'|'resume'|'mute')=>{
     const player=audio.current;
-    if(preferences.audio&&(audioStatus==='waiting'||audioStatus==='unavailable')){void player?.activate();return;}
-    const enabled=!preferences.audio,music=enabled?true:preferences.music;
+    if(intent==='resume'){void player?.activate();return;}
+    const enabled=intent==='enable',music=enabled?true:preferences.music;
     player?.configure(enabled,music,preferences.volume);if(enabled)void player?.activate();
     setPreferences(p=>({...p,audio:enabled,music}));
   };
