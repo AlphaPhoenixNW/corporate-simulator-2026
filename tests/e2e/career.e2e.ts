@@ -1,7 +1,15 @@
 import {test,expect} from '@playwright/test';
 import {enterGame,goWorkspace} from '../support/enterGame';
-import {readFile} from 'node:fs/promises';
 test('maintains a live fictional CV and exports an offline copy without changing game progress',async({page})=>{
+ await page.addInitScript(()=>{
+  const create=URL.createObjectURL.bind(URL);
+  URL.createObjectURL=(object)=>{
+   if(object instanceof Blob&&object.type.startsWith('text/html')){
+    void object.text().then(html=>{(window as Window & {__careerExport?:string}).__careerExport=html;});
+   }
+   return create(object);
+  };
+ });
  await enterGame(page);
  await goWorkspace(page,'career');
  const cv=page.getByRole('article',{name:'Fictional executive CV'});
@@ -20,8 +28,9 @@ test('maintains a live fictional CV and exports an offline copy without changing
  const file=await download;
  expect(file.suggestedFilename()).toBe('NOTHING Executive CV - Simulation 2026.html');
  const path=await file.path();expect(path).not.toBeNull();
- const html=await readFile(path!,'utf8');
- expect(html).toContain('£1,800');expect(html).toContain('Not a real employment or academic record.');
+ const html=()=>page.evaluate(()=>(window as Window & {__careerExport?:string}).__careerExport??'');
+ await expect.poll(html).toContain('£1,800');
+ await expect.poll(html).toContain('Not a real employment or academic record.');
  await page.emulateMedia({media:'print'});
  await expect(cv).toBeVisible();
  await expect(page.locator('.topbar')).toBeHidden();
