@@ -23,8 +23,11 @@ function icon(size){
 for(const size of [192,512])await writeFile(join(dist,'icons','icon-'+size+'.png'),icon(size));
 const manifest={id:'./',name:'Corporate Simulator 2026™',short_name:'NOTHING™',description:'The Pursuit of Strategic Nothingness',start_url:'./',scope:'./',display:'standalone',background_color:'#14263d',theme_color:'#14263d',lang:'en-GB',icons:[192,512].map(size=>({src:'./icons/icon-'+size+'.png',sizes:size+'x'+size,type:'image/png',purpose:'any maskable'}))};
 await writeFile(join(dist,'manifest.webmanifest'),JSON.stringify(manifest,null,2));
+// Preserve software, reserved-rights and third-party runtime notices in distribution.
+const noticeParts=await Promise.all(['LICENSE','RIGHTS.md',...['react','react-dom','scheduler'].map(name=>'node_modules/'+name+'/LICENSE')].map(async path=>'=== '+path+' ===\n'+await readFile(path,'utf8')));
+await writeFile(join(dist,'LICENSES.txt'),noticeParts.join('\n\n'));
 const assets=(await readdir(join(dist,'assets'))).sort().map(x=>'assets/'+x);
-const files=['index.html','manifest.webmanifest','icons/icon-192.png','icons/icon-512.png',...assets];
+const files=['index.html','LICENSES.txt','manifest.webmanifest','icons/icon-192.png','icons/icon-512.png',...assets];
 const hash=createHash('sha256');for(const f of files)hash.update(await readFile(join(dist,f)));
 // Header changes must invalidate the cached application shell as well as asset changes.
 hash.update(await readFile(join(dist,'_headers')));

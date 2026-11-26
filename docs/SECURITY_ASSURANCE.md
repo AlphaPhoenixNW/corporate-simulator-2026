@@ -39,18 +39,21 @@ Preliminary review found noreply addresses for 118 reachable commits on the then
 
 - [x] Private-only history inventory and checksum-verified Gitleaks passed on 60da196 ([run 45775368000](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45775368000)): 127 commits, 639 unique reachable blobs (638 UTF-8, one binary, none skipped for size), 254 noreply metadata email entries, no Gitleaks findings, 28 PRs and 12 issue comments screened. The inventory reported 20 historical blobs and three current blobs referencing the private source, plus one likely scanner-definition local path false positive. This covers fetched refs, not unreachable or GitHub-only objects.
 - [x] Extended private review passed on d5dde47 ([privacy run 45775965446](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45775965446)): 128 commits, 645 reachable blobs, zero Gitleaks findings and zero non-noreply author/committer email entries; 34 active archives, 600 members (288 text with no pattern findings, 312 binary), 28 editorial previews; 34 associated log archives, 248 text members, 23 flagged path members across 13 archives; zero failed downloads. All five checks passed, including [simulation](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45775965509) and [dependency audits](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45775965475).
-- [ ] Complete binary-format/metadata inventory and classify path matches with explicit CI-account/punctuation categories and synthetic regression probes. Expand log review to completed runs without artifacts. The scan does not inspect image pixels or every prior attempt. No destructive removal authorised.
+- [x] Final automated inventory on 20e05c1 ([privacy run 45776938500](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45776938500)): 129 commits, 648 reachable blobs, 258 noreply author/committer email entries, zero Gitleaks findings, zero oversized blobs skipped; 35 active artifacts, 618 members (296 text, 322 PNGs in expected locations, 65 unique binary contents, no targeted metadata findings), 93 completed-run log archives, 542 text members, no failed retrievals or unresolved path matches. Pixel contents, unreachable objects and every prior run attempt are outside automated coverage.
 - [x] Cover metadata check: 3340-byte WebP, no EXIF, XMP or ICC chunks in the examined container.
-- [ ] Owner review of visual likeness and artwork rights remains required. Connector cannot directly inspect binary cover.
+- [x] Owner approves existing cover artwork under [EA-001](EA-001.md); independent visual inspection unavailable through connector.
 - [x] Neutralise precise private source identifiers in current import notes and backlog. Keep the original manuscript publisher note unchanged; the in-game companion already uses the approved neutral wording.
-- [ ] Confirm the remaining source note and historical provenance are acceptable for disclosure, or use a clean public distribution snapshot with approved editorial redaction. Removing current references does not erase history.
-- [ ] Verify classification results: the scanner source itself contains regex punctuation and a standard runner path literal; the revised classifier reports these separately from username-shaped matches. Do not assume all historical log matches are benign until the revised workflow reports its results.
-- [ ] Review repository settings and choose safe publication history or clean distribution repository.
+- [x] EA-001 authorises retaining existing history including disclosed private provenance and the original manuscript publisher note. This does not authorise publication of unrelated private material.
+- [x] Revised classifier and synthetic probes passed: current/historical source and completed-run logs reported no unclassified username-shaped paths; earlier matches were classified as runner accounts or regex punctuation.
+- [ ] Execute and verify EA-001 superseded artifact deletion, then remove temporary write-capable workflow. Preserve the last verified build and new candidates.
+- [ ] Verify owner-controlled repository protections and security settings. History route selected under EA-001.
 
 ## Stage 4: final acceptance
 
-- [ ] Record exact-commit security and regression evidence.
-- [ ] Resolve licensing and remaining human acceptance.
+- [x] All five checks on 20e05c1 passed: [simulation 45776938531](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45776938531), [audit 45776938674](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45776938674), privacy and Cloudflare. 173 unit/integration and 47 browser cases, 22 companion sections, both offline editions and hosted policy passed; zero reported vulnerabilities in both scopes.
+- [ ] Verify exact final PR and main commits after EA-001 changes.
+- [x] EA-001 selects MIT for original software and reserves literary/artwork/brand rights. See [LICENCE](../LICENSE) and [rights](../RIGHTS.md).
+- [ ] Record remaining human acceptance and live headers.
 - [ ] Obtain explicit owner authorisation for publication.
 
 See [publication review](PUBLICATION_REVIEW.md), [release checklist](RELEASE_CHECKLIST.md) and [governance](GOVERNANCE.md). The [Founder's stakeholder letter](FOUNDER_SECURITY_STATEMENT.md) is fiction, not verification evidence.

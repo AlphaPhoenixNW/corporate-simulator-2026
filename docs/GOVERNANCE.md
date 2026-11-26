@@ -27,4 +27,4 @@ Update relevant current documentation when behaviour, deployment, owner decision
 
 ## Publication
 
-The hosted game and public repository are separate decisions. The owner has accepted the overall direction and retention of the manuscript. Licensing, source history, artwork and final public-source approval remain open. See [publication review](PUBLICATION_REVIEW.md).
+The hosted game and public repository are separate decisions. The owner has accepted the overall direction and retention of the manuscript. [EA-001](EA-001.md) records MIT software licensing, reserved literary/brand rights, retained history, cover approval, superseded artifact removal and conditional private PR merger. Final public-source approval remains open. See [publication review](PUBLICATION_REVIEW.md).

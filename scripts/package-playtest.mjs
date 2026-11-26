@@ -24,6 +24,10 @@ for(const m of styles){
  html=html.replace(m[0],()=>'<style>'+css+'</style>');
 }
 if(/<link\b[^>]*rel="modulepreload"/i.test(html))throw Error('Unexpected split bundle; portable build must be self-contained');
+// Keep required notices inside the standalone file without adding network requests.
+const notices=await readFile(resolve(root,'LICENSES.txt'),'utf8');
+if(!notices.includes('MIT License')||!notices.includes('All rights reserved'))throw Error('Distribution rights notices missing');
+html=html.replace('</body>',()=>'<template id="distribution-rights-notices">'+notices.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</template></body>');
 await mkdir(output,{recursive:true});
 await writeFile(resolve(output,'Corporate Simulator 2026.html'),html);
 console.log('Portable playtest packaged:',Buffer.byteLength(html),'bytes');

@@ -4,7 +4,7 @@ Thank you for considering a strategic allocation of your time. Contributions sho
 
 ## Before proposing an initiative
 
-Read the [governance](docs/GOVERNANCE.md), [project brief](docs/PROJECT_BRIEF.md), [architecture](docs/ARCHITECTURE.md) and [current status](docs/STATUS.md). Check [publication review](docs/PUBLICATION_REVIEW.md) for current licensing and contribution permissions before distributing or submitting material.
+Read the [governance](docs/GOVERNANCE.md), [project brief](docs/PROJECT_BRIEF.md), [architecture](docs/ARCHITECTURE.md) and [current status](docs/STATUS.md). Original software contributions are under [MIT](LICENSE); [reserved literary and brand rights](RIGHTS.md) remain separate. Do not include material you lack permission to contribute. Check [publication review](docs/PUBLICATION_REVIEW.md) before distributing official assets.
 
 ## Operational incident submissions
 
