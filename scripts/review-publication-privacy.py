@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Private pre-publication inventory; report counts only, never raw matches."""
 import collections
+import hashlib
 import io
 import zipfile
 import urllib.error
@@ -22,21 +23,41 @@ patterns = {
     "private_key_marker": re.compile(rb"-----BEGIN (?:RSA |EC |OPENSSH |DSA |ENCRYPTED )?PRIVATE KEY-----"),
     "original_source_reference": re.compile(rb"AlphaPhoenixNW/" + rb"nothing\b|INC-001-" + rb"NON-LAUNCH", re.I),
 }
+# Separate real username-shaped components from regex punctuation and known CI accounts.
+# No raw path, username, digest of a username, or matching text is emitted.
+def path_classes(data):
+    result = collections.Counter()
+    for match in patterns["local_user_path"].finditer(data):
+        token = match.group()
+        component = re.split(rb"[/\\]", token)[-1]
+        if not re.match(rb"[A-Za-z0-9_]", component):
+            result["non_username_punctuation"] += 1
+        elif component.lower() in (b"runner", b"runneradmin"):
+            result["standard_ci_account"] += 1
+        else:
+            result["unclassified_username_shaped"] += 1
+    return result
+
 def classify(data):
     found = set()
     for label, pattern in patterns.items():
-        matches = pattern.findall(data)
         if label == "local_user_path":
-            # The old scanner regex contained a literal /Users/ followed by a pipe.
-            # Treat only that exact regex-definition token as a false positive.
-            definition = b're.compile(rb"(?:' + b"/Users/" + b"|"
-            if definition in data:
-                matches = pattern.findall(data.replace(definition, b"regex-definition:", 1))
+            if path_classes(data)["unclassified_username_shaped"]:
+                found.add(label)
+            continue
+        matches = pattern.findall(data)
         if label == "non_noreply_email":
             matches = [x for x in matches if not re.search(rb"noreply|@example\.(?:com|org|net)$|@localhost$", x, re.I)]
         if matches:
             found.add(label)
     return found
+
+# Test the classifier before trusting any reduction in reported matches.
+assert path_classes(b"/" + b"Users/" + b"|")["non_username_punctuation"] == 1
+assert path_classes(b"/" + b"home/" + b"runner/work")["standard_ci_account"] == 1
+assert "local_user_path" in classify(b"/" + b"home/" + b"synthetic-review-user/file")
+assert "local_user_path" in classify(b"C:" + b"\\" + b"Users" + b"\\" + b"synthetic-review-user")
+assert "local_user_path" not in classify(b"/" + b"home/" + b"runner")
 
 def update(counter, data):
     counter.update(classify(data))
@@ -47,6 +68,7 @@ current = {line.split(b" ", 1)[0] for line in git("ls-tree", "-r", "HEAD", "--ob
 history_counts, current_counts = collections.Counter(), collections.Counter()
 current_flagged_oids = set()
 local_path_definition_false_positives = 0
+historic_path_classes, current_path_classes = collections.Counter(), collections.Counter()
 skipped, binary, text_count, blobs = 0, 0, 0, 0
 with subprocess.Popen(["git", "cat-file", "--batch"], stdin=subprocess.PIPE, stdout=subprocess.PIPE) as proc:
     for oid in sorted(objects):
@@ -83,6 +105,9 @@ with subprocess.Popen(["git", "cat-file", "--batch"], stdin=subprocess.PIPE, std
             continue
         text_count += 1
         raw_local = patterns["local_user_path"].findall(data)
+        historic_path_classes.update(path_classes(data))
+        if oid in current:
+            current_path_classes.update(path_classes(data))
         labels = classify(data)
         if raw_local and "local_user_path" not in labels:
             local_path_definition_false_positives += 1
@@ -124,7 +149,9 @@ result = {
     "oversized_blobs_skipped": skipped,
     "historical_blob_pattern_counts": dict(history_counts),
     "current_blob_pattern_counts": dict(current_counts),
-    "local_path_definition_false_positive_blobs": local_path_definition_false_positives,
+    "local_path_non_actionable_only_blobs": local_path_definition_false_positives,
+    "historic_path_match_classes": dict(historic_path_classes),
+    "current_path_match_classes": dict(current_path_classes),
     "current_flagged_blob_count": len(current_flagged_oids),
     "commit_message_pattern_counts": dict(message_counts),
     "cover_bytes": len(cover),
@@ -197,6 +224,35 @@ if token and repo:
             raise RuntimeError("Archive exceeds review size bound")
         return data
 
+    # Classify binary files by magic bytes; inspect PNG container metadata, not pixels.
+    unique_binary = set()
+    def review_binary(body, filename, members):
+        unique_binary.add(hashlib.sha256(body).digest())
+        if body.startswith(b"\x89PNG\r\n\x1a\n"):
+            members["binary_png"] += 1
+            expected = ("/screenshots/" in "/" + filename or "/icons/" in "/" + filename)
+            members["png_expected_location" if expected else "png_other_location"] += 1
+            pos = 8
+            metadata = False
+            while pos + 12 <= len(body):
+                size = struct.unpack_from(">I", body, pos)[0]
+                kind = body[pos+4:pos+8]
+                if pos+12+size > len(body):
+                    members["png_invalid_chunk"] += 1
+                    break
+                if kind in (b"eXIf", b"tEXt", b"zTXt", b"iTXt", b"iCCP"):
+                    metadata = True
+                    members["png_metadata_" + kind.decode("ascii")] += 1
+                pos += 12 + size
+                if kind == b"IEND":
+                    break
+            if metadata:
+                members["png_with_metadata"] += 1
+        elif body[:4] == b"RIFF" and body[8:12] == b"WEBP":
+            members["binary_webp"] += 1
+        else:
+            members["binary_unclassified"] += 1
+
     def review_zip(data):
         counts = collections.Counter()
         members = collections.Counter()
@@ -217,14 +273,16 @@ if token and repo:
                     body.decode("utf-8")
                 except UnicodeDecodeError:
                     members["binary"] += 1
+                    review_binary(body, item.filename, members)
                     continue
                 if b"\x00" in body:
                     members["binary"] += 1
+                    review_binary(body, item.filename, members)
                     continue
                 members["text"] += 1
-                # Standard hosted runner paths are not personal filesystem paths.
-                clean = body.replace(b"/home/runner/", b"runner-workspace/")
-                counts.update(classify(clean))
+                for category, n in path_classes(body).items():
+                    members["path_matches_" + category] += n
+                counts.update(classify(body))
         return members, counts
 
     def review_archives(items, endpoint):
@@ -244,10 +302,12 @@ if token and repo:
                 "member_counts": dict(totals), "pattern_counts": dict(findings)}
 
     result["artifact_content_review"] = review_archives(active, lambda a: f"actions/artifacts/{a['id']}/zip")
-    # Review completed runs with retained artifacts; other logs remain a separate task.
-    run_ids = sorted({a.get("workflow_run", {}).get("id") for a in active
-                      if a.get("workflow_run", {}).get("id")})
-    result["artifact_associated_log_review"] = review_archives(run_ids, lambda n: f"actions/runs/{n}/logs")
+    result["artifact_content_review"]["unique_binary_contents"] = len(unique_binary)
+    # Include completed runs even when no artifact was produced (e.g. failed audit jobs).
+    all_runs = list(pages("actions/runs?status=completed", "workflow_runs"))
+    run_ids = sorted({r["id"] for r in all_runs if str(r["id"]) != os.environ.get("GITHUB_RUN_ID")})
+    result["completed_run_log_review"] = review_archives(run_ids, lambda n: f"actions/runs/{n}/logs")
+    result["completed_run_log_review"]["scope"] = "completed runs listed by API; latest log archives, not every historical attempt"
     result["artifact_inventory"]["contents_reviewed"] = (
         result["artifact_content_review"]["failed"] == 0 and
         result["artifact_content_review"]["member_counts"].get("oversized_skipped", 0) == 0)
