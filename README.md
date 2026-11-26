@@ -5,6 +5,9 @@
 
 **Delivering tomorrow's nothing, today.**
 
+*Ducimus ut nihil agamus.*  
+We lead so that we may do nothing.
+
 Welcome to NOTHING™, an entirely fictional corporation dedicated to maximising perceived productivity while minimising the regrettable occurrence of actual business value.
 
 You are the CEO. Establish departments, recruit employees, convene meetings, commission transformations, manage an increasingly elaborate economy and prevent an exceptionally competent employee from ruining everything.

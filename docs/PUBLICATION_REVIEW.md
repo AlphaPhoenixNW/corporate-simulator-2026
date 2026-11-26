@@ -13,7 +13,10 @@ This is the current publication decision checklist, not authorisation to change 
 - [x] Authorised cleanup verified ([cleanup run 45777988790](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45777988790)): 35 deleted, zero eligible remaining, last verified build preserved; temporary cleanup workflow removed.
 - [x] Owner authorises preparation and merger of PR #28 after exact-head verification; no public visibility authority granted.
 - [x] Record baseline main CI and branding PR verification in [status](STATUS.md).
-- [ ] Record final main CI, remaining human Autopilot/accessibility and release acceptance evidence.
+- [x] PR #28 merged privately; exact main 154eb4e verified and recorded in [status](STATUS.md).
+- [x] Owner confirms private administrative configuration; [ruleset saved but not enforced while private](ADMINISTRATIVE_CONFIGURATION.md).
+- [ ] Record final release candidate verification, live deployment headers and human Autopilot/accessibility acceptance.
+- [ ] After explicit publication authority and visibility change, verify ruleset enforcement, vulnerability reporting, secret scanning/push protection and external contributor workflow approval settings.
 - [ ] Obtain explicit owner authorisation before changing repository visibility or tagging the final public release.
 
 Do not publish unrelated original repository history, private incident documents or personal information. Do not treat a green CI result as a privacy or licensing audit.

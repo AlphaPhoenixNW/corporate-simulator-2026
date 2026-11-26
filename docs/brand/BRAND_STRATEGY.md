@@ -1,6 +1,6 @@
 # NOTHING™ | Corporate brand strategy
 
-**Brand strategy 1.0** · Office of the Founder · Editorial implementation: Nora
+**Brand strategy 1.1** · Office of the Founder · Editorial implementation: Nora
 
 The owner accepts the overall direction. These editorial standards operate within [real project governance](../GOVERNANCE.md); see [status](../STATUS.md) for release decisions.
 
@@ -14,10 +14,13 @@ The owner accepts the overall direction. These editorial standards operate withi
 | Product | Corporate Simulator 2026™ |
 | Subtitle | The Pursuit of Strategic Nothingness |
 | Primary promise | Delivering tomorrow's nothing, today. |
+| Formal corporate motto | *Ducimus ut nihil agamus.* (We lead so that we may do nothing.) |
 | Vision | Nothing at scale. |
 | Mission | Make the pursuit of perceived productivity playable, while satirising the institutions that confuse activity with value. |
 | Positioning | An executive satire masquerading as premium enterprise software. |
 | Brand character | Deadpan, polished, absurdly self-important, occasionally sincere. |
+
+The motto was approved by the owner on 26 November 2026. Use the Latin as a ceremonial institutional signature in corporate literature, with its English translation on first use. Retain the primary commercial promise and existing product subtitle. Do not alter the original companion manuscript to retrofit the motto.
 
 The fiction celebrates non-intervention. The real software must remain reliable, comprehensible and respectful of player attention.
 

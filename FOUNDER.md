@@ -74,6 +74,9 @@ Together, we can build a future in which nothing is achieved more efficiently, m
 
 The future is horizontal.
 
+*Ducimus ut nihil agamus.*  
+We lead so that we may do nothing.
+
 **The Founder**  
 Founder, Chief Executive Officer & Principal Non-Intervention Strategist  
 NOTHING™
