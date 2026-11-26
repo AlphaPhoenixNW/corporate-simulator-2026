@@ -1,6 +1,8 @@
 # Corporate Simulator 2026™
 ## The Pursuit of Strategic Nothingness
 
+![Corporate Simulator 2026: premium enterprise satire, with a fictional executive dashboard.](docs/brand/hero.svg)
+
 **Delivering tomorrow's nothing, today.**
 
 Welcome to NOTHING™, an entirely fictional corporation dedicated to maximising perceived productivity while minimising the regrettable occurrence of actual business value.
@@ -45,12 +47,22 @@ Open `playtest/Corporate Simulator 2026.html`. The portable edition and hosted w
 
 The simulation is deterministic and browser-local. All corporations, employment records, scores, money and qualifications within the game are fictional.
 
+## A message from the Founder
+
+[![The future is horizontal. Read the Founder's message.](docs/brand/founder.svg)](FOUNDER.md)
+
+The Founder invites you to embrace Bed-Led Leadership™ and pursue nothing at scale. [Read his full statement](FOUNDER.md), or consult [Nora's account](NORA.md) for the operational record.
+
 ## Executive Library and corporate records
+
+![The Art of Doing Nothing: From Burnout to Bed-Led Leadership.](docs/brand/library.svg)
 
 The game includes **The Art of Doing Nothing™**, the Founder's satirical management book, with a bookmark, table of contents and offline HTML export. Reading does not advance the manual simulation.
 
 | Corporate record | Purpose |
 | --- | --- |
+| [FOUNDER.md](FOUNDER.md) | The Founder's strategic vision and personal philosophy |
+| [Brand strategy](docs/brand/BRAND_STRATEGY.md) | Corporate identity, visual standards and editorial governance |
 | [NORA.md](NORA.md) | The executive assistant's first-person development retrospective |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Corporate onboarding and practical contribution procedures |
 | [CHANGELOG.md](CHANGELOG.md) | Selected verified release history |
