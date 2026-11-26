@@ -1,0 +1,19 @@
+import { test,expect } from '@playwright/test';
+test('executive loop and local save',async({page})=>{
+  await page.goto('/');
+  await expect(page.getByRole('heading',{name:'Executive overview'})).toBeVisible();
+  await page.getByRole('button',{name:/Schedule alignment workshop/}).click();
+  await expect(page.getByTestId('cash')).toHaveText('£74,400');
+  await page.getByRole('button',{name:/Conclude working day/}).click();
+  const decision=page.getByRole('region',{name:'Pending corporate decision'});
+  await expect(decision).toBeVisible();
+  await expect(page.getByRole('button',{name:/Conclude working day/})).toBeDisabled();
+  await decision.getByRole('button').first().click();
+  await expect(page.getByRole('button',{name:/Conclude working day/})).toBeEnabled();
+  await page.reload();
+  await expect(page.getByTestId('day')).toHaveText('002');
+  await expect(decision).toHaveCount(0);
+  await expect(page.getByText('Local save active')).toBeVisible();
+  const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth);
+  expect(overflow).toBe(false);
+});
