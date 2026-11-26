@@ -111,8 +111,10 @@ export interface BossState {
  programmeSpend:number; interventions:number; usefulTasks:number; history:string[];
 }
 export type BossCommand={type:'boss';operation:'promote'|'committee'|'reassign'|'train'|'appoint'};
+export interface AchievementUnlock {id:string;day:number}
+export interface AchievementState {unlocked:AchievementUnlock[];actions:Record<string,number>;idleStreak:number;bestIdleStreak:number}
 export interface GameState {
-  version: 12; boss:BossState; campaign:CampaignState; incidentHistory:IncidentDecision[]; agents:AgentState; os:OSState; finance:FinanceState; programmes: Programme[]; communications: Communication[]; nextCommunicationId:number; meetings: Meeting[]; nextMeetingId:number; departments: DepartmentState[]; employees: Employee[]; relationships: Relationship[]; nextEmployeeId: number; seed: number; rng: number; day: number; cash: number;
+  version: 13; achievements:AchievementState; boss:BossState; campaign:CampaignState; incidentHistory:IncidentDecision[]; agents:AgentState; os:OSState; finance:FinanceState; programmes: Programme[]; communications: Communication[]; nextCommunicationId:number; meetings: Meeting[]; nextMeetingId:number; departments: DepartmentState[]; employees: Employee[]; relationships: Relationship[]; nextEmployeeId: number; seed: number; rng: number; day: number; cash: number;
   metrics: Metrics; capacity: number; compensation: number;
   pendingEvent: string | null; resolvedEvents: string[];
   scheduled: ScheduledEffect[]; log: string[]; ledger: LedgerEntry[];

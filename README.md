@@ -3,7 +3,7 @@
 
 You are CEO of NOTHING™, a corporation devoted to appearing productive while avoiding measurable value. Delivering tomorrow's nothing, today.
 
-**Status:** 0.12.0 competent employee development build; the full game is not yet complete.
+**Status:** 0.13.0 achievement development build; the full game is not yet complete.
 
 ## Run locally
 
@@ -20,7 +20,7 @@ Open the local URL printed by Vite. No paid APIs, accounts or model inference ar
 
 Each turn is a working day. Use two to four executive actions per day, resolve corporate events, manage cash and keep actual productivity below your difficulty threshold. Liquidity at zero or board confidence at zero also ends the simulation. Daily revenue and expenses are reconciled automatically. Start a new simulation with a chosen seed for reproducibility.
 
-The current foundation contains seven executive actions, 150 branching events, ten bounded scores plus liquidity, executive bonuses, a transaction ledger, delayed consequences and local saves. The department dashboard includes all ten departments, progressive day-based establishment, daily budgets and payroll, headcount, influence, competence, morale, resource requests, governance/operations focus, incidents and objective progress. Version 1–11 saves migrate automatically to version 12. Employees have seeded names and IDs, ten archetypes, skill, ambition, morale, political aptitude, individual salaries and persistent personnel records. Recruit through departments; review, promote, discipline, reassign and make employees redundant through the personnel directory. Employees can form alliances and rivalries, request promotion, submit complaints, resign and complete useful work. All seven campaign stages are implemented with milestone requirements, funding, department unlocks and public listing. The final employee confrontation is implemented.
+The current foundation contains seven executive actions, 150 branching events, ten bounded scores plus liquidity, executive bonuses, a transaction ledger, delayed consequences and local saves. The department dashboard includes all ten departments, progressive day-based establishment, daily budgets and payroll, headcount, influence, competence, morale, resource requests, governance/operations focus, incidents and objective progress. Version 1–12 saves migrate automatically to version 13. Employees have seeded names and IDs, ten archetypes, skill, ambition, morale, political aptitude, individual salaries and persistent personnel records. Recruit through departments; review, promote, discipline, reassign and make employees redundant through the personnel directory. Employees can form alliances and rivalries, request promotion, submit complaints, resign and complete useful work. All seven campaign stages are implemented with milestone requirements, funding, department unlocks and public listing. The final employee confrontation is implemented.
 
 ## Quality gates
 
@@ -76,3 +76,7 @@ Advance through seven corporate stages by meeting simultaneous performance, time
 ### The competent employee
 
 Final-stage campaigns encounter a persistent exceptionally competent engineer (skill 100). The board requires retention until containment. Promote them using the employee system, arrange and hold a steering committee with their attendance, reassign them to a governance department, enrol them in two days of mandatory training and appoint them to the dedicated Enterprise Operational Non-Delivery Transformation. Three funded governance days complete containment. Meetings and training/leadership consume real employee time; unoccupied time can generate actual productivity. The dedicated confrontation programme is additional to the nine general portfolio programmes. Final victory requires containment plus the existing campaign gates. Old completed campaigns retain their original endings; active final-stage saves activate the encounter on their next successful action or day close.
+
+### Strategic recognition framework
+
+74 functional achievements across eight categories track actual simulation outcomes, including executive inactivity, employee management, meeting recursion, communications, programme milestones, finance, simulated AI and campaign victories or failures. Awards are evaluated after accepted commands and persisted per simulation. A separate local lifetime collection retains first earned days across replacement saves. Filter by category or unlock status; new awards trigger a dismissible animated recognition notification respecting reduced motion. V13 preserves legacy saves but does not fabricate historical command counts. Existing observable conditions can earn awards on the next successful command.

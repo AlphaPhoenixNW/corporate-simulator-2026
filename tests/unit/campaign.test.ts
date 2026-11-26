@@ -71,7 +71,7 @@ describe('campaign progression',()=>{
  });
  it('migrates v10 saves and rejects invalid stages and capacity',()=>{
   const s=newGame(),legacy={...s,version:10,campaign:undefined};
-  expect(decodeSave(JSON.stringify(legacy))).toMatchObject({version:12,campaign:s.campaign});
+  expect(decodeSave(JSON.stringify(legacy))).toMatchObject({version:13,campaign:s.campaign});
   expect(validCampaign(s.campaign,1)).toBe(true);
   expect(decodeSave(JSON.stringify(s))).toEqual(s);
   expect(decodeSave(JSON.stringify({...s,capacity:4}))).toBeNull();
