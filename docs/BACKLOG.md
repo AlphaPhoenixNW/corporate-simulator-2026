@@ -15,7 +15,7 @@ Status: staged implementation, not a complete game. Checkboxes represent accepte
 - [x] P10 Event library: at least 150 distinct authored events with choices, consequences, delayed effects and persistent flags.
 - [x] P11 Seven campaign stages, unlocks, difficulty, endings, sandbox.
 - [x] P12 Competent employee boss: multi-stage legitimate corporate interventions.
-- [ ] P13 At least 60 functional achievements and animations.
+- [x] P13 At least 60 functional achievements and animations.
 - [ ] P14 Visual/audio polish, charts, accessibility, reduced motion, keyboard, mobile.
 - [ ] P15 Balance, regression, E2E, documentation, release readiness.
 
@@ -122,4 +122,10 @@ Implemented and committed:
 
 - 74 unique gameplay-driven achievements across eight categories, all requested named awards included. Successful executive action counts, best inactivity streak, observable state and ending predicates. No gameplay metric rewards.
 - Persistent per-run unlocks and separate lifetime browser collection, category progress, filters, animated dismissible notification with reduced-motion handling. V13 migration; historical action counts are not invented.
-- Ten unit/integration cases and desktop/mobile E2E. P13 pending CI. Achievement notification is within the awards panel; global notification placement and wider visual/audio polish remain P14. Thresholds and long-run attainability require P15 balancing. Lockfile outstanding.
+- Ten unit/integration cases and desktop/mobile E2E. P13 passed CI in run 45744481496 and merged in PR #12 at 920cd3b. Achievement notification is within the awards panel; global notification placement and wider visual/audio polish remain P14. Thresholds and long-run attainability require P15 balancing. Lockfile outstanding.
+
+## Increment 0.14.0 — 2026-11-26
+
+- Refined navy/gold/cream design system, executive intelligence charts, real cash history, live interactive organisation diagram, grouped desktop navigation and compact mobile jump selector.
+- Global notification centre, contextual original synthesized sound cues, optional looping hold music, persistent audio/volume/reduced-motion preferences; silent by default. Keyboard focus, responsive layouts, accessible chart data and announcement regions.
+- Seven unit/integration cases and desktop/mobile E2E scenario. P14 pending CI. No save schema change or external audio assets. Browser audio is gesture-gated and requires manual listening verification; full visual/accessibility audit and campaign balance remain P15 release work. Lockfile outstanding.
