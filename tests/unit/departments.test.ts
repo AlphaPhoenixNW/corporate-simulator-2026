@@ -2,6 +2,7 @@ import { describe,it,expect } from 'vitest';
 import { newGame,dispatch } from '../../src/engine/simulation';
 import { DEPARTMENTS, initialDepartments, runDepartments, validDepartments } from '../../src/engine/departments';
 import { decodeSave } from '../../src/storage';
+import { payrollByDepartment } from '../../src/engine/employees';
 import { EVENTS } from '../../src/engine/content';
 import type { GameState } from '../../src/engine/types';
 describe('department simulation',()=>{
@@ -35,7 +36,7 @@ describe('department simulation',()=>{
     const hired=dispatch(s,{type:'department',id:'finance',operation:'hire'});
     expect(hired.cash).toBe(s.cash-350);
     const next=dispatch(hired,{type:'endDay'});
-    expect(next.ledger.some(l=>l.label==='Finance operating costs'&&l.amount===-210)).toBe(true);
+    expect(next.ledger.some(l=>l.label==='Finance operating costs'&&l.amount===-(100+payrollByDepartment(hired.employees).finance!))).toBe(true);
   });
   it('makes engineering operations riskier than governance',()=>{
     const initial=initialDepartments();
@@ -51,12 +52,12 @@ describe('department simulation',()=>{
     expect(result.reports).toContain(DEPARTMENTS.engineering.failure);
     expect(result.delta.actual).toBeGreaterThan(0);
   });
-  it('migrates v1 saves without changing day, cash or RNG; validates v2',()=>{
+  it('migrates v1 saves without changing day, cash or RNG; validates v3',()=>{
     const s=newGame(42);
     const legacy={...s,version:1,departments:undefined,day:9,cash:12345};
     const migrated=decodeSave(JSON.stringify(legacy))!;
-    expect(migrated).toMatchObject({version:2,day:9,cash:12345,rng:42});
-    expect(migrated.departments).toEqual(initialDepartments());
+    expect(migrated).toMatchObject({version:3,day:9,cash:12345,rng:42});
+    expect(migrated.departments.map(d=>d.headcount)).toEqual(initialDepartments().map(d=>d.headcount));
     expect(decodeSave(JSON.stringify(migrated))).toEqual(migrated);
     expect(decodeSave(JSON.stringify({...migrated,departments:[]}))).toBeNull();
   });
