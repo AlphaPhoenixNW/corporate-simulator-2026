@@ -43,13 +43,19 @@ export function changeFinance(s:GameState,c:FinanceCommand):{finance:FinanceStat
   return {finance,entries,delta,message};
 }
 export function forecastSavingsPerCustomer(s:GameState){return 80+s.metrics.perceived*2+s.metrics.buzzwords;}
+// Fictional account servicing, assurance and contract administration costs.
+export function customerServicingCost(s:GameState):number{
+ const base=s.finance.plan==='conservative'?14:s.finance.plan==='standard'?20:28;
+ const multiplier=s.campaign.difficulty==='relaxed'?.85:s.campaign.difficulty==='ruthless'?1.2:1;
+ return Math.round(s.finance.subscribers*base*multiplier);
+}
 export function runFinance(s:GameState,random:()=>number){
   const f=s.finance,plan=PLANS[f.plan],entries:FinanceEntry[]=[],delta:Delta={},reports:string[]=[];
   const add=(label:string,amount:number,category:CashCategory)=>{if(amount)entries.push({label,amount,category});};
   const subscription=f.subscribers*plan.subscription;
   const invoice=Math.round(f.subscribers*forecastSavingsPerCustomer(s)*plan.rate);
   const interest=Math.ceil(f.debt*.002);
-  add('Subscription revenue',subscription,'revenue');add('Predictive savings invoices',invoice,'revenue');add('Credit facility interest',-interest,'expense');
+  add('Subscription revenue',subscription,'revenue');add('Predictive savings invoices',invoice,'revenue');add('Credit facility interest',-interest,'expense');add('Subscriber account servicing',-customerServicingCost(s),'expense');
   let churn=0;
   if(f.subscribers>0){
     const risk=Math.max(0,(s.metrics.regulation-35)/300)+(s.metrics.confidence<40?.08:0)+plan.risk*.025;

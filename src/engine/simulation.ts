@@ -146,7 +146,7 @@ export function dispatch(state:GameState,command:Command):GameState {
     record(s,'Predictive savings revenue',Math.round(350+m.perceived*8+m.confidence*5));
     record(s,'Operating expenditure',-Math.round((850+m.bureaucracy*4+m.meetings*3+campaignOverhead(s))*DIFFICULTIES[s.campaign.difficulty].overhead));
     apply(s,{actual:Math.max(-4,Math.round(4+roll*3+m.morale/30-m.meetings/12-m.bureaucracy/18)),
-      morale:-1,meetings:-3,perceived:-2,confidence:m.perceived>=45?2:-2,regulation:(m.buzzwords>=80?2:0)+DIFFICULTIES[s.campaign.difficulty].regulatoryPressure+(s.campaign.stage>=6?1:0)},'Daily operations');
+      morale:-1,meetings:-3,perceived:-2,confidence:(m.perceived>=45?2:-2)-(m.morale<20?2:0),regulation:(m.buzzwords>=80?2:0)+DIFFICULTIES[s.campaign.difficulty].regulatoryPressure+(s.campaign.stage>=6?1:0)},'Daily operations');
     const calendar=runMeetings(s.meetings,s.nextMeetingId,s.employees,s.day,()=>{const [next,value]=random(s.rng);s.rng=next;return value;});
     s.meetings=calendar.meetings;s.nextMeetingId=calendar.nextMeetingId;s.employees=calendar.employees;
     for(const cost of calendar.costs)record(s,cost.label,cost.amount);

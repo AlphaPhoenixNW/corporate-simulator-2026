@@ -137,3 +137,5 @@ Implemented and committed:
 - CI captures a generated dependency lock for retrieval and conversion to npm ci. The release gate is not complete until the lock is committed and checked. P1 and P15 remain open pending evidence. See RELEASE_CHECKLIST.md.
 
 Release verification update: run 45745508045 passed all gates, including full standard seed 2026 and relaxed seed 42 campaign victories on day 43, replay equality, and daily save validation. Recovered the actual generated npm lockfile from job logs, validated manifest correspondence, and switched CI to npm ci. Reverification pending. P1/P15 remain open until remaining acceptance checks are satisfied.
+
+Balance candidate B: recurring customer servicing costs, higher stage overhead, reduced later capital grants, low-morale confidence pressure, wellbeing-aware test driver, ruthless and three 100-day sandbox playthrough gates. No save schema changes. Existing victory/replay tests remain required; these parameters are provisional until measured. Manual audit and release deployment remain open.

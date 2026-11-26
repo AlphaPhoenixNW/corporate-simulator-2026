@@ -88,3 +88,5 @@ The executive intelligence dashboard compares perceived and actual productivity,
 ### Release verification
 
 The release branch includes full legal-command campaign playthroughs, deterministic command replay, daily save validation and financial reconciliation. These are acceptance gates rather than a claim of success before CI. See docs/RELEASE_CHECKLIST.md for the remaining manual and automated checks.
+
+Balance candidate: subscriber servicing incurs a daily fictional operating expense based on pricing and difficulty; later campaign stages carry higher overhead and reduced capital injections. Very low morale reduces daily shareholder confidence growth. The release suite attempts complete standard, relaxed and ruthless campaigns plus 100-day sandbox runs across three seeds; all results must be verified in CI.

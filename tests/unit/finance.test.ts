@@ -1,6 +1,6 @@
 import {describe,it,expect} from 'vitest';
 import {newGame,dispatch} from '../../src/engine/simulation';
-import {initialFinance,trackCash,runFinance,closeFinanceDay,forecastSavingsPerCustomer,financeEligibility,validFinance,QUARTER_DAYS} from '../../src/engine/finance';
+import {initialFinance,trackCash,runFinance,closeFinanceDay,forecastSavingsPerCustomer,customerServicingCost,financeEligibility,validFinance,QUARTER_DAYS} from '../../src/engine/finance';
 import {decodeSave} from '../../src/storage';
 import type {GameState} from '../../src/engine/types';
 describe('corporate finance',()=>{
@@ -34,7 +34,8 @@ describe('corporate finance',()=>{
     const r=runFinance(s,()=>0);
     expect(r.finance.lastSubscription).toBe(216);
     expect(r.finance.lastInvoice).toBe(Math.round(12*forecastSavingsPerCustomer(s)*.2));
-    expect(r.entries.every(e=>e.category==='revenue')).toBe(true);
+    expect(r.entries.filter(e=>e.category==='expense')).toEqual([{label:'Subscriber account servicing',amount:-240,category:'expense'}]);
+    expect(r.entries.filter(e=>e.category==='revenue')).toHaveLength(2);
   });
   it('changes pricing and models regulatory exposure and churn',()=>{
     const s=dispatch(newGame(),{type:'finance',operation:'pricing',plan:'aggressive'});

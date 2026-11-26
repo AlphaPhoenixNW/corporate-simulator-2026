@@ -1,7 +1,7 @@
 import {isListed} from '../engine/campaign';
 import { useState } from 'react';
 import { ACQUISITION_IDS, type GameState, type Command, type FinanceCommand, type SavingsPlan } from '../engine/types';
-import { ACQUISITIONS, PLANS, QUARTER_DAYS, LOAN_TRANCHE, REPAYMENT, CUSTOMER_COST, DEBT_LIMIT, forecastSavingsPerCustomer, financeEligibility } from '../engine/finance';
+import { ACQUISITIONS, PLANS, QUARTER_DAYS, LOAN_TRANCHE, REPAYMENT, CUSTOMER_COST, DEBT_LIMIT, forecastSavingsPerCustomer, customerServicingCost, financeEligibility } from '../engine/finance';
 const money=(n:number)=>new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP',maximumFractionDigits:0}).format(n);
 const price=(p:number)=>'£'+(p/100).toFixed(2);
 export function FinancePanel({state,send}:{state:GameState;send:(c:Command)=>void}){
@@ -25,7 +25,7 @@ export function FinancePanel({state,send}:{state:GameState;send:(c:Command)=>voi
         <h3>Predictive Savings Monetisation™</h3><p className="hint">Invoice clients for resources they might otherwise have consumed. Charge a daily subscription plus a percentage of forecast savings. No actual savings are required by this fictional business model.</p>
         <div className="people-filter"><label htmlFor="savings-pricing">Pricing strategy</label><select id="savings-pricing" value={f.plan} disabled={state.capacity<1||!!state.pendingEvent||!!state.ending} onChange={e=>send({type:'finance',operation:'pricing',plan:e.target.value as SavingsPlan})}>{Object.entries(PLANS).map(([id,p])=><option key={id} value={id}>{p.label}</option>)}</select></div>
         <div className="department-summary"><div><span>Forecast avoided cost / client</span><strong>{money(forecastSavingsPerCustomer(state))}</strong></div><div><span>Daily subscription / client</span><strong>{money(plan.subscription)}</strong></div><div><span>Savings fee</span><strong>{Math.round(plan.rate*100)}%</strong></div><div><span>Latest churn</span><strong>{f.lastChurn}</strong></div></div>
-        <p className="department-report">Previous day: {money(f.lastSubscription)} subscriptions + {money(f.lastInvoice)} savings invoices. Higher fees increase scrutiny and customer attrition.</p>
+        <p className="department-report">Previous day: {money(f.lastSubscription)} subscriptions + {money(f.lastInvoice)} savings invoices. Projected account servicing at current subscriber count: {money(customerServicingCost(state))}/day. Higher fees increase administration costs, scrutiny and customer attrition.</p>
         <h3>Capital allocation</h3><p className="hint">Credit ceiling {money(DEBT_LIMIT)}. Daily interest 0.2% of outstanding principal, rounded up. Borrowing requires shareholder confidence of at least 35.</p>
         <div className="department-controls">{controls.map(({label,command})=>{const reason=financeEligibility(state,command);return <div key={command.operation}><button className="secondary" disabled={!!reason} onClick={()=>send(command)}>{label}</button>{reason&&<small>{reason}</small>}</div>;})}</div>
         <p className="hint">Latest interest charge: {money(f.lastInterest)}. Each financial decision consumes one executive action.</p>

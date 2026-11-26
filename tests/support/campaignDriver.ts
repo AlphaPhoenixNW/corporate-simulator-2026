@@ -25,18 +25,19 @@ export function nextCommand(s:GameState):Command{
  if(m.confidence<28)return action('statement');
  if(m.actual>Math.min(30,s.campaign.difficulty==='ruthless'?25:30))return action('alignment');
  if(m.regulation>44)return action('audit');
+ if(m.morale<18&&m.actual<12&&s.cash>=800)return action('wellbeing');
  if(s.cash<5000&&s.finance.debt<50000&&m.confidence>=35)return {type:'finance',operation:'borrow'};
  const b=s.boss;
  const operation:BossCommand['operation']|null=b.phase==='promotion'?'promote':b.phase==='committee'?'committee':b.phase==='reassignment'?'reassign':b.phase==='training'?'train':b.phase==='programme'?'appoint':null;
  if(operation){const c:BossCommand={type:'boss',operation};if(!bossEligibility(s,c))return c;}
  if(m.perceived<45||m.confidence<48)return action(m.confidence<48?'statement':'alignment');
  // Establish revenue early; a retained subscription base funds later governance.
- if(s.finance.subscribers<(stage===1?36:stage<4?75:stage<6?120:175))return {type:'finance',operation:'acquire-customers'};
+ if(s.finance.subscribers<(s.campaign.mode==='sandbox'?150:stage===1?36:stage<4?75:stage<6?120:175))return {type:'finance',operation:'acquire-customers'};
  if(s.finance.plan!=='conservative')return {type:'finance',operation:'pricing',plan:'conservative'};
  // Establish and configure departments as they unlock.
  const inactive=s.departments.find(d=>!d.active&&departmentStageReady(s,d.id)&&!departmentEligibility(s,d.id,'activate'));
  if(inactive)return {type:'department',id:inactive.id,operation:'activate'};
- const focus=s.departments.find(d=>d.active&&(['executive','digital','ai','hr'].includes(d.id)?d.focus!=='governance':d.id==='legal'?d.focus!=='operations':false));
+ const focus=s.departments.find(d=>d.active&&(['executive','digital','ai'].includes(d.id)?d.focus!=='governance':['legal','hr'].includes(d.id)?d.focus!=='operations':false));
  if(focus)return {type:'department',id:focus.id,operation:'focus'};
  // Two sequential executive-sponsored programmes have no useful product dependencies.
  const targets:ProgrammeType[]=['non-intervention','bed-led'];
