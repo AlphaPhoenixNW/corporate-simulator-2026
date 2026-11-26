@@ -23,6 +23,7 @@ test('inspect the organisation, receive global recognition and persist accessibi
  await expect(page.getByLabel('Sound enabled',{exact:true})).not.toBeChecked();
  await page.getByRole('slider',{name:/Volume/}).fill('20');
  await page.reload();
+ await openSettings(page);
  await page.getByText('Audio settings',{exact:true}).click();
  await expect(page.getByRole('slider',{name:/Volume/})).toHaveValue('20');
  expect(await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth)).toBe(false);
