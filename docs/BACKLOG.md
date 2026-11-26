@@ -191,3 +191,8 @@ Player reported the single scrolling dashboard is overwhelming and does not comm
 - Non-modal transient receipt for accepted commands, all actual deltas expandable; seven executive actions each have three rotating lines. Other systems use real command records. Reward feedback is presentation only; no new economics, RNG or save changes. Respect reduced motion. Human playtest and CI pending. Repository remains private until separate release review.
 
 - Master mute now preserves independently selected channels; a fresh install starts silent with both categories selected for opt-in. Expanding a receipt permits touch scrolling; collapsed receipts remain non-modal.
+
+## Increment 0.19.0 — executive career portfolio
+
+- Owner accepted v0.18.0 feedback in human playtest; PR #23 merged at d0731a5. Two final features agreed before release: living fictional CV and separate automated simulation laboratory. Autopilot is deferred to its own branch (v0.20.0), including a link to the companion book while running.
+- Career workspace progressively appears day 2; live CV from current state, actual stage history and recorded activities, no fabricated lifetime totals. Fictional internal qualifications are distinct from achievements. Standalone escaped HTML download and browser print-to-PDF, no new dependencies or save schema. All outcomes fictional, clearly labelled. Automated and human verification pending.

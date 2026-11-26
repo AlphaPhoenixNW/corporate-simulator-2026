@@ -17,6 +17,7 @@ export const WORKSPACES=[
  {id:'intelligence',label:'Strategic intelligence',group:'Records and analysis',description:'Explore charts, risks and the reporting structure.'},
  {id:'incidents',label:'Incidents',group:'Records and analysis',description:'Review corporate incident history.'},
  {id:'achievements',label:'Achievements',group:'Records and analysis',description:'Review career recognition and lifetime awards.'},
+ {id:'career',label:'Executive CV',group:'Records and analysis',description:'Review and export your fictional executive career portfolio.'},
  {id:'ledger',label:'Ledger',group:'Records and analysis',description:'Inspect the financial transaction record.'},
  {id:'activity',label:'Activity log',group:'Records and analysis',description:'Review recent organisational events.'},
  {id:'containment',label:'Containment',group:'Daily management',description:'Neutralise the threat of measurable delivery.'}
