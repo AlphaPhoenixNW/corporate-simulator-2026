@@ -48,3 +48,7 @@ All cash writes pass through record(), classifying receipts and expenses as oper
 ## OS module (0.8.0)
 
 OSState stores the deterministic power and licence lifecycle, profiles, token and expense counters, diagnostics and audit history. The desktop is a React view; animation is presentation-only and never delays state changes or persistence. Boot consumes capacity and a licence fee; shutdown expires entitlement and resets active demand to zero. Daily settlement occurs before finance close, posting simulated inference expenses once. Offline days after first activation accumulate avoided token demand. The simulator itself does not shut down. Later agent orchestration must share the power gate and avoid double-counting infrastructure tokens. V8 initializes an offline, unlicensed OS for older saves.
+
+## Agent orchestration (0.9.0)
+
+AgentState tracks configuration, monotonic run IDs, lifetime counters and the latest 60 reports. At day close, enabled workflows execute only with the OS online and a budget sufficient for all six roles. Adoption bounds the number of full runs; model choice defines token multiplier, cost and seeded risk. Each role consumes the preceding role's output; governance blocks release in strict mode but all six roles still execute and incur simulated costs. Agent inference is charged separately from baseline OS inference before finance closes. Shutdown immediately clears active agent demand; configuration persists for paid restart. V9 initializes a disabled orchestration system for older saves.

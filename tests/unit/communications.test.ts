@@ -68,7 +68,7 @@ describe('corporate communications',()=>{
   });
   it('migrates v4 records and preserves current social activity across save round trips',()=>{
     const s=newGame(),legacy={...s,version:4,communications:undefined,nextCommunicationId:undefined};
-    expect(decodeSave(JSON.stringify(legacy))).toMatchObject({version:8,communications:[],nextCommunicationId:1});
+    expect(decodeSave(JSON.stringify(legacy))).toMatchObject({version:9,communications:[],nextCommunicationId:1});
     const p=publish(s,'social');
     expect(validCommunications(p.communications,p.nextCommunicationId,p.employees)).toBe(true);
     expect(decodeSave(JSON.stringify(p))).toEqual(p);

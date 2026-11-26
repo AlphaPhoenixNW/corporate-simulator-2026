@@ -79,16 +79,24 @@ export interface OSState {
   diagnostics:OSDiagnostic[]; history:string[];
 }
 export type OSCommand={type:'os';operation:'boot'|'shutdown'|'diagnose'|'compliance-review'}|{type:'os';operation:'profile';profile:OSProfile};
+export const AGENT_ROLES=['planner','executor','critic','governance','supervisor','non-intervention'] as const;
+export type AgentRole=typeof AGENT_ROLES[number];
+export type AgentModel='compact'|'enterprise'|'reasoning';
+export type AgentObjective='alignment'|'savings'|'transformation';
+export interface AgentStep {role:AgentRole; tokens:number; input:string; output:string; status:'completed'|'blocked'}
+export interface AgentRun {id:number;day:number;model:AgentModel;objective:AgentObjective;steps:AgentStep[];tokens:number;cost:number;hallucination:boolean;useful:boolean;blocked:boolean;report:string}
+export interface AgentState {enabled:boolean;model:AgentModel;objective:AgentObjective;governance:'strict'|'permissive';budget:number;adoption:number;nextId:number;runs:AgentRun[];totalRuns:number;totalTokens:number;totalCost:number;hallucinations:number;usefulRuns:number;lastTokens:number;lastStatus:string}
+export type AgentCommand={type:'agent';operation:'toggle'|'promote-adoption'|'governance'}|{type:'agent';operation:'model';model:AgentModel}|{type:'agent';operation:'objective';objective:AgentObjective}|{type:'agent';operation:'budget';budget:number};
 export interface Choice { id: string; label: string; detail: string; effect: Delta; delayed?: { days: number; effect: Delta; message: string } }
 export interface CorporateEvent { id: string; title: string; description: string; choices: Choice[]; department?: DepartmentId }
 export interface Action { id: string; label: string; detail: string; cost: number; effect: Delta }
 export interface LedgerEntry { day: number; label: string; amount: number; category?:CashCategory }
 export interface ScheduledEffect { day: number; effect: Delta; message: string }
 export interface GameState {
-  version: 8; os:OSState; finance:FinanceState; programmes: Programme[]; communications: Communication[]; nextCommunicationId:number; meetings: Meeting[]; nextMeetingId:number; departments: DepartmentState[]; employees: Employee[]; relationships: Relationship[]; nextEmployeeId: number; seed: number; rng: number; day: number; cash: number;
+  version: 9; agents:AgentState; os:OSState; finance:FinanceState; programmes: Programme[]; communications: Communication[]; nextCommunicationId:number; meetings: Meeting[]; nextMeetingId:number; departments: DepartmentState[]; employees: Employee[]; relationships: Relationship[]; nextEmployeeId: number; seed: number; rng: number; day: number; cash: number;
   metrics: Metrics; capacity: number; compensation: number;
   pendingEvent: string | null; resolvedEvents: string[];
   scheduled: ScheduledEffect[]; log: string[]; ledger: LedgerEntry[];
   ending: 'insolvent' | 'useful' | 'board' | null;
 }
-export type Command = OSCommand | FinanceCommand | ProgrammeCommand | CommunicationCommand | MeetingCommand | EmployeeCommand | DepartmentCommand | { type: 'action'; id: string } | { type: 'choose'; id: string } | { type: 'endDay' };
+export type Command = AgentCommand | OSCommand | FinanceCommand | ProgrammeCommand | CommunicationCommand | MeetingCommand | EmployeeCommand | DepartmentCommand | { type: 'action'; id: string } | { type: 'choose'; id: string } | { type: 'endDay' };

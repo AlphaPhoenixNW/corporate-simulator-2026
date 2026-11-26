@@ -77,7 +77,7 @@ describe('corporate finance',()=>{
     const s=dispatch(newGame(),{type:'action',id:'bonus'});
     const legacy={...s,version:6,finance:undefined,day:9};
     const n=decodeSave(JSON.stringify(legacy))!;
-    expect(n.version).toBe(8);expect(n.cash).toBe(s.cash);expect(n.finance.openingCash).toBe(s.cash);
+    expect(n.version).toBe(9);expect(n.cash).toBe(s.cash);expect(n.finance.openingCash).toBe(s.cash);
     expect(n.finance.trackedFromDay).toBe(9);expect(n.finance.period.revenue).toBe(0);
     expect(decodeSave(JSON.stringify({...n,finance:{...n.finance,debt:-1}}))).toBeNull();
   });
