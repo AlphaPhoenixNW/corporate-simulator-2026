@@ -14,16 +14,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Install dependencies
-        run: |
-          if [ -f package-lock.json ]; then
-            npm ci --no-audit --no-fund
-          else
-            npm install --no-audit --no-fund
-          fi
-      - name: Capture generated dependency lock for release
-        if: ${{ hashFiles('package-lock.json') != '' }}
-        run: node -e 'const b=require("fs").readFileSync("package-lock.json").toString("base64"); for(let i=0;i<b.length;i+=800) console.log("LOCKCHUNK:"+String(i/800).padStart(5,"0")+":"+b.slice(i,i+800)); console.log("LOCKEND:"+b.length)'
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
       - run: npm run typecheck
       - run: npm test
       - run: npm run build

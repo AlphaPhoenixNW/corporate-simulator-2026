@@ -135,3 +135,5 @@ Implemented and committed:
 - Release playthrough driver uses only public game commands, validates saved state every working day, and emits campaign outcomes for standard and relaxed seeds; full victory is required by the tests.
 - Added deterministic replay and save cash reconciliation guard; unknown runtime command types no longer advance time.
 - CI captures a generated dependency lock for retrieval and conversion to npm ci. The release gate is not complete until the lock is committed and checked. P1 and P15 remain open pending evidence. See RELEASE_CHECKLIST.md.
+
+Release verification update: run 45745508045 passed all gates, including full standard seed 2026 and relaxed seed 42 campaign victories on day 43, replay equality, and daily save validation. Recovered the actual generated npm lockfile from job logs, validated manifest correspondence, and switched CI to npm ci. Reverification pending. P1/P15 remain open until remaining acceptance checks are satisfied.
