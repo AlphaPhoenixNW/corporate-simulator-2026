@@ -141,3 +141,9 @@ Release verification update: run 45745508045 passed all gates, including full st
 Balance candidate B: recurring customer servicing costs, higher stage overhead, reduced later capital grants, low-morale confidence pressure, wellbeing-aware test driver, ruthless and three 100-day sandbox playthrough gates. No save schema changes. Existing victory/replay tests remain required; these parameters are provisional until measured. Manual audit and release deployment remain open.
 
 Balance candidate B passed 139 unit/integration tests and 28 browser cases in run 45746084184, including three campaign victories and three 100-day sandbox runs. Locked installs verified. PR #14 merged at f66cd02. P15 remains open for manual playtesting, remaining award reachability, release notes and final tag. Private playtest packaging adds self-contained HTML, offline browser smoke checks, screenshots, and guide. No public exposure of repository or game configured.
+
+## Increment 0.16.0 — 2026-11-26
+
+- Portable build PR #15 merged at 0cb93e3; main CI 45746747228 passed 139 unit/integration tests, 28 desktop/mobile browser cases and portable offline smoke checks.
+- Title screen, fast start, continue, configurable new game, optional six-step real-command induction, validated export/import with confirmation and merged lifetime recognition and scenario profile. Existing active session reload remains direct.
+- Installable production web app: versioned static cache, PNG icons and manifest, native prompt when supported, manual browser install guidance. Portable HTML retains offline use. Production preview offline smoke checks at desktop and mobile sizes; added five unit tests and two browser scenarios on both projects. Cloudflare Pages preparation and deployment guide; public hosting remains disabled pending owner setup/approval. P15 remains open for human review and final release.
