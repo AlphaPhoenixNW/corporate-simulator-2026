@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import {departmentStageReady,DEPARTMENT_STAGE,STAGES} from '../engine/campaign';
 import { DEPARTMENTS, departmentEligibility, ACTIVATION_COST, HIRE_COST, BUDGET_STEP } from '../engine/departments';
 import { payrollByDepartment } from '../engine/employees';
 import type { GameState, Command, DepartmentCommand, DepartmentId } from '../engine/types';
@@ -20,15 +21,15 @@ export function DepartmentsPanel({state,send}:{state:GameState;send:(command:Com
   return <section className="panel departments" id="departments" aria-labelledby="department-heading">
     <p className="eyebrow">ORGANISATIONAL GOVERNANCE</p><h2 id="department-heading">Corporate departments</h2>
     <div className="department-summary"><div><span>Active departments</span><strong>{active.length} / 10</strong></div><div><span>Allocated headcount</span><strong>{totalHeadcount}</strong></div><div><span>Daily departmental cost</span><strong>{money(daily)}</strong></div><div><span>Resource requests</span><strong>{active.filter(x=>x.request).length}</strong></div></div>
-    <p className="hint">Departmental actions use one executive capacity. Budgets are daily operating allocations, plus individual employee salaries. Departments become available over the opening working days.</p>
+    <p className="hint">Departmental actions use one executive capacity. Budgets are daily operating allocations, plus individual employee salaries. Departments become available through working-day and campaign stage requirements.</p>
     <div className="department-workspace">
-      <div className="department-list" aria-label="Department selection">{state.departments.map(x=><button key={x.id} aria-pressed={selected===x.id} onClick={()=>setSelected(x.id)} className={'department-tab'+(selected===x.id?' selected':'')}><span>{DEPARTMENTS[x.id].name}</span><small>{x.active?(x.request?'Resource request':'Active'):state.day>=DEPARTMENTS[x.id].unlockDay?'Available':'Day '+DEPARTMENTS[x.id].unlockDay}</small></button>)}</div>
+      <div className="department-list" aria-label="Department selection">{state.departments.map(x=><button key={x.id} aria-pressed={selected===x.id} onClick={()=>setSelected(x.id)} className={'department-tab'+(selected===x.id?' selected':'')}><span>{DEPARTMENTS[x.id].name}</span><small>{x.active?(x.request?'Resource request':'Active'):!departmentStageReady(state,x.id)?'Stage '+DEPARTMENT_STAGE[x.id]:state.day>=DEPARTMENTS[x.id].unlockDay?'Available':'Day '+DEPARTMENTS[x.id].unlockDay}</small></button>)}</div>
       <article className="department-detail" aria-label={definition.name+' details'}>
-        <p className="eyebrow">{d.active?'ACTIVE DEPARTMENT':state.day>=definition.unlockDay?'AVAILABLE FOR ESTABLISHMENT':'NOT YET AVAILABLE'}</p>
+        <p className="eyebrow">{d.active?'ACTIVE DEPARTMENT':state.day>=definition.unlockDay&&departmentStageReady(state,d.id)?'AVAILABLE FOR ESTABLISHMENT':'NOT YET AVAILABLE'}</p>
         <h3>{definition.name}</h3><p className="hint">{definition.objective}</p>
         {d.active?<><div className="department-stats"><div><span>Daily budget</span><strong data-testid="department-budget">{money(d.budget)}</strong></div><div><span>Headcount</span><strong>{d.headcount}</strong></div><div><span>Focus</span><strong>{d.focus==='governance'?'Governance':'Operations'}</strong></div><div><span>Last daily spend</span><strong>{money(d.spent)}</strong></div></div>
         <div className="department-metrics">{([['Morale',d.morale],['Competence',d.competence],['Influence',d.influence],['Objective progress',d.progress]] as const).map(([name,value])=><div key={name} className="metric"><div className="metric-label"><span>{name}</span><strong>{value}/100</strong></div><meter min={0} max={100} value={value} aria-label={definition.name+' '+name}>{value}</meter></div>)}</div>
-        <p className="department-report"><strong>Latest operational report</strong><br/>{d.report}</p></>:<p className="hint">Unlocks on working day {definition.unlockDay}. Establishment includes one staff allocation.</p>}
+        <p className="department-report"><strong>Latest operational report</strong><br/>{d.report}</p></>:<p className="hint">Unlocks on working day {definition.unlockDay}{state.campaign.mode==='campaign'?' and at '+STAGES[DEPARTMENT_STAGE[d.id]-1].name:''}. Establishment includes one staff allocation.</p>}
         <div className="department-controls">{operations.map(({op,label})=>{const reason=departmentEligibility(state,d.id,op);return <div key={op}><button className="secondary" disabled={!!reason} onClick={()=>send({type:'department',id:d.id,operation:op})}>{label}</button>{reason&&<small>{reason}</small>}</div>})}</div>
       </article>
     </div>

@@ -1,4 +1,5 @@
 import { DEPARTMENT_IDS, type DepartmentId, type DepartmentState, type DepartmentCommand, type GameState, type Delta, type Employee } from './types';
+import {departmentStageReady,DEPARTMENT_STAGE,STAGES} from './campaign';
 
 interface Definition {
   name: string; objective: string; unlockDay: number; competence: number;
@@ -29,7 +30,7 @@ export function departmentEligibility(s:GameState,id:DepartmentId,op:DepartmentC
   const d=s.departments.find(x=>x.id===id);
   if(!d)return 'Unknown department';
   if(s.ending||s.pendingEvent||s.capacity<1)return 'Executive attention unavailable';
-  if(op==='activate')return d.active?'Already active':s.day<DEPARTMENTS[id].unlockDay?'Not yet available':s.cash<ACTIVATION_COST?'Insufficient liquidity':null;
+  if(op==='activate')return d.active?'Already active':s.day<DEPARTMENTS[id].unlockDay?'Not yet available':!departmentStageReady(s,id)?'Requires '+STAGES[DEPARTMENT_STAGE[id]-1].name:s.cash<ACTIVATION_COST?'Insufficient liquidity':null;
   if(!d.active)return 'Department not active';
   if(op==='increase'&&d.budget>=MAX_BUDGET)return 'Budget ceiling reached';
   if(op==='decrease'&&d.budget<=MIN_BUDGET)return 'Budget floor reached';
