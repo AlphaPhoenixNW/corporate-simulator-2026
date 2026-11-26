@@ -42,3 +42,7 @@ Use Enable sound & music on the title or in-game workspace rail. Hold music acti
 ## Ambient audio (0.17.4 candidate)
 
 The short repeating tune is replaced by slow, overlapping synthesised harmonies (128-second harmonic cycle). Play for several minutes and assess comfort; adjust existing master volume or switch off hold music while retaining reward cues. Test sound, reload and mute remain available. No downloaded audio assets or extra setup.
+
+## Reward experience (0.18.0 candidate)
+
+Open Audio settings on title or in game. Corporate hold music and Reward and action sounds can be independently disabled and adjusted; Sound enabled mutes both. Test sound respects effects settings. After an accepted command, a brief non-modal receipt shows its actual outcome and up to four changes; Show all expands the remaining indicators and pauses dismissal. Check action, bonus and day-close feedback, music-only mode, effects-only mode, mute and legacy save/preferences. No game mechanics changed.

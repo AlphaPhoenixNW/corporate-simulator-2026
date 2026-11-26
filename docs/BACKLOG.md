@@ -183,3 +183,9 @@ Player reported the single scrolling dashboard is overwhelming and does not comm
 - v0.17.3 passed CI 45756123061 (158 unit, 41 browser cases, offline checks), merged at 96e7454; main CI 45756604417 passed. Human playtest confirms audio works but the repeated 7.68-second motif is fatiguing.
 - Replace the melody with sixteen original sustained harmonies, 8-second transitions, 11-second overlapping envelopes and restrained levels. Retain audio unlock/status, existing volume, music-off and cues; cancel scheduled pads promptly on interruption or mute. No samples or dependencies. Add structural tests and retain real audio signal checks. Human listening assessment remains necessary.
 - Owner clarified release goal: a basic playable public-source repository, with hosted access as a convenience. Avoid unnecessary polish. Repository visibility stays private until explicit release approval, licensing and repository/history review; no visibility changes here. Immediate decision feedback remains a possible small follow-up, not a requirement for commercial-grade polish.
+
+## Increment 0.18.0 — basic executive reward experience
+
+- v0.17.4 passed CI 45757551781 (160 unit, 41 browser tests), merged at 4a4c739. Owner playtest accepted the haunting synthetic ambience; preserve ambience.ts unchanged.
+- Independent music and effects gains/toggles/volumes, legacy volume migrated to both; title and in-game settings, master mute retained. Add bonus, expansion and revenue cues; no external audio assets.
+- Non-modal transient receipt for accepted commands, all actual deltas expandable; seven executive actions each have three rotating lines. Other systems use real command records. Reward feedback is presentation only; no new economics, RNG or save changes. Respect reduced motion. Human playtest and CI pending. Repository remains private until separate release review.

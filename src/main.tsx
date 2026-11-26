@@ -32,6 +32,8 @@ import {collectNotices,loadPreferences,savePreferences,type Notice,type Preferen
 import {CorporateAudio,type AudioStatus} from './ui/audio';
 import {AudioQuickControl} from './ui/AudioQuickControl';
 import {AudioSettings} from './ui/AudioSettings';
+import {DecisionFeedback} from './ui/DecisionFeedback';
+import {decisionReceipt,decisionCue,type DecisionReceipt} from './ui/decisionFeedback';
 import {TitleScreen} from './ui/TitleScreen';
 import {TutorialPanel} from './ui/TutorialPanel';
 import {sessionPlaying,setSessionPlaying,tutorialAdvance,type Backup} from './ui/onboarding';
@@ -74,6 +76,8 @@ function App(){
   const [audioStatus,setAudioStatus]=useState<AudioStatus>('muted');
   const reduced=preferences.reduced;
   const [notices,setNotices]=useState<Notice[]>([]);
+  const [receipt,setReceipt]=useState<DecisionReceipt|null>(null);
+  const receiptSequence=useRef(0);
   const audio=useRef<CorporateAudio|null>(null);
   const previous=useRef(state);
   const replacing=useRef(false);
@@ -86,13 +90,13 @@ function App(){
   useEffect(()=>{savePreferences(preferences);audio.current?.configure(preferences.audio,preferences.music,preferences.volume,preferences.effects,preferences.effectsVolume);},[preferences]);
   useEffect(()=>{
     const before=previous.current;previous.current=state;
-    if(replacing.current){replacing.current=false;setNotices([]);setIntroduced([]);setNewWorkspaces([]);return;}
+    if(replacing.current){replacing.current=false;setNotices([]);setReceipt(null);receiptSequence.current=0;setIntroduced([]);setNewWorkspaces([]);return;}
     if(before===state)return;
-    const command=lastCommand.current;if(command)setTutorial(step=>step<0?step:tutorialAdvance(step,before,state,command));
+    const command=lastCommand.current;if(command){setTutorial(step=>step<0?step:tutorialAdvance(step,before,state,command));setReceipt(decisionReceipt(before,state,command,++receiptSequence.current));}
     const incoming=collectNotices(before,state);
     const fresh=newlyIntroduced(before,state);if(fresh.length)setNewWorkspaces(old=>[...new Set([...old,...fresh])]);
     if(incoming.length)setNotices(old=>[...incoming,...old.filter(n=>!incoming.some(x=>x.id===n.id))].slice(0,20));
-    audio.current?.play(state.ending&&!before.ending?'ending':before.os.power==='online'&&state.os.power==='offline'?'shutdown':incoming.some(n=>n.kind==='award')?'award':incoming.some(n=>n.kind==='incident'||n.kind==='warning')?'incident':state.day!==before.day?'day':'action');
+    audio.current?.play(decisionCue(before,state,command,incoming));
   },[state]);
   const [highest,setHighest]=useState(()=>Math.max(loadHighestStage(),state.campaign.stage));
   const [mode,setMode]=useState<GameMode>(state.campaign.mode);
@@ -104,13 +108,13 @@ function App(){
   const enter=()=>{setSessionPlaying(true);setPlaying(true);window.scrollTo(0,0);audio.current?.configure(preferences.audio,preferences.music,preferences.volume,preferences.effects,preferences.effectsVolume);if(preferences.audio)void audio.current?.activate();};
   const start=(newSeed:number,options:GameOptions,guided:boolean)=>{replacing.current=true;setState(newGame(newSeed,options));setHasGame(true);setSeed(String(newSeed));setMode(options.mode??'campaign');setDifficulty(options.difficulty??'standard');setScenario(options.scenario??'founder');setTutorial(guided?0:-1);setReset(false);navigate('office');enter();};
   const importGame=(backup:Backup)=>{replacing.current=true;setState(backup.game);setHasGame(true);setSeed(String(backup.game.seed));setMode(backup.game.campaign.mode);setDifficulty(backup.game.campaign.difficulty);setScenario(backup.game.campaign.scenario);setTutorial(-1);saveHighestStage(backup.highestStage);setHighest(n=>Math.max(n,backup.highestStage));saveAchievementProfile(backup.achievements);};
-  const menu=()=>{setSessionPlaying(false);setPlaying(false);setTutorial(-1);window.scrollTo(0,0);};
+  const menu=()=>{setSessionPlaying(false);setPlaying(false);setTutorial(-1);setReceipt(null);window.scrollTo(0,0);};
   const e=EVENTS.find(x=>x.id===state.pendingEvent);
   const validSeed=/^\d+$/.test(seed)&&Number(seed)<=4294967295;
   const current=workspaceAvailable(state,workspace)?workspace:'office';
   const info=workspaceInfo(current),guidance=recommend(state);
   const view=(id:Workspace,content:React.ReactNode)=><div className="workspace-view" hidden={current!==id}>{content}</div>;
-  const openLibrary=()=>{setLibraryOpen(true);window.scrollTo(0,0);};
+  const openLibrary=()=>{setLibraryOpen(true);setReceipt(null);window.scrollTo(0,0);};
   const closeLibrary=()=>{setLibraryOpen(false);requestAnimationFrame(()=>{window.scrollTo(0,0);document.getElementById(playing?'workspace':'launch-title')?.focus({preventScroll:true});});};
   const changeAudio=(patch:Partial<Preferences>)=>{
     const next={...preferences,...patch};audio.current?.configure(next.audio,next.music,next.volume,next.effects,next.effectsVolume);
@@ -144,6 +148,7 @@ function App(){
       {current!=='office'&&!introduced.includes(current)&&<FeatureIntroduction id={current} dismiss={()=>setIntroduced(old=>[...old,current])}/>}
       {view('office',<>{newWorkspaces.length>0&&<section className="panel new-workspaces" aria-label="New workspaces"><p className="eyebrow">CORPORATE CAPABILITIES EXPANDED</p><h2>New workspaces introduced</h2><p>Explore them when you're ready. Your current daily objectives remain unchanged.</p><div className="controls">{newWorkspaces.map(id=><button key={id} className="secondary" onClick={()=>{navigate(id);setNewWorkspaces(old=>old.filter(w=>w!==id));}}>{workspaceInfo(id).label}</button>)}<button className="secondary" onClick={()=>setNewWorkspaces([])}>Dismiss introductions</button></div></section>}<ExecutiveBrief state={state} navigate={navigate} send={send}/><section className="panel" id="decisions"><div className="section-head"><div><p className="eyebrow">DAILY OPERATIONS</p><h2>Executive actions</h2></div><span className="capacity" aria-live="polite">{state.capacity} / {dailyCapacity(state)} available</span></div><p className="hint">Actions consume one executive capacity. Advance the day to reconcile revenue, expenditure and operational risk.</p><div className="actions">{[...ACTIONS].sort((a,b)=>Number(b.id===guidance.action)-Number(a.id===guidance.action)).map(a=><button className={'action'+(guidance.action===a.id?' recommended-action':'')} key={a.id} disabled={!!state.ending||!!e||state.capacity===0||state.cash<a.cost} onClick={()=>send({type:'action',id:a.id})}><span><strong>{a.label}</strong>{guidance.action===a.id&&<small className="recommend-label">Suggested action</small>}<small>{a.detail}</small></span><span className="cost">{money(a.cost)}</span></button>)}</div></section></>)}
       <GlobalNotices notices={notices} dismiss={()=>setNotices([])}/>
+      {receipt&&<DecisionFeedback key={receipt.id} receipt={receipt} onDismiss={()=>setReceipt(null)}/>}
       {view('metrics',<section className="panel" id="metrics"><p className="eyebrow">PERFORMANCE INTELLIGENCE</p><h2>Organisational metrics</h2><div className="metric-grid">{METRIC_KEYS.map(k=><MetricBar key={k} name={k} value={state.metrics[k]}/>)}</div><p className="hint">Actual productivity reaching {actualLimit(state)} ends the simulation. Insolvency or a loss of board confidence also ends it.</p></section>)}
       {view('intelligence',<ExecutiveIntelligence state={state}/>)}
       {view('campaign',<CampaignPanel state={state} send={send} highest={highest}/>)}
