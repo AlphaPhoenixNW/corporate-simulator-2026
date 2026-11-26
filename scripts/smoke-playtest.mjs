@@ -14,6 +14,7 @@ try{
    page.on('pageerror',error=>errors.push(error.message));
    page.on('request',request=>{if(/^https?:/.test(request.url()))network.push(request.url());});
    await page.goto(url);
+   await page.getByRole('button',{name:'Play now',exact:true}).click();
    await page.getByTestId('cash').waitFor();
    assert.equal(await page.getByTestId('cash').innerText(),'£75,000');
    await page.screenshot({path:'playtest/screenshots/'+name+'-overview.png'});

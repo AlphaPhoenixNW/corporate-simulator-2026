@@ -2,6 +2,8 @@ import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {resolve,sep} from 'node:path';
 const root=resolve('dist'),output=resolve('playtest');
 let html=await readFile(resolve(root,'index.html'),'utf8');
+// The portable file has no service worker, manifest or external icon files.
+html=html.replace(/<link\b[^>]*rel="(?:manifest|apple-touch-icon)"[^>]*>/g,'');
 const asset=async url=>{
  if(!/^\/?(?:\.\/)?assets\/[a-zA-Z0-9_.-]+$/.test(url))throw Error('Unexpected production asset: '+url);
  const path=resolve(root,url.replace(/^\//,''));
