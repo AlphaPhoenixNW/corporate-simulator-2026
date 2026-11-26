@@ -1,0 +1,20 @@
+import {test,expect} from '@playwright/test';
+test('activate and shut down enterprise OS, persist its expired licence',async({page})=>{
+  await page.goto('/');
+  const section=page.getByRole('region',{name:'NOTHING™ OS Enterprise Edition'});
+  await expect(section.getByTestId('os-power')).toHaveText('Offline');
+  await section.getByRole('button',{name:/Activate enterprise licence/}).click();
+  await expect(section.getByTestId('os-power')).toHaveText('Online');
+  await expect(section.getByTestId('os-tokens')).toHaveText('24,000');
+  await section.getByRole('button',{name:'Licence centre'}).click();
+  await expect(section.getByRole('article',{name:'Licence centre'})).toBeVisible();
+  await section.getByRole('button',{name:'Strategic shutdown',exact:true}).click();
+  await section.getByRole('button',{name:'Confirm shutdown',exact:true}).click();
+  await expect(section.getByTestId('os-tokens')).toHaveText('0');
+  await expect(section.getByTestId('os-certificate')).toBeVisible();
+  await page.reload();
+  await expect(section.getByTestId('os-power')).toHaveText('Offline');
+  await expect(section.getByRole('button',{name:/Purchase restart licence/})).toBeDisabled();
+  await expect(section.getByTestId('os-licence-spend')).toHaveText('£1,200');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth)).toBe(false);
+});
