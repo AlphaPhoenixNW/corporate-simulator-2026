@@ -38,6 +38,12 @@ test('starts real audio from a player gesture, produces a signal, mutes and resu
  await page.getByRole('button',{name:/Practise bed-led leadership/}).click();
  await expect.poll(()=>signal(2),{timeout:1000}).toBeLessThan(.001);
  await expect.poll(()=>signal(1),{timeout:8000}).toBeGreaterThan(.002);
+ await page.getByRole('button',{name:'Mute audio',exact:true}).click();
+ await expect(status).toHaveText('Audio muted');
+ await page.getByRole('button',{name:'Enable audio',exact:true}).click();
+ await expect(status).toHaveText('Hold music active');
+ await expect(page.getByLabel('Reward and action sounds',{exact:true})).not.toBeChecked();
+ await expect.poll(()=>signal(1),{timeout:8000}).toBeGreaterThan(.002);
  await page.getByLabel('Reward and action sounds',{exact:true}).check();
  await page.getByLabel('Corporate hold music',{exact:true}).uncheck();
  await expect(status).toHaveText('Sound effects active');
@@ -49,7 +55,10 @@ test('starts real audio from a player gesture, produces a signal, mutes and resu
  await page.getByRole('button',{name:'Mute audio',exact:true}).click();
  await expect(status).toHaveText('Audio muted');
  await expect.poll(signal,{timeout:5000}).toBeLessThan(.001);
- await page.getByRole('button',{name:'Enable sound & music'}).click();
+ await page.getByRole('button',{name:'Enable audio',exact:true}).click();
+ await expect(status).toHaveText('Sound effects active');
+ await expect(page.getByLabel('Corporate hold music',{exact:true})).not.toBeChecked();
+ await page.getByLabel('Corporate hold music',{exact:true}).check();
  await expect(status).toHaveText('Hold music active');
  await page.reload();
  await expect(status).toHaveText('Audio awaiting a tap to start');

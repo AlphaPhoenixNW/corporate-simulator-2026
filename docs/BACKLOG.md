@@ -189,3 +189,5 @@ Player reported the single scrolling dashboard is overwhelming and does not comm
 - v0.17.4 passed CI 45757551781 (160 unit, 41 browser tests), merged at 4a4c739. Owner playtest accepted the haunting synthetic ambience; preserve ambience.ts unchanged.
 - Independent music and effects gains/toggles/volumes, legacy volume migrated to both; title and in-game settings, master mute retained. Add bonus, expansion and revenue cues; no external audio assets.
 - Non-modal transient receipt for accepted commands, all actual deltas expandable; seven executive actions each have three rotating lines. Other systems use real command records. Reward feedback is presentation only; no new economics, RNG or save changes. Respect reduced motion. Human playtest and CI pending. Repository remains private until separate release review.
+
+- Master mute now preserves independently selected channels; a fresh install starts silent with both categories selected for opt-in. Expanding a receipt permits touch scrolling; collapsed receipts remain non-modal.

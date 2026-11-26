@@ -124,10 +124,10 @@ function App(){
     const player=audio.current;
     if(intent==='resume'){void player?.activate();return;}
     const enabled=intent==='enable';
-    changeAudio(enabled?{audio:true,music:true,effects:true}:{audio:false});
+    changeAudio(enabled?{audio:true,...(!preferences.music&&!preferences.effects?{music:true,effects:true}:{})}:{audio:false});
   };
   const testAudio=()=>{if(preferences.audio&&preferences.effects){void audio.current?.activate();audio.current?.play('award');}};
-  const quickAudio=<AudioQuickControl enabled={preferences.audio&&(preferences.music||preferences.effects)} effects={preferences.effects&&preferences.effectsVolume>0} status={audioStatus} onToggle={toggleAudio} onTest={testAudio}/>;
+  const quickAudio=<AudioQuickControl enabled={preferences.audio&&(preferences.music||preferences.effects)} effects={preferences.effects&&preferences.effectsVolume>0} enableLabel={preferences.music===preferences.effects?'Enable sound & music':'Enable audio'} status={audioStatus} onToggle={toggleAudio} onTest={testAudio}/>;
   if(libraryOpen)return <ExecutiveLibrary onBack={closeLibrary} returnLabel={playing?'Return to simulation':'Return to title screen'}/>;
   if(!playing)return <TitleScreen game={hasGame?state:null} highest={highest} onStart={start} onContinue={enter} onImport={importGame} onLibrary={openLibrary} audioControl={<>{quickAudio}<AudioSettings preferences={preferences} onChange={changeAudio}/></>}/>;
   return <div className={'suite'+(reduced?' reduce-motion':'')}>
