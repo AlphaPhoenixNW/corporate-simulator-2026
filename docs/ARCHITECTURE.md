@@ -68,3 +68,7 @@ BossState stores a sequential encounter at stage seven, with a stable employee I
 ## Achievements (0.13.0)
 
 The engine evaluates 74 pure predicates after successful commands and ending checks. AchievementState keeps monotonic unlock records, accepted executive-action counts and idle-day streaks. Rejected commands do not change counters. No award applies a metric or cash effect. V13 initializes empty recognition state for older saves; existing observable conditions can be recognised on later accepted commands. UI merges per-save awards into a separate local-storage lifetime profile, retaining the first earned day for each ID. Reduced-motion-aware notification and filterable collection are presentation concerns.
+
+## Enterprise experience (0.14.0)
+
+Presentation-only helpers derive cash chart observations, organisational reporting groups and state-transition notifications. The notification centre never mutates game state. Audio uses a local Web Audio synthesizer with original note sequences, separate gain, gesture-based activation and cleanup on unmount. Preferences persist independently of V13 game saves. Audio defaults off; reduced motion respects both the player setting and system media query. The grouped navigation retains existing section IDs and mobile selection focuses its destination. No new dependencies or game-state mutations.
