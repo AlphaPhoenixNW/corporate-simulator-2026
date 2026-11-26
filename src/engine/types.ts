@@ -103,11 +103,19 @@ export type Scenario='founder'|'board-crisis'|'compliance-crisis';
 export interface CampaignState {mode:GameMode;difficulty:Difficulty;scenario:Scenario;stage:number;enteredDay:number;history:{stage:number;day:number}[]}
 export interface GameOptions {mode?:GameMode;difficulty?:Difficulty;scenario?:Scenario}
 export type CampaignCommand={type:'campaign';operation:'advance'|'certify'};
+export const BOSS_PHASES=['dormant','promotion','committee','reassignment','training','programme','contained'] as const;
+export type BossPhase=typeof BOSS_PHASES[number];
+export interface BossState {
+ phase:BossPhase; employeeId:number|null; startDay:number|null; containedDay:number|null;
+ committeeId:number|null; trainingEnrolled:boolean; trainingDays:number; programmeAppointed:boolean; programmeDays:number;
+ programmeSpend:number; interventions:number; usefulTasks:number; history:string[];
+}
+export type BossCommand={type:'boss';operation:'promote'|'committee'|'reassign'|'train'|'appoint'};
 export interface GameState {
-  version: 11; campaign:CampaignState; incidentHistory:IncidentDecision[]; agents:AgentState; os:OSState; finance:FinanceState; programmes: Programme[]; communications: Communication[]; nextCommunicationId:number; meetings: Meeting[]; nextMeetingId:number; departments: DepartmentState[]; employees: Employee[]; relationships: Relationship[]; nextEmployeeId: number; seed: number; rng: number; day: number; cash: number;
+  version: 12; boss:BossState; campaign:CampaignState; incidentHistory:IncidentDecision[]; agents:AgentState; os:OSState; finance:FinanceState; programmes: Programme[]; communications: Communication[]; nextCommunicationId:number; meetings: Meeting[]; nextMeetingId:number; departments: DepartmentState[]; employees: Employee[]; relationships: Relationship[]; nextEmployeeId: number; seed: number; rng: number; day: number; cash: number;
   metrics: Metrics; capacity: number; compensation: number;
   pendingEvent: string | null; resolvedEvents: string[];
   scheduled: ScheduledEffect[]; log: string[]; ledger: LedgerEntry[];
   ending: 'insolvent' | 'useful' | 'board' | 'certified' | null;
 }
-export type Command = CampaignCommand | AgentCommand | OSCommand | FinanceCommand | ProgrammeCommand | CommunicationCommand | MeetingCommand | EmployeeCommand | DepartmentCommand | { type: 'action'; id: string } | { type: 'choose'; id: string } | { type: 'endDay' };
+export type Command = BossCommand | CampaignCommand | AgentCommand | OSCommand | FinanceCommand | ProgrammeCommand | CommunicationCommand | MeetingCommand | EmployeeCommand | DepartmentCommand | { type: 'action'; id: string } | { type: 'choose'; id: string } | { type: 'endDay' };

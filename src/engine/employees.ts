@@ -49,6 +49,7 @@ export function employeeEligibility(s:GameState,id:number,operation:EmployeeComm
   const e=s.employees.find(x=>x.id===id);
   if(!e||e.status!=='active')return 'Employee not active';
   if(s.ending||s.pendingEvent||s.capacity<1)return 'Executive attention unavailable';
+  if(operation==='redundancy'&&s.boss.employeeId===id&&s.boss.phase!=='contained')return 'Board-mandated retention protection: use the confrontation interventions';
   if(operation==='promote'&&e.level>=4)return 'Maximum management grade';
   if(operation==='redundancy'||operation==='reassign'){
     if(s.departments.find(d=>d.id===e.department)!.headcount<=1)return 'Minimum staffing reached';
@@ -84,7 +85,7 @@ export function reconcileStaffing(s:GameState,departments:DepartmentState[],id:D
   }
   return {employees,nextEmployeeId,cost};
 }
-export function runEmployees(employees:Employee[],relationships:Relationship[],departments:DepartmentState[],day:number,random:()=>number,minutes:Record<number,number>={}){
+export function runEmployees(employees:Employee[],relationships:Relationship[],departments:DepartmentState[],day:number,random:()=>number,minutes:Record<number,number>={},protectedId?:number){
   const delta:Delta={},reports:string[]=[];
   const add=(effect:Delta)=>{for(const key of Object.keys(effect) as (keyof Delta)[])delta[key]=(delta[key]??0)+(effect[key]??0);};
   const counts=new Map<DepartmentId,number>();
@@ -105,7 +106,7 @@ export function runEmployees(employees:Employee[],relationships:Relationship[],d
       n.promotionRequested=true;n.report='Requested promotion to a less operational role.';reports.push(e.name+': '+n.report);
     }
     if(n.morale<35&&roll<.25){n.complaints++;add({regulation:1});n.report='Submitted an internal complaint.';reports.push(e.name+': '+n.report);}
-    if(n.morale<20&&roll<.12&&(counts.get(e.department)??0)>1){
+    if(e.id!==protectedId&&n.morale<20&&roll<.12&&(counts.get(e.department)??0)>1){
       n.status='resigned';n.departed=day;n.promotionRequested=false;counts.set(e.department,counts.get(e.department)!-1);
       n.report='Resigned following a strategic engagement review.';reports.push(e.name+': '+n.report);add({morale:-2});
     }

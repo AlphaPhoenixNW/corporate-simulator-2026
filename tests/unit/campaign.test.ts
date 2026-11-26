@@ -62,13 +62,16 @@ describe('campaign progression',()=>{
   const s=atStage(7);
   expect(dispatch(s,{type:'campaign',operation:'certify'})).toBe(s);
   const ready={...s,departments:s.departments.map(d=>({...d,active:true})),finance:{...s.finance,subscribers:120},compensation:5000,programmes:[{status:'complete'},{status:'complete'}] as GameState['programmes']};
-  expect(campaignGates(ready).every(gateMet)).toBe(true);
-  const n=dispatch(ready,{type:'campaign',operation:'certify'});expect(n.ending).toBe('certified');
+  expect(campaignGates(ready).every(gateMet)).toBe(false);
+  expect(dispatch(ready,{type:'campaign',operation:'certify'})).toBe(ready);
+  const contained:GameState={...ready,boss:{...ready.boss,phase:'contained'}};
+  expect(campaignGates(contained).every(gateMet)).toBe(true);
+  const n=dispatch(contained,{type:'campaign',operation:'certify'});expect(n.ending).toBe('certified');
   expect(dispatch(n,{type:'endDay'})).toBe(n);
  });
  it('migrates v10 saves and rejects invalid stages and capacity',()=>{
   const s=newGame(),legacy={...s,version:10,campaign:undefined};
-  expect(decodeSave(JSON.stringify(legacy))).toMatchObject({version:11,campaign:s.campaign});
+  expect(decodeSave(JSON.stringify(legacy))).toMatchObject({version:12,campaign:s.campaign});
   expect(validCampaign(s.campaign,1)).toBe(true);
   expect(decodeSave(JSON.stringify(s))).toEqual(s);
   expect(decodeSave(JSON.stringify({...s,capacity:4}))).toBeNull();
