@@ -25,9 +25,11 @@ Committed candidate: Vite 7.3.8, Vitest 4.1.12 and Playwright 1.65.1. Vitest 4 r
 ## Stage 2: infrastructure
 
 - [x] Implement read-only CI, non-persisted checkout credentials, immutable official action commits and verified Playwright image digest; scheduled weekly audit and Dependabot version updates configured. Raw editorial preview is no longer uploaded; playable artifact retention reduced to seven days. Historical artifacts remain a privacy-review task.
-- [ ] Verify new workflows and Dependabot/settings after merge; coordinate Playwright package and image updates.
+- [x] New workflows passed on 5fd2c59: [simulation and policy checks](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45773824433), [both dependency audits](https://github.com/AlphaPhoenixNW/corporate-simulator-2026/actions/runs/45773824455), Cloudflare deployment passed. 173 unit/integration and 47 browser tests; no deprecated action runtime warnings in reviewed logs.
+- [ ] Confirm Dependabot and scheduled audit activation after merge; coordinate future Playwright package/image updates.
 - [x] Implement hosted CSP, no-referrer, anti-framing and unnecessary feature restrictions. Allow same-origin scripts/connections, inline styling for React, and blob workers for Autopilot. Include header configuration in service-worker cache version. Portable file build remains separate and does not receive HTTP headers.
-- [ ] Verify hosted-policy smoke tests, real preview headers and offline behavior.
+- [x] Hosted-policy smoke tests and both offline editions passed on desktop and mobile at 5fd2c59, including blocked inline script and working offline Autopilot worker.
+- [ ] Verify actual Cloudflare response headers on approved deployment; a deployment check alone is not HTTP header evidence.
 - [x] Add SECURITY.md with coordinated reporting and actual supported scope.
 - [ ] Owner must enable and verify private vulnerability reporting, dependency alerts and repository protections before publication. Connector cannot verify or change these settings.
 
@@ -35,8 +37,10 @@ Committed candidate: Vite 7.3.8, Vitest 4.1.12 and Playwright 1.65.1. Vitest 4 r
 
 Preliminary review found noreply addresses for 118 reachable commits on the then-current branch. Targeted source and PR/comment screening found no matching credentials or personal email addresses in examined material; not a complete scan.
 
-- [ ] Scan complete reachable history and refs for secrets and personal information; review logs, PRs and artifacts.
-- [ ] Review artwork and metadata and resolve private source references.
+- [ ] Run private-only reachable history scan, including checksum-verified Gitleaks and counts-only Python inventory of historic/current blobs, author metadata, messages, PRs/comments/issues and active artifacts. No raw matches, reports or archives are uploaded. Binary/oversized content, GitHub-only refs, old logs and artifact contents still require separate review.
+- [ ] Review historical artifacts before publication: sampled runs before hardening still contain active downloadable builds, including the earlier editorial preview by workflow design. No destructive removal authorised.
+- [ ] Check WebP metadata in the private inventory; owner review of visual likeness and artwork rights remains required. Connector cannot directly inspect binary cover.
+- [ ] Resolve known private source references in the historical import notes and source manuscript publisher note; do not rewrite history or alter original prose without an agreed publication approach.
 - [ ] Review repository settings and choose safe publication history or clean distribution repository.
 
 ## Stage 4: final acceptance
